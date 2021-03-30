@@ -1,0 +1,46 @@
+{
+  "name": "mytechnicaljournal",
+  "version": "1.0.0",
+  "description": "Node.js REST API with Express, MySQL, Bluebird",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server",
+    "build": "webpack",
+    "watch": "webpack -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nypeach/MyTechnicalJournal.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mysql",
+    "rest",
+    "api"
+  ],
+  "author": "Jodi M. Silverman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nypeach/MyTechnicalJournal/issues"
+  },
+  "homepage": "https://github.com/nypeach/MyTechnicalJournal#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bluebird": "^3.7.2",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "nodemon": "^2.0.4",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  }
+}
