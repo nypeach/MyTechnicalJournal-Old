@@ -36,6 +36,17 @@ app.get('/journals', (req, res) => {
   });
 });
 
+app.get('/keywords', (req, res) => {
+  console.log(req.body);
+  db.selectQuery('keywords', (error, result) => {
+    if (error) {
+      res.status(400).json('Query Failed ' + error);
+      return;
+    }
+    res.status(200).json(result);
+  });
+});
+
 app.get('/links', (req, res) => {
   let table = 'links';
   let linked_ref = req.query.linked_ref;
@@ -53,6 +64,19 @@ app.get('/links', (req, res) => {
 app.post('/journals', (req, res) => {
 console.log('REQ.BODY', req.body);
   let values = `now(), "${req.body.title}", ${1}, "${req.body.challenge}", "${req.body.action_taken}", "${req.body.lesson_learned}"`;
+  console.log(values);
+  db.insertQuery('journal', 'entry_date, title, project_id,challenge, action_taken, lesson_learned', values, (error, result) => {
+    if (error) {
+      res.status(400).json('Query Failed ' + error);
+      return;
+    }
+    res.status(200).json(result);
+  });
+});
+
+app.post('/keywords', (req, res) => {
+  console.log('REQ.BODY', req.body);
+  let values = `"${req.body.newKeywords}`;
   console.log(values);
   db.insertQuery('journal', 'entry_date, title, project_id,challenge, action_taken, lesson_learned', values, (error, result) => {
     if (error) {

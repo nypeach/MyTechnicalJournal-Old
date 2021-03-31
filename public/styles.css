@@ -4,8 +4,8 @@ body {
   font-family: 'Quicksand', sans-serif;
   background-color: #f7f7f7;
   color: #051538;
-  margin-left: 30px;
-  margin-right: 30px;
+  margin-left: 60px;
+  margin-right: 60px;
   font-weight: 400;
   letter-spacing: 0.5px;
 }
@@ -154,7 +154,27 @@ ul li {
   background-color: #f6f6f6; /* Add a grey background color */
   padding-bottom: 6px; /* Add some padding */
 }
-
+.css-1xa0cfm-Input {
+  margin: 0px;
+  padding: 0px;
+}
+/* .css-2b097c-container {
+  border-radius: 0;
+}
+.css-yk16xz-control {
+  border:1px solid #D8315B;
+  align-items: center;
+  background-color: hsl(0, 0%, 100%);
+  border-color: #D8315B;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: default;
+    min-height: 24px;
+} */
+/* #blarg > div{
+border:2px solid #D8315B;
+} */
 
 .card {
   /* Add shadows to create the "card" effect */

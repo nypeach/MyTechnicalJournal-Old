@@ -28,6 +28,10 @@ var insertQuery = function (table, columns, values, callback) {
   connection.query(`INSERT INTO ${table} (${columns}) VALUES (${values});`, callback)
 };
 
+var getKeywords = function (callback) {
+  connection.query(`SELECT keyword as value, keyword as label, keyword as keyword FROM keywords;`)
+}
+
 module.exports = {
   selectQuery: selectQuery,
   selectWhereQuery: selectWhereQuery,
