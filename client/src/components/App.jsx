@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import JournalEntryView from './JournalEntryView.jsx';
 import JournalEntryList from './JournalEntryList.jsx';
+import AddJournalEntry from './AddJournalEntry.jsx';
 
 
 class App extends React.Component {
@@ -15,6 +16,7 @@ class App extends React.Component {
     };
     this.onClickJournalEntry = this.onClickJournalEntry.bind(this);
     this.onJournalEntryClicked = this.onJournalEntryClicked.bind(this);
+    this.getJournalEntries = this.getJournalEntries.bind(this);
   }
   componentDidMount() {
     this.getJournalEntries('journal');
@@ -46,8 +48,10 @@ class App extends React.Component {
       <div id="app">
         <h1>My Technical Journal</h1>
         <div className="main">
+          <AddJournalEntry/>
 
           <JournalEntryList
+          key={this.state.listItems + this.state.listItems.length}
           listItems={this.state.listItems}
           currentItem={this.state.currentItem}
           isOpen={this.state.isOpen}

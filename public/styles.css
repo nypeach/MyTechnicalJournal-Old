@@ -8,7 +8,6 @@ body {
    margin-right: 30px;
 }
 
-
 h1 {
   color: #D8315B;
 }
@@ -21,6 +20,9 @@ h2 {
 h3 {
   margin-bottom: 20px;
   color: #D8315B;
+}
+.form-entry {
+  margin-top: 20px;
 }
 ul.no-bullets {
   list-style-type: none; /* Remove bullets */
@@ -64,15 +66,15 @@ ul.no-bullets {
   overflow: auto;
 }
 
-
-
-
-
-
 .attendee-form {
   display: flex;
-  width: 70%;
+  width: 60%;
   flex-flow: column nowrap;
+  margin-right: 20px;
+}
+.attendee-form-buttons {
+  display: flex;
+  width: 60%;
   margin-right: 20px;
 }
 
@@ -82,7 +84,7 @@ ul.no-bullets {
 
 .attendees {
   display: flex;
-  width: 30%;
+  width: 40%;
   margin: 20px;
   flex-flow: column nowrap;
 }
@@ -96,8 +98,10 @@ input {
   resize:none;
   border:0;
   font-family:'Montserrat',sans-serif;
+  font-size: 16px;
   transition:all .3s;
   border-bottom:2px solid #5C8BA5;
+  margin-bottom: 14px;
 }
 
 input:focus {
@@ -105,7 +109,6 @@ input:focus {
 }
 
 button {
-  float:right;
   padding:8px 12px;
   margin: 50px 0px 0px 0px;
   border:2px solid #5C8BA5;

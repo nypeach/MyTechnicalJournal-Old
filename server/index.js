@@ -48,7 +48,9 @@ app.get('/links', (req, res) => {
 
 app.post('/journals', (req, res) => {
   console.log('req.body', req.body);
-  db.selectQuery((error, result) => {
+  let values = `now(), '${req.body.title}', ${1}, '${req.body.challenge}', '${req.body.action_taken}', '${req.body.lesson_learned}'`;
+  console.log(values);
+  db.insertQuery('journal', 'entry_date, title, project_id,challenge, action_taken, lesson_learned', values, (error, result) => {
     if (error) {
       res.status(400).json('Query Failed ' + error);
       return;

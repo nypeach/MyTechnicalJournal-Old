@@ -33,7 +33,6 @@ class JournalEntryView extends React.Component {
             <i className="far fa-times-circle fa-2x" onClick={this.props.onJournalEntryClicked}></i>
             <br></br>
 
-          <h2>CHALLENGES</h2>
               <h3 key={item.id}><b>{(new Date(item.entry_date).toDateString().slice(4))} | {item.title} </b></h3>
               <p key={item.challenge}><strong>Challenge: </strong><br></br>{item.challenge}</p>
               <p key={item.action_taken}><strong>Actions Taken:</strong><br></br> {item.action_taken}</p>
