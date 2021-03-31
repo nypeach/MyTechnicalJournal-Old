@@ -22,13 +22,13 @@ class AddLink extends React.Component {
   }
 
   handleSubmitLinks(event) {
-    let url_short = this.state.urlShort;
-    let url_link = this.state.urlLink;
 
     event.preventDefault();
       var body = {
-        "url_short": url_short,
-        "url_link": url_link
+        "url_short": this.state.urlShort,
+        "url_link": this.state.urlLink,
+        "linked_ref": this.props.linked_ref,
+        "linked_ref_id": this.props.linked_ref_id
       };
       return axios.post('/links', body)
         .then(() => {
@@ -47,28 +47,26 @@ class AddLink extends React.Component {
 
   render() {
     return (
-      <div >
-      <form>
-        <label>
-          URL Short Name:
-          <input
-            name="urlShort"
-            type="text"
-            value={this.state.urlShort}
-            onChange={this.handleInputChange} />
-        </label>
-        <br />
-        <label>
-          URL Link:
-          <input
-            name="urlLink"
-            type="text"
-            value={this.state.urlLink}
-            onChange={this.handleInputChange} />
-        </label>
-        <button onClick={this.handleSubmitLinks}>Add URL</button>
-      </form>
-      </div>
+
+        <div className="form-modal-wrapper">
+          <div className="form-modal-backdrop" onClick={this.props.onAddLinksClicked} />
+          <div className="form-modal-box">
+            <i className="far fa-times-circle fa-2x" onClick={this.props.onAddLinksClicked}></i>
+            <br></br>
+            <form>
+              <label>URL Short Name:
+                <input name="urlShort" type="text" value={this.state.urlShort} onChange={this.handleInputChange} />
+              </label>
+              <br />
+              <label>
+                    URL Link:
+                <input name="urlLink" type="text" value={this.state.urlLink} onChange={this.handleInputChange} />
+              </label>
+              <button onClick={this.handleSubmitLinks}>Add URL</button>
+            </form>
+          </div>
+        </div>
+
     );
   }
 }

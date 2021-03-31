@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import AddLink from './AddLink';
 
 class AddJournalEntry extends React.Component {
   constructor(props) {
@@ -9,12 +10,16 @@ class AddJournalEntry extends React.Component {
       projectId: 0,
       challenge: '',
       actionTaken: '',
-      lessonLearned: ''
+      lessonLearned: '',
+      isOpen: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmitJournalEntry = this.handleSubmitJournalEntry.bind(this);
+
   }
+
+
 
   handleInputChange(event) {
     const target = event.target;
@@ -56,11 +61,11 @@ class AddJournalEntry extends React.Component {
   render() {
     return (
         <div className="attendee-form">
-              <h2>ADD NEW ENTRY</h2>
-          <form>
-            <label>Title:
+              <h2>Add New Entry</h2>
+        <form>
+          <label>Title:
           <input name="title" type="text" value={this.state.title} onChange={this.handleInputChange}/>
-            </label>
+          </label>
           <label>Challenge:
           <input name="challenge" type="text" value={this.state.challenge} onChange={this.handleInputChange} />
           </label>
@@ -72,7 +77,7 @@ class AddJournalEntry extends React.Component {
           </label>
           </form>
           <div className="attendee-form-button">
-          <button style={{ display: "inline"}} onClick={this.handleSubmitJournalEntry}>ADD NEW ENTRY</button>&nbsp;&nbsp;<button style={{ display: "inline" }}>ADD LINKS</button>
+          <button style={{ display: "inline"}} onClick={this.handleSubmitJournalEntry}>ADD NEW ENTRY</button>&nbsp;&nbsp;
         </div>
       </div>
     );

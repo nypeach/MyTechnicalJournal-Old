@@ -36,7 +36,6 @@ class App extends React.Component {
 
     axios.get('/journals')
       .then(res => {
-        console.log('RES DATA', res.data);
         this.setState({ listItems: res.data, currentItem: res.data[0] });
       })
       .catch(err => console.log('ERROR GETTING JOURNAL ENTRIES: ++++++++++', err));
@@ -46,12 +45,13 @@ class App extends React.Component {
 
     return (
       <div id="app">
-        <h1>My Technical Journal</h1>
+        <h1>MY TECHNICAL JOURNAL</h1>
         <div className="main">
-          <AddJournalEntry/>
+          <AddJournalEntry
+          getJournalEntries={this.getJournalEntries} />
 
           <JournalEntryList
-          key={this.state.listItems + this.state.listItems.length}
+          key={this.state.listItems}
           listItems={this.state.listItems}
           currentItem={this.state.currentItem}
           isOpen={this.state.isOpen}

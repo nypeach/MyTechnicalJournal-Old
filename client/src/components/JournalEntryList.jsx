@@ -17,7 +17,7 @@ class JournalEntryList extends React.Component {
 
     return (
       <div className="attendees">
-        <h2>JOURNAL ENTRIES</h2>
+        <h2>Journal Entries</h2>
 
         <div><ul className="no-bullets">
           {this.props.listItems.map(item => (
