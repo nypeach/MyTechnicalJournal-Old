@@ -1,5 +1,5 @@
 import React from 'react';
-import JournalEntryList from './JournalEntryList';
+import App from './App';
 
 
 class JournalEntryView extends React.Component {
@@ -10,50 +10,35 @@ class JournalEntryView extends React.Component {
     this.state = {
 
     };
-    console.log(this.props.currentItem)
+
   }
 
 
 
   render() {
-    console.log(this.props.currentItem)
+    if (this.props.currentItem === undefined) {
+      return '';
 
-    return (
-      <div className="attendee-form">
-        <h2>CHALLENGES</h2>
-
-
-          <label htmlFor="firstName"> First Name:
-          <input type="text" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
-          </label>
-          <label htmlFor="lastName"> Last Name:
-          <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleChange} />
-          </label>
-          <label htmlFor="eMail"> E-Mail:
-          <input type="text" name="eMail" value={this.state.eMail} onChange={this.handleChange}></input>
-          </label>
+    } else {
+      let item = this.props.currentItem;
+      console.log('CURRENT ITEM', this.props.currentItem);
 
 
-          <div className="radio-title">Shirt Size:</div>
-          <div className="radio-row">
-            XS<input type="radio" name="shirtSize" value="XS" onChange={this.handleChange} />
-            S<input type="radio" name="shirtSize" value="S" onChange={this.handleChange} />
-            M<input type="radio" name="shirtSize" value="M" onChange={this.handleChange} />
-            L<input type="radio" name="shirtSize" value="L" onChange={this.handleChange} />
-            XL<input type="radio" name="shirtSize" value="XL" onChange={this.handleChange} />
-            XXL<input type="radio" name="shirtSize" value="XXL" onChange={this.handleChange} />
+
+      return (
+        <div className="attendee-form">
+          <h2>CHALLENGES</h2>
+          <div className="card">
+            <div className="container">
+              <h3 key={item.id}><b>{(new Date(item.entry_date).toDateString().slice(4))} | {item.title} </b></h3>
+              <p key={item.challenge}><strong>Challenge: </strong><br></br>{item.challenge}</p>
+              <p key={item.action_taken}><strong>Actions Taken:</strong><br></br> {item.action_taken}</p>
+              <p key={item.lesson_learned}><strong>Lessons Learned: </strong><br></br>{item.lesson_learned}</p>
+            </div>
           </div>
-
-        <div className="radio-title">Experience Level:</div>
-        <div className="radio-row2">
-          Beginner<input type="radio" name="experience" value="Beginner" onChange={this.handleChange} />
-          Intermediate<input type="radio" name="experience" value="Intermediate" onChange={this.handleChange} />
-          Expert<input type="radio" name="experience" value="Expert" onChange={this.handleChange} />
         </div>
-
-
-      </div>
-    );
+      );
+    }
   }
 
 }
