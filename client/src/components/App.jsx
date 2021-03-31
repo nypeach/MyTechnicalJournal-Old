@@ -10,9 +10,11 @@ class App extends React.Component {
 
     this.state = {
       listItems: [],
-      currentItem: {}
+      currentItem: {},
+      isOpen: false
     };
     this.onClickJournalEntry = this.onClickJournalEntry.bind(this);
+    this.onJournalEntryClicked = this.onJournalEntryClicked.bind(this);
   }
   componentDidMount() {
     this.getJournalEntries('journal');
@@ -22,6 +24,10 @@ class App extends React.Component {
     this.setState({
       currentItem: item
     });
+  }
+  onJournalEntryClicked() {
+    console.log('CLICKED');
+    this.setState({ isOpen: !this.state.isOpen});
   }
 
   getJournalEntries() {
@@ -41,13 +47,12 @@ class App extends React.Component {
         <h1>My Technical Journal</h1>
         <div className="main">
 
-          <JournalEntryView
-          currentItem={this.state.currentItem}
-          />
-
           <JournalEntryList
           listItems={this.state.listItems}
+          currentItem={this.state.currentItem}
+          isOpen={this.state.isOpen}
           onClickJournalEntry={this.onClickJournalEntry}
+          onJournalEntryClicked={this.onJournalEntryClicked}
           />
 
         </div>
