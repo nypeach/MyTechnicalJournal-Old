@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import JournalEntryView from './JournalEntryView';
+import ProjectList from './ProjectList';
 
 class JournalEntryList extends React.Component {
   constructor(props) {
@@ -27,6 +28,13 @@ class JournalEntryList extends React.Component {
           ))}</ul>
         </div>
         {this.props.isOpen ? (<JournalEntryView key={this.props.currentItem.id} onClickJournalEntry={this.props.onClickJournalEntry} onJournalEntryClicked={this.props.onJournalEntryClicked} currentItem={this.props.currentItem} isOpen={this.props.isOpen} />) : null}
+        <h2>Projects</h2>
+        <ProjectList
+          projectItems={this.props.projectItems}
+          currentProject={this.props.currentProject}
+          />
+        <h2>Tutorials</h2>
+        <h2>Errors</h2>
       </div>
 
     );

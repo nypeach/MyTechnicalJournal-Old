@@ -40,6 +40,23 @@ ul.no-bullets {
   display: flex;
   flex-flow: row;
 }
+.heading{
+  display: flex;
+  flex-flow: row;
+}
+.heading-left {
+  display: flex;
+  width: 50%;
+  margin-right: 20px;
+}
+.heading-right1 {
+  display: flex;
+  width: 25%;
+  flex-flow: column nowrap;
+  margin-top: 16px;
+  margin-left: 20px;
+}
+
 .fa-times-circle {
   cursor: pointer;
   color: #D8315B;

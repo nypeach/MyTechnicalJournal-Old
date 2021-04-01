@@ -19,7 +19,7 @@ class AddJournalEntry extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmitJournalEntry = this.handleSubmitJournalEntry.bind(this);
-    this.handleKeywordChange = this.handleKeywordChange.bind(this);
+    // this.handleKeywordChange = this.handleKeywordChange.bind(this);
   }
 
   handleKeywordChange(event) {
@@ -51,9 +51,6 @@ class AddJournalEntry extends React.Component {
       "newKeywords": this.state.newKeywords
     };
     return axios.post('/journals', body)
-      .then(() => {
-        return axios.post('/keywords', body)
-      })
       .then(() => {
         this.setState({
           title: '',
