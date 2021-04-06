@@ -17,7 +17,7 @@ class JournalEntryList extends React.Component {
   render() {
 
     return (
-      <div className="component">
+      <div>
         <div className="mytextdiv">
           <div className="mytexttitle">
             Journal Entries &nbsp;
@@ -31,17 +31,19 @@ class JournalEntryList extends React.Component {
             </li>
           ))}</ul>
         </div>
-        {this.props.isOpen ? (<JournalEntryView key={this.props.currentItem.id} onClickJournalEntry={this.props.onClickJournalEntry} onJournalEntryClicked={this.props.onJournalEntryClicked} currentItem={this.props.currentItem} isOpen={this.props.isOpen} />) : null}
+        {/* {this.props.isOpen ? (<JournalEntryView key={this.props.currentItem.id} onClickJournalEntry={this.props.onClickJournalEntry} onJournalEntryClicked={this.props.onJournalEntryClicked} currentItem={this.props.currentItem} isOpen={this.props.isOpen} />) : null} */}
         <div className="mytextdiv">
           <div className="mytexttitle">
             Projects &nbsp;
          </div>
           <div className="divider"></div>
         </div>
+        <div className="listItems">
         <ProjectList
           projectItems={this.props.projectItems}
           currentProject={this.props.currentProject}
           />
+        </div>
         <div className="mytextdiv">
           <div className="mytexttitle">
             Tutorials &nbsp;

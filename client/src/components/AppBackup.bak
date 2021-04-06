@@ -92,39 +92,29 @@ class App extends React.Component {
                 <Keywords handleKeywordChange={this.handleKeywordChange} />
               </div>
 
-{/* =============================================================================================================== */}
-              <div className="with-RightSidebar">
-                <div>
-                  {/* <!-- intermediary wrapper --> */}
-                  <div className="RightSidebar">
-                    <JournalEntryList
-                      key={this.state.listItems}
-                      listItems={this.state.listItems}
-                      currentItem={this.state.currentItem}
-                      isOpen={this.state.isOpen}
-                      projectItems={this.state.projectItems}
-                      currentProject={this.state.currentProject}
-                      onClickJournalEntry={this.onClickJournalEntry}
-                      onJournalEntryClicked={this.onJournalEntryClicked}
-                    />
-
-                  </div>
-
-                  <div className="not-RightSidebar">
-                    <div className="insideViewItem">
-                    <JournalEntryView
-                    key={this.state.currentItem.id}
-                    onClickJournalEntry={this.onClickJournalEntry}
-                    onJournalEntryClicked={this.onJournalEntryClicked}
-                    currentItem={this.state.currentItem}
-                    isOpen={this.state.isOpen} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-{/* =============================================================================================================== */}
+              <JournalEntryList
+                key={this.state.listItems}
+                listItems={this.state.listItems}
+                currentItem={this.state.currentItem}
+                isOpen={this.state.isOpen}
+                projectItems={this.state.projectItems}
+                currentProject={this.state.currentProject}
+                onClickJournalEntry={this.onClickJournalEntry}
+                onJournalEntryClicked={this.onJournalEntryClicked}
+              />
+              <AddJournalEntry
+                getJournalEntries={this.getJournalEntries} />
             </div>
-          </div>
+
+            {/* <ProjectList
+            key={this.state.projectItems}
+            listItems={this.state.projectItems}
+            currentItem={this.state.currentProject}
+            isOpen={this.state.isOpen}
+            onClickJournalEntry={this.onClickJournalEntry}
+            onJournalEntryClicked={this.onJournalEntryClicked}
+          /> */}</div>
+
         </div>
       </div>
 

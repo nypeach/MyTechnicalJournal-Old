@@ -27,6 +27,35 @@ header {
   padding-top: 5px;
   font-size: xx-large;
 }
+h2 {
+  font-size: 20px;
+  color: #D8315B;
+  margin-bottom: 20px;
+}
+h3 {
+  font-size: 18px;
+    color: #051538;
+    margin-bottom: -1px;
+}
+/* unvisited link */
+a:link {
+  color:#051538;
+}
+
+/* visited link */
+a:visited {
+  color: #051538;
+}
+
+/* mouse over link */
+a:hover {
+  color: #D8315B;
+}
+
+/* selected link */
+a:active {
+  color: #D8315B;
+}
 .svg-Row {
   margin-right: 15px;
   filter: invert(99%) sepia(3%) saturate(9%) hue-rotate(26deg) brightness(103%) contrast(94%);
@@ -36,6 +65,13 @@ ul.no-bullets {
   list-style-type: none; /* Remove bullets */
   padding: 0; /* Remove padding */
   margin: 0; /* Remove margins */
+}
+button {
+  color: #f7f7f7;
+  border-radius: 5px;
+  border: 2px solid #f7f7f7;
+  background-color: #D8315B;
+  padding:  7px 10px;
 }
 /* TOP SEARCH SECTION ========================================================================== */
 .top-search {
@@ -52,16 +88,6 @@ ul.no-bullets {
   margin-top: 12px;
   color: #D8315B;
 }
-/* COMPONENT CONTAINERS ======================================================================== */
-/* .component {
-  margin-left: 40px;
-  margin-right: 40px;
-}
-.listItems {
-  margin-left: 20px;
-  margin-right: 20px;
-} */
-
 /* TITLE SECTION =============================================================================== */
 
 .mytextdiv{
@@ -69,7 +95,7 @@ ul.no-bullets {
   flex-direction:row;
    align-items: center;
    margin-top: 20px;
-   margin-bottom: 20px;
+   margin-bottom: 10px;
 }
 .mytexttitle{
   flex-grow: 0;
@@ -97,6 +123,7 @@ ul.no-bullets {
   bottom: 0;
   left: 0;
   right: 0;
+  background-color: white;
 }
 .form-modal-backdrop {
   position: fixed;
@@ -167,20 +194,56 @@ ul.no-bullets {
   color:lightgray;
 }
 /* RIGHT CONTAINER ============================================================================= */
-.container {
+/* ↓ targets the intermediary wrapper */
+.with-RightSidebar > * {
   display: flex;
-  margin-left: -20px;
-  }
-.lists {
-  display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  margin: -0.5rem;
+  /* height: calc(100vh - 100px); */
 }
-.currentItem {
-  display: flex;
-  flex-direction: column;
+
+.with-RightSidebar > * > * {
+  /* ↓ applies to both elements */
+  margin: 0.5rem;
+  align-items: stretch;
+  /* height: calc(100vh - 100px); */
 }
-.container div {
-  padding: .5em;
-  flex: 1;
-  margin-right: -50px;
+
+.RightSidebar {
+  flex-basis:   30rem;
+  flex-grow: 1;
+  color:#D8315B;
+  align-items: center;
+  text-align: left;
+  margin-top: -10px;
+}
+.RightSidebarText {
+  font-size: 16px;
+  margin-bottom: 40px;
+  margin-top: 5px;
+}
+.listItems {
+  color: #051538;
+}
+.not-RightSidebar {
+  /* ↓ grow from nothing */
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: calc(50% - 1rem);
+  margin-right: 30px;
+  margin-left: 30px;
+  background-color: #f7f7f7;
+   border: 2px solid #D8315B!important;
+   height: calc(90vh - 125px);
+   border-radius: 5px;
+   margin-top: 20px;
+}
+.insideViewItem {
+  margin: 20px;
+}
+.insideViewtext {
+  margin-bottom: 10px;
+}
+.future {
+  color:lightgray;
 }
