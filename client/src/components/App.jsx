@@ -9,6 +9,7 @@ import logo from '../../assets/M_Invert.svg';
 import github from '../../assets/github.svg';
 import linkedin from '../../assets/linkedin.svg';
 import slack from '../../assets/slack.svg';
+import AddNotes from './AddNotes.jsx';
 
 
 
@@ -20,13 +21,16 @@ class App extends React.Component {
       listItems: [],
       currentItem: {},
       isOpen: false,
+      noteOpen: false,
       projectItems: [],
       currentProject: {}
     };
+
     this.onClickJournalEntry = this.onClickJournalEntry.bind(this);
     this.onJournalEntryClicked = this.onJournalEntryClicked.bind(this);
     this.getJournalEntries = this.getJournalEntries.bind(this);
     this.getProjects = this.getProjects.bind(this);
+    this.onAddNoteClicked = this.onAddNoteClicked.bind(this);
   }
   componentDidMount() {
     this.getJournalEntries('journal');
@@ -41,6 +45,9 @@ class App extends React.Component {
   onJournalEntryClicked() {
     // console.log('CLICKED');
     this.setState({ isOpen: !this.state.isOpen });
+  }
+  onAddNoteClicked() {
+    this.setState({ noteOpen: !this.state.noteOpen });
   }
 
   getJournalEntries() {
@@ -107,6 +114,11 @@ class App extends React.Component {
                       onClickJournalEntry={this.onClickJournalEntry}
                       onJournalEntryClicked={this.onJournalEntryClicked}
                     />
+                    <button style={{ display: "inline" }} onClick={this.onAddNoteClicked}>ADD NOTES</button>
+
+
+                    {this.state.noteOpen ? (<AddNotes
+                    onAddNoteClicked={this.onAddNoteClicked}  />) : null}
 
                   </div>
 

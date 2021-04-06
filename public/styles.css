@@ -9,7 +9,7 @@ body {
 }
 .logo {
   /* width: 3%; */
-  margin-left: 10px;
+  margin-left: 30px;
   margin-top: -15px;
   margin-right: 10px;
 }
@@ -123,7 +123,6 @@ button {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: white;
 }
 .form-modal-backdrop {
   position: fixed;
@@ -141,7 +140,7 @@ button {
   transform: translate(-50%, -50%);
   height: 75;
   width: 65%;
-  background-color: fff;
+  background-color: white;
   z-index: 101;
   box-shadow: 0 8px 6px -6px  #D8315B;
   border: #D8315B solid 1px;

@@ -43,6 +43,8 @@ class JournalEntryList extends React.Component {
           projectItems={this.props.projectItems}
           currentProject={this.props.currentProject}
           />
+          <br></br>
+          <button style={{ display: "inline" }} onClick={this.onAddLinksClicked}>ADD PROJECT</button>
         </div>
         <div className="mytextdiv">
           <div className="mytexttitle">
