@@ -62,10 +62,10 @@ class AddNotes extends React.Component {
               Keywords:
                 <input name="urlLink" type="text" value={this.state.keywords} onChange={this.handleInputChange} />
             </label>
-            <label>Notes:
-              <QuillEditor />
+              <div>
+              <QuillEditor/>
+              </div>
 
-            </label>
             <button onClick={this.handleSubmitLinks}>Add URL</button>
           </form>
         </div>

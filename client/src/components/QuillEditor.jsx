@@ -2,22 +2,57 @@ import React from 'react';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import hljs from 'highlight.js'
+import 'highlight.js/styles/darcula.css'
+
+hljs.configure({
+  languages: ['javascript', 'ruby', 'python', 'rust'],
+})
 
 const modules = {
+  syntax: {
+    highlight: text => hljs.highlightAuto(text).value,
+  },
   toolbar: [
-    [{ 'header': [1, 2, false] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote','code-block'],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-    ['link', 'image'],
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote', 'code-block'],
+
+    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+    [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+    [{ 'direction': 'rtl' }],                         // text direction
+
+    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    [{ 'font': [] }],
+    [{ 'align': [] }],
+
     ['clean']
   ],
+  clipboard: {
+    matchVisual: false,
+  },
 };
 
 const formats = [
   'header',
-  'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
-  'list', 'bullet', 'indent',
-  'link', 'image'
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link',
+  'image',
+  'video',
+  'code-block',
 ];
 
 
@@ -35,12 +70,14 @@ class QuillEditor extends React.Component {
 
   render() {
     return (
-      <div className="text-editor">
-        <ReactQuill theme="snow"
-          modules={this.modules}
-          formats={this.formats}>
-        </ReactQuill>
-      </div>
+
+      <ReactQuill
+        value={this.state.text}
+        onChange={this.handleChange}
+        theme="snow"
+        modules={modules}
+        formats={formats}
+      />
     );
   }
 }
