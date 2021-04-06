@@ -19,7 +19,7 @@ class AddJournalEntry extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmitJournalEntry = this.handleSubmitJournalEntry.bind(this);
-    // this.handleKeywordChange = this.handleKeywordChange.bind(this);
+    this.handleKeywordChange = this.handleKeywordChange.bind(this);
   }
 
   handleKeywordChange(event) {
@@ -27,8 +27,8 @@ class AddJournalEntry extends React.Component {
     let keywords = event.map(item => item.label);
     let newKeywords = newItems.map(item => `('${item.label}')`)
     this.setState({keywords:keywords, newKeywords: newKeywords})
-    console.log('STATE OF THE STATES', this.state)
-    console.log(newKeywords.toString(''))
+    //console.log('STATE OF THE STATES', this.state)
+    //console.log(newKeywords.toString(''))
   }
 
   handleInputChange(event) {
@@ -36,7 +36,7 @@ class AddJournalEntry extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     this.setState({[name]: value});
-    console.log('STATE', this.state)
+    //console.log('STATE', this.state)
   }
 
   handleSubmitJournalEntry(event) {
@@ -76,7 +76,7 @@ class AddJournalEntry extends React.Component {
 
   render() {
     return (
-        <div className="attendee-form">
+        <div>
               <h2>Add New Entry</h2>
         <form>
           <label>Title:

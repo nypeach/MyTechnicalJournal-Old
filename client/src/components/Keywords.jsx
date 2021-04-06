@@ -29,7 +29,10 @@ const customStyles = {
     minHeight: '24px',
     maxHeight: '24px'
   }),
-
+  container: base => ({
+    ...base,
+    flex: 4
+  })
 }
 
 class Keywords extends React.Component {
@@ -49,7 +52,7 @@ class Keywords extends React.Component {
   getKeywords() {
     axios.get('/keywords')
       .then(res => {
-        console.log(res.data)
+       // console.log(res.data)
         const options = res.data.map(d => ({
           "value": d.id,
           "label": d.keyword

@@ -18,7 +18,7 @@ class JournalEntryView extends React.Component {
   }
 
   onAddLinksClicked() {
-    console.log('CLICKED');
+   // console.log('CLICKED');
     this.setState({ isOpen: !this.state.isOpen });
   }
 
@@ -30,10 +30,10 @@ class JournalEntryView extends React.Component {
 
     axios.get('/links', {params: {linked_ref: 'Journal Entry',linked_ref_id: this.props.currentItem.id}})
       .then(res => {
-        console.log('RES DATA', res.data);
+      //  console.log('RES DATA', res.data);
         this.setState({ linked: res.data });
       })
-      .catch(err => console.log('ERROR GETTING JOURNAL ENTRIES: ++++++++++', err));
+      .catch(err => console.log('ERROR GETTING JOURNAL ENTRIES: ', err));
   }
 
   render() {
@@ -42,7 +42,7 @@ class JournalEntryView extends React.Component {
 
     } else {
       let item = this.props.currentItem;
-      console.log('CURRENT ITEM', this.props.currentItem);
+     // console.log('CURRENT ITEM', this.props.currentItem);
 
 
 

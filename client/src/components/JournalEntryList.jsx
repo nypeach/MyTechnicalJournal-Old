@@ -17,10 +17,14 @@ class JournalEntryList extends React.Component {
   render() {
 
     return (
-      <div className="attendees">
-        <h2>Journal Entries</h2>
-
-        <div><ul className="no-bullets">
+      <div className="component">
+        <div className="mytextdiv">
+          <div className="mytexttitle">
+            Journal Entries &nbsp;
+         </div>
+          <div className="divider"></div>
+        </div>
+        <div className="listItems"><ul className="no-bullets">
           {this.props.listItems.map(item => (
             <li key={item.id} onClick={() => {this.props.onClickJournalEntry(item); this.props.onJournalEntryClicked()}}>
               {(new Date(item.entry_date).toDateString().slice(4))} | {item.title}
@@ -28,13 +32,28 @@ class JournalEntryList extends React.Component {
           ))}</ul>
         </div>
         {this.props.isOpen ? (<JournalEntryView key={this.props.currentItem.id} onClickJournalEntry={this.props.onClickJournalEntry} onJournalEntryClicked={this.props.onJournalEntryClicked} currentItem={this.props.currentItem} isOpen={this.props.isOpen} />) : null}
-        <h2>Projects</h2>
+        <div className="mytextdiv">
+          <div className="mytexttitle">
+            Projects &nbsp;
+         </div>
+          <div className="divider"></div>
+        </div>
         <ProjectList
           projectItems={this.props.projectItems}
           currentProject={this.props.currentProject}
           />
-        <h2>Tutorials</h2>
-        <h2>Errors</h2>
+        <div className="mytextdiv">
+          <div className="mytexttitle">
+            Tutorials &nbsp;
+         </div>
+          <div className="divider"></div>
+        </div>
+        <div className="mytextdiv">
+          <div className="mytexttitle">
+            Errors &nbsp;
+         </div>
+          <div className="divider"></div>
+        </div>
       </div>
 
     );

@@ -54,6 +54,14 @@ CREATE TABLE journal (
   links JSON
 );
 
+CREATE TABLE module (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  tableName VARCHAR(10),
+  title VARCHAR(20),
+  pathName VARCHAR(20),
+  icon TEXT
+);
+
 ALTER TABLE journal ADD FOREIGN KEY (project_id) REFERENCES project(id);
 
 LOAD DATA INFILE '/Users/jodisilverman/seip2101/test.csv'
@@ -62,3 +70,14 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
+
+
+INSERT INTO module (tableName, title, pathName, icon)
+VALUES ('tutorials', 'Tutorials', '/tutorials', '<i class="fas fa-file-code"></i>');
+
+
+
+VALUES ('keywords', 'Journal Entries', '/journal', '<i class="fas fa-book-open"></i>');
+VALUES ('links', 'Journal Entries', '/journal', '<i class="fas fa-book-open"></i>');
+
+VALUES ('tutorials', 'Journal Entries', '/journal', '<i class="fas fa-book-open"></i>');
