@@ -1,0 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url("http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css");
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background-color: #fff;
+  color: #051538;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+.logo {
+  /* width: 3%; */
+  margin-left: 30px;
+  margin-top: -15px;
+  margin-right: 10px;
+}
+header {
+  color: #f7f7f7;
+  height: 60px;
+  background-color: #D8315B;
+}
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-text {
+  padding-top: 5px;
+  font-size: xx-large;
+}
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+.stickyLeft {
+  position: fixed;
+  left: 0;
+  width: 160px;
+}
+.afterHeader {
+  position: absolute;
+  overflow-y: scroll;
+  top: 61px;
+  height: 100%
+}
+h2 {
+  font-size: 20px;
+  color: #D8315B;
+  margin-bottom: 20px;
+}
+h3 {
+  font-size: 18px;
+    color: #051538;
+    margin-bottom: -1px;
+}
+/* unvisited link */
+a:link {
+  color:#051538;
+}
+
+/* visited link */
+a:visited {
+  color: #051538;
+}
+
+/* mouse over link */
+a:hover {
+  color: #D8315B;
+}
+
+/* selected link */
+a:active {
+  color: #D8315B;
+}
+.svg-Row {
+  margin-right: 15px;
+  filter: invert(99%) sepia(3%) saturate(9%) hue-rotate(26deg) brightness(103%) contrast(94%);
+  width: 20%;
+}
+ul.no-bullets {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+button {
+  color: #f7f7f7;
+  border-radius: 5px;
+  border: 2px solid #f7f7f7;
+  background-color: #D8315B;
+  padding:  7px 10px;
+}
+/* TOP SEARCH SECTION ========================================================================== */
+.top-search {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 20px;
+}
+.top-searchLeft {
+  flex: 1;
+  width: min-content;
+  font-size: 20px;
+  margin-top: 12px;
+  color: #D8315B;
+}
+
+
+/* MARKDOWN PREVIEWER ========================================================================== */
+#outputText{
+  all: initial;
+    * {
+        all: unset;
+    }
+}
+/* TITLE SECTION =============================================================================== */
+
+.mytextdiv{
+  display:flex;
+  flex-direction:row;
+   align-items: center;
+   margin-top: 20px;
+   margin-bottom: 10px;
+}
+.mytexttitle{
+  flex-grow: 0;
+  font-size: 20px;
+  color: #D8315B;
+}
+
+.divider{
+  flex-grow: 1;
+  height: 2px;
+  background-color: #D8315B;
+  border-radius: 5px;
+}
+
+/* MODAL FORM ================================================================================== */
+.fa-times-circle {
+  cursor: pointer;
+  color: #D8315B;
+  text-align: right;
+  float:right
+}
+.form-modal-wrapper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.form-modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.form-modal-box {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 75;
+  width: 65%;
+  background-color: white;
+  z-index: 101;
+  box-shadow: 0 8px 6px -6px  #D8315B;
+  border: #D8315B solid 1px;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto;
+  margin-top: -30px;
+}
+
+/* SIDE BAR ==================================================================================== */
+/* ↓ targets the intermediary wrapper */
+.with-sidebar > * {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -0.5rem;
+  /* height: calc(100vh - 100px); */
+}
+
+.with-sidebar > * > * {
+  /* ↓ applies to both elements */
+  margin: 0.5rem;
+  align-items: stretch;
+  /* height: calc(100vh - 100px); */
+}
+
+.sidebar {
+  /* flex-basis: 12rem; */
+  flex-grow: 1;
+  background-color: #f7f7f7;
+  color:#D8315B;
+  align-items: center;
+  text-align: center;
+  border-right: 1px solid #dee2e6!important;
+  height: 100vh;
+}
+.sidebarText {
+  font-size: 16px;
+  margin-bottom: 40px;
+  margin-top: 5px;
+}
+
+.not-sidebar {
+  /* ↓ grow from nothing */
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: calc(50% - 1rem);
+  margin-right: 20px;
+  margin-left: 200px;
+}
+.future {
+  color:lightgray;
+}
+/* RIGHT CONTAINER ============================================================================= */
+/* ↓ targets the intermediary wrapper */
+.with-RightSidebar > * {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -0.5rem;
+  /* height: calc(100vh - 100px); */
+}
+
+.with-RightSidebar > * > * {
+  /* ↓ applies to both elements */
+  margin: 0.5rem;
+  align-items: stretch;
+  /* height: calc(100vh - 100px); */
+}
+
+.RightSidebar {
+  flex-basis:   30rem;
+  flex-grow: 1;
+  align-items: center;
+  text-align: left;
+  margin-top: -10px;
+}
+.RightSidebarText {
+  font-size: 16px;
+  margin-bottom: 40px;
+  margin-top: 5px;
+}
+.listItems {
+  color: #051538;
+}
+.not-RightSidebar {
+  /* ↓ grow from nothing */
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: calc(50% - 1rem);
+  margin-right: 30px;
+  margin-left: 30px;
+  background-color: #f7f7f7;
+   border: 2px solid #D8315B!important;
+   height: calc(90vh - 125px);
+   border-radius: 5px;
+   margin-top: 20px;
+}
+.insideViewItem {
+  margin: 20px;
+}
+.insideViewtext {
+  margin-bottom: 10px;
+}
+.future {
+  color:lightgray;
+}
+
+/* VIDEO PLAYER SECTION ================================================================================== */
+
+
+.video-player {
+  margin-left: 20px;
+}
+
+.video-player-details {
+  background: #fff;
+  padding: 8px;
+  border: 2px solid #D8315B!important;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  margin-top: 10px;
+}
+
+.video-list {
+  background: #fff;
+  padding: 8px;
+  border: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  margin-right: 20px;
+}
+
+.video-list-entry {
+  font-size: 16px;
+  padding: 8px;
+}
+
+.video-list-entry-title {
+  font-weight: bold;
+}
+
+.video-list-entry-title:hover {
+  color: #e62117;
+  cursor: pointer;
+}
+
+.video-list-entry-detail {
+  font-size: 12px;
+  color: #999;
+}
+
+.loading {
+  padding-left: 20px;
+}
+
+.media-body {
+  padding-left: 20px;
+}
+
+h5 {
+  border: 2px solid red;
+  text-align: center;
+  padding: 10px;
+}
+
+@media (max-width: 767px) {
+  .video-list {
+    margin-left: 20px;
+}

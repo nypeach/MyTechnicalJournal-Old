@@ -10,6 +10,8 @@ import github from '../../assets/github.svg';
 import linkedin from '../../assets/linkedin.svg';
 import slack from '../../assets/slack.svg';
 import AddNotes from './AddNotes.jsx';
+import NotesView from './NotesView.jsx';
+
 
 
 
@@ -70,75 +72,186 @@ class App extends React.Component {
 
     return (
 
-      <div id="app">
-        <header className="header-wrapper">
+      <div id="app"> {/* APP START ========================================== */}
+
+        <header>
           <div><img src={logo} className="logo" alt="Logo" /><span className="header-text" >MY TECHNICAL JOURNAL</span></div>
           <div><img src={github} className="svg-Row" alt="Github" /><img src={linkedin} className="svg-Row" alt="LinkedIn" /><img src={slack} className="svg-Row" alt="Slack" /></div>
         </header>
-        <div className="with-sidebar">
-          <div>
-            {/* <!-- intermediary wrapper --> */}
-            <div className="sidebar">
-
-              <div className="sidebarText"></div>
-              <i className="fas fa-book-open fa-3x"></i>
-              <div className="sidebarText">Journal Entries</div>
-              <i className="fas fa-exclamation-triangle fa-3x"></i>
-              <div className="sidebarText">Errors Messages</div>
-              <i className="fas fa-tasks fa-3x"></i>
-              <div className="sidebarText">Projects</div>
-              <i className="fas fa-file-contract fa-3x"></i>
-              <div className="sidebarText">Notes</div>
-              <i className="fas fa-file-code fa-3x"></i>
-              <div className="sidebarText">Tutorials</div>
-            </div>
-
-            <div className="not-sidebar">
-              <div className="top-search">
-                <div className="top-searchLeft">KEYWORD SEARCH</div>
-                <Keywords handleKeywordChange={this.handleKeywordChange} />
-              </div>
-
-{/* =============================================================================================================== */}
-              <div className="with-RightSidebar">
-                <div>
-                  {/* <!-- intermediary wrapper --> */}
-                  <div className="RightSidebar">
-                    <JournalEntryList
-                      key={this.state.listItems}
-                      listItems={this.state.listItems}
-                      currentItem={this.state.currentItem}
-                      isOpen={this.state.isOpen}
-                      projectItems={this.state.projectItems}
-                      currentProject={this.state.currentProject}
-                      onClickJournalEntry={this.onClickJournalEntry}
-                      onJournalEntryClicked={this.onJournalEntryClicked}
-                    />
-                    <button style={{ display: "inline" }} onClick={this.onAddNoteClicked}>ADD NOTES</button>
 
 
-                    {this.state.noteOpen ? (<AddNotes
-                    onAddNoteClicked={this.onAddNoteClicked}  />) : null}
+          <div className="sidebar-nav"> {/* SIDEBAR START======================================== */}
+            <div className="sidebarText"></div>
+            <i className="fas fa-book-open fa-3x"></i>
+            <div className="sidebarText">Journal Entries</div>
+            <i className="fas fa-exclamation-triangle fa-3x"></i>
+            <div className="sidebarText">Errors Messages</div>
+            <i className="fab fa-youtube fa-3x"></i>
+            <div className="sidebarText">Videos</div>
+            <i className="fas fa-tasks fa-3x"></i>
+            <div className="sidebarText">Projects</div>
+            <i className="fas fa-file-contract fa-3x"></i>
+            <div className="sidebarText">Notes</div>
+            <i className="fas fa-file-code fa-3x"></i>
+            <div className="sidebarText">Tutorials</div>
+          </div> {/* SIDEBAR END START ========================================== */}
 
-                  </div>
-
-                  <div className="not-RightSidebar">
-                    <div className="insideViewItem">
-                    <JournalEntryView
-                    key={this.state.currentItem.id}
-                    onClickJournalEntry={this.onClickJournalEntry}
-                    onJournalEntryClicked={this.onJournalEntryClicked}
-                    currentItem={this.state.currentItem}
-                    isOpen={this.state.isOpen} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-{/* =============================================================================================================== */}
-            </div>
-          </div>
+        <div className="top-search">
+          <div className="top-searchLeft">Search:</div> <Keywords handleKeywordChange={this.handleKeywordChange}/>
         </div>
+
+        <div className="listContainer"> {/* LIST CONTAINER START ======================================== */}
+
+          <div class="mytextdiv" style={{marginTop: "-5px"}}>
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+          <div class="mytextdiv">
+            <div class="mytexttitle">
+              Journal Entries
+            </div>
+            <div class="divider"></div>
+          </div>
+
+        </div>  {/* LIST CONTAINER END ======================================== */}
+
+        <div className="displayContainer"> {/* DISPLAY CONTAINER START ======================================== */}
+
+        DISPLAY EVERYTHING
+
+        </div> {/* DISPLAY CONTAINER START ======================================== */}
+
       </div>
+
+
 
     );
   }
