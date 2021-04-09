@@ -1,18 +1,23 @@
 import React from 'react';
 import axios from 'axios';
-import JournalEntryView from './JournalEntryView.jsx';
-import JournalEntryList from './JournalEntryList.jsx';
-import AddJournalEntry from './AddJournalEntry.jsx';
-import ProjectList from './ProjectList.jsx';
-import Keywords from './Keywords.jsx';
 import logo from '../../assets/M_Invert.svg';
 import github from '../../assets/github.svg';
 import linkedin from '../../assets/linkedin.svg';
 import slack from '../../assets/slack.svg';
-import AddNotes from './AddNotes.jsx';
-import NotesView from './NotesView.jsx';
+
 import VideosList from './VideosList.jsx';
+import JournalEntryList from './JournalEntryList.jsx';
+import ProjectList from './ProjectList.jsx';
 import VideoView from './VideoView.jsx';
+import JournalEntryView from './JournalEntryView.jsx';
+import ProjectView from './ProjectView.jsx';
+import NotesView from './NotesView.jsx';
+
+import AddJournalEntry from './AddJournalEntry.jsx';
+import AddNotes from './AddNotes.jsx';
+import Keywords from './Keywords.jsx';
+
+
 
 class App extends React.Component {
   constructor(props) {
@@ -23,8 +28,9 @@ class App extends React.Component {
       currentItem: {},
       isOpen: false,
       noteOpen: false,
-      projectItems: [],
+      projects: [],
       currentProject: {},
+      projectOpen: false,
       videos: [],
       currentVideo: {},
       isVideoOpen: false,
@@ -33,17 +39,20 @@ class App extends React.Component {
     };
 
     this.getVideos = this.getVideos.bind(this);
-    this.onClickVideo = this.onClickVideo.bind(this);
     this.getJournals = this.getJournals.bind(this);
-    this.onClickJournal= this.onClickJournal.bind(this);
-
     this.getProjects = this.getProjects.bind(this);
-    this.onAddNoteClicked = this.onAddNoteClicked.bind(this);
+
+    this.onClickVideo = this.onClickVideo.bind(this);
+    this.onClickJournal= this.onClickJournal.bind(this);
+    this.onClickProject = this.onClickProject.bind(this);
+
+
   }
   componentDidMount() {
+    this.getVideos();
     this.getJournals();
     this.getProjects();
-    this.getVideos();
+
   }
 
   // GET DATA ======================================================================== //
@@ -66,7 +75,7 @@ class App extends React.Component {
   getProjects() {
     axios.get('/projects')
       .then(res => {
-        this.setState({ projectItems: res.data, currentProject: res.data[0] });
+        this.setState({ projects: res.data, currentProject: res.data[0] });
       })
       .catch(err => console.log('ERROR GETTING PROJECTS', err));
   }
@@ -88,7 +97,14 @@ class App extends React.Component {
       currentOpen: 'journal'
     });
   }
-
+  onClickProject(project) {
+    // console.log('CLICKED');
+    this.setState({
+      currentProject: project,
+      projectOpen: !this.state.projectOpen,
+      currentOpen: 'project'
+    });
+  }
 
 
   onAddNoteClicked() {
@@ -138,15 +154,15 @@ console.log('STATE', this.state)
               Videos
             </div>
             <div className="divider"></div>
-
           </div>
           <VideosList
+            key={this.state.videos}
             getVideos={this.getVideos}
-            // onVideoClicked={this.onVideoClicked}
             onClickVideo={this.onClickVideo}
             videos={this.state.videos}
             currentVideo={this.state.currentVideo}
           />
+
           <div className="mytextdiv">
             <div className="mytexttitle">
               Journal Entries
@@ -154,21 +170,28 @@ console.log('STATE', this.state)
             <div className="divider"></div>
           </div>
             <JournalEntryList
-              key={this.state.listItems}
+              // key={this.state.listItems}
               listItems={this.state.listItems}
               currentItem={this.state.currentItem}
               isOpen={this.state.isOpen}
-              projectItems={this.state.projectItems}
-              currentProject={this.state.currentProject}
               onClickJournal={this.onClickJournal}
             />
 
           <div className="mytextdiv">
             <div className="mytexttitle">
-              Journal Entries
+              Projects
             </div>
             <div className="divider"></div>
           </div>
+          <ProjectList
+            // key={this.state.projects}
+            projects={this.state.projects}
+            currentProject={this.state.currentProjects}
+            projectOpen={this.state.projectOpen}
+            onClickProject={this.onClickProject}
+          />
+
+
           <div className="mytextdiv">
             <div className="mytexttitle">
               Journal Entries
@@ -297,7 +320,6 @@ console.log('STATE', this.state)
             {this.state.currentOpen === 'video' ?
           <VideoView
               getVideos={this.getVideos}
-              onVideoClicked={this.onVideoClicked}
               onClickVideo={this.onClickVideo}
               videos={this.state.videos}
               currentVideo={this.state.currentVideo}
@@ -309,11 +331,19 @@ console.log('STATE', this.state)
               <JournalEntryView
                 key={this.state.currentItem.id}
                 onClickJournalEntry={this.onClickJournalEntry}
-                onJournalEntryClicked={this.onJournalEntryClicked}
                 currentItem={this.state.currentItem}
                 isOpen={this.state.isOpen} />
               : null}
           </div>
+        <div>
+          {this.state.currentOpen === 'project' ?
+            <ProjectView
+              key={this.state.currentProject.id}
+              onClickProject={this.onClickProject}
+              currentProject={this.state.currentProject}
+              projectOpen={this.state.projectOpen} />
+            : null}
+        </div>
      {/* DISPLAY CONTAINER START ======================================== */}
 
       </div>

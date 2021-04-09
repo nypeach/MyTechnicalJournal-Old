@@ -37,9 +37,9 @@ class VideoView extends React.Component {
           <div className="video-player">
             <div className="embed-responsive embed-responsive-16by9">
               <iframe className="embed-responsive-item" src={this.props.currentVideo.video_link}
-                frameborder='0'
+                frameBorder='0'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                allowfullscreen
+                allowFullScreen
                 title='video'
               />
             </div>
