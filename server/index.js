@@ -36,6 +36,17 @@ app.get('/journals', (req, res) => {
   });
 });
 
+app.get('/videos', (req, res) => {
+  console.log(req.body);
+  db.selectQuery('videos', (error, result) => {
+    if (error) {
+      res.status(400).json('Query Failed ' + error);
+      return;
+    }
+    res.status(200).json(result);
+  });
+});
+
 app.get('/projects', (req, res) => {
   console.log(req.body);
   db.selectQuery('project', (error, result) => {

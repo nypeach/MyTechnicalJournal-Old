@@ -80,28 +80,22 @@ header {
 .listContainer {
   position: fixed;
   width: 480px;
-  top: 125px;
-  margin-left: 185px;
+  top: 135px;
+  margin-left: 190px;
   overflow-y: scroll;
   z-index: 100;
   height: 100vh;
 }
-.displayContainer {
-  position: fixed;
-  top: 125px;
-  background-color: #f7f7f7;
-  border: 2px solid #D8315B!important;
-  min-height: calc(100% - 155px);
-  min-width: calc(100% - 725px);
-  max-width: calc(100% - 725px);
-  margin-left: 695px;
-  border-radius: 5px;
+.listItems {
+  color: #051538;
+  font-size: 1.10rem;
+  margin-bottom: 12px;
 }
 
 ul.no-bullets {
+  display: block;
   list-style-type: none; /* Remove bullets */
   padding: 0; /* Remove padding */
-  margin: 0; /* Remove margins */
 }
 /* TITLE SECTION =============================================================================== */
 
@@ -114,7 +108,7 @@ ul.no-bullets {
 }
 .mytexttitle {
   flex-grow: 0;
-  font-size: 20px;
+  font-size: 1.3rem;
   color: #D8315B;
 }
 .divider {
@@ -122,6 +116,8 @@ ul.no-bullets {
   height: 2px;
   background-color: #D8315B;
   border-radius: 5px;
+  margin-top: 3px;
+  margin-left: 3px;
 }
 
 button {
@@ -131,4 +127,85 @@ button {
   background-color: #D8315B;
   padding:  7px 10px;
 }
+a {
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+/* unvisited link */
+a:link {
+  color:#051538;
+}
 
+/* visited link */
+a:visited {
+  color: #051538;
+}
+
+/* mouse over link */
+a:hover {
+  color: #D8315B;
+}
+
+/* selected link */
+a:active {
+  color: #D8315B;
+}
+.links {
+  color: #D8315B;
+  font-weight: 500;
+}
+
+
+/* VIEWER SECTION ================================================================================== */
+.videoContainer {
+  position: fixed;
+  top: 125px;
+  height: calc(100% - 155px);
+  width: calc(100% - 725px);
+  margin-left: 695px;
+  color: #051538;
+  align-items: center;
+}
+.video-player {
+  border: 2px solid #D8315B!important;
+  border-radius: 5px;
+  align-items: center;
+  background-color: #f7f7f7;
+  padding: 12px;
+  margin-top: 15px;
+}
+.journalContainer {
+  position: fixed;
+  top: 145px;
+  height: calc(100% - 175px);
+  width: calc(100% - 725px);
+  background-color: #f7f7f7;
+  border: 2px solid #D8315B!important;
+  border-radius: 5px;
+  margin-left: 695px;
+  color: #051538;
+  align-items: center;
+  overflow-y: scroll;
+}
+.journal {
+  align-items: center;
+  padding: 12px;
+}
+.journalTitle {
+ font-size: 1.3rem;
+ color: #D8315B;
+ margin-bottom: 12px;
+}
+.journalSubTitle .journalText {
+  color: #051538;
+}
+.journalSubTitle {
+font-size: 1.10rem;
+font-weight: 500;
+}
+.journalText {
+  align-items: center;
+  font-size: 1.05rem;
+  font-weight: 400;
+  margin-bottom: 12px;
+}

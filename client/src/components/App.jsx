@@ -11,9 +11,8 @@ import linkedin from '../../assets/linkedin.svg';
 import slack from '../../assets/slack.svg';
 import AddNotes from './AddNotes.jsx';
 import NotesView from './NotesView.jsx';
-
-
-
+import VideosList from './VideosList.jsx';
+import VideoView from './VideoView.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -25,34 +24,38 @@ class App extends React.Component {
       isOpen: false,
       noteOpen: false,
       projectItems: [],
-      currentProject: {}
+      currentProject: {},
+      videos: [],
+      currentVideo: {},
+      isVideoOpen: false,
+      currentOpen: 'journal'
+
     };
 
-    this.onClickJournalEntry = this.onClickJournalEntry.bind(this);
-    this.onJournalEntryClicked = this.onJournalEntryClicked.bind(this);
-    this.getJournalEntries = this.getJournalEntries.bind(this);
+    this.getVideos = this.getVideos.bind(this);
+    this.onClickVideo = this.onClickVideo.bind(this);
+    this.getJournals = this.getJournals.bind(this);
+    this.onClickJournal= this.onClickJournal.bind(this);
+
     this.getProjects = this.getProjects.bind(this);
     this.onAddNoteClicked = this.onAddNoteClicked.bind(this);
   }
   componentDidMount() {
-    this.getJournalEntries('journal');
-    this.getProjects('project');
-  }
-  onClickJournalEntry(item) {
-    // console.log('CLICKED');
-    this.setState({
-      currentItem: item
-    });
-  }
-  onJournalEntryClicked() {
-    // console.log('CLICKED');
-    this.setState({ isOpen: !this.state.isOpen });
-  }
-  onAddNoteClicked() {
-    this.setState({ noteOpen: !this.state.noteOpen });
+    this.getJournals();
+    this.getProjects();
+    this.getVideos();
   }
 
-  getJournalEntries() {
+  // GET DATA ======================================================================== //
+  getVideos() {
+    axios.get('/videos')
+      .then(res => {
+        this.setState({ videos: res.data, currentVideo: res.data[0] });
+      })
+      .catch(err => console.log('ERROR GETTING VIDEOS ENTRIES: ', err));
+  }
+
+  getJournals() {
     axios.get('/journals')
       .then(res => {
         this.setState({ listItems: res.data, currentItem: res.data[0] });
@@ -68,8 +71,36 @@ class App extends React.Component {
       .catch(err => console.log('ERROR GETTING PROJECTS', err));
   }
 
-  render() {
 
+// CLICK HANDLERS ==================================================================== //
+  onClickVideo(video) {
+    this.setState({
+      currentVideo: video,
+      isVideoOpen: !this.state.isVideoOpen,
+      currentOpen: 'video'
+    })
+  }
+  onClickJournal(item) {
+    // console.log('CLICKED');
+    this.setState({
+      currentItem: item,
+      isOpen: !this.state.isOpen,
+      currentOpen: 'journal'
+    });
+  }
+
+
+
+  onAddNoteClicked() {
+    this.setState({ noteOpen: !this.state.noteOpen });
+  }
+
+
+
+
+
+  render() {
+console.log('STATE', this.state)
     return (
 
       <div id="app"> {/* APP START ========================================== */}
@@ -102,152 +133,188 @@ class App extends React.Component {
 
         <div className="listContainer"> {/* LIST CONTAINER START ======================================== */}
 
-          <div class="mytextdiv" style={{marginTop: "-5px"}}>
-            <div class="mytexttitle">
-              Journal Entries
+          <div className="mytextdiv" style={{marginTop: "-5px"}}>
+            <div className="mytexttitle">
+              Videos
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
+
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <VideosList
+            getVideos={this.getVideos}
+            // onVideoClicked={this.onVideoClicked}
+            onClickVideo={this.onClickVideo}
+            videos={this.state.videos}
+            currentVideo={this.state.currentVideo}
+          />
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+            <JournalEntryList
+              key={this.state.listItems}
+              listItems={this.state.listItems}
+              currentItem={this.state.currentItem}
+              isOpen={this.state.isOpen}
+              projectItems={this.state.projectItems}
+              currentProject={this.state.currentProject}
+              onClickJournal={this.onClickJournal}
+            />
+
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
-          <div class="mytextdiv">
-            <div class="mytexttitle">
+          <div className="mytextdiv">
+            <div className="mytexttitle">
               Journal Entries
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
           </div>
 
         </div>  {/* LIST CONTAINER END ======================================== */}
 
-        <div className="displayContainer"> {/* DISPLAY CONTAINER START ======================================== */}
-
-        DISPLAY EVERYTHING
-
-        </div> {/* DISPLAY CONTAINER START ======================================== */}
+        {/* DISPLAY CONTAINER START ======================================== */}
+        <div>
+            {this.state.currentOpen === 'video' ?
+          <VideoView
+              getVideos={this.getVideos}
+              onVideoClicked={this.onVideoClicked}
+              onClickVideo={this.onClickVideo}
+              videos={this.state.videos}
+              currentVideo={this.state.currentVideo}
+              />
+              : null}
+          </div>
+          <div>
+            {this.state.currentOpen === 'journal' ?
+              <JournalEntryView
+                key={this.state.currentItem.id}
+                onClickJournalEntry={this.onClickJournalEntry}
+                onJournalEntryClicked={this.onJournalEntryClicked}
+                currentItem={this.state.currentItem}
+                isOpen={this.state.isOpen} />
+              : null}
+          </div>
+     {/* DISPLAY CONTAINER START ======================================== */}
 
       </div>
 

@@ -48,20 +48,23 @@ class JournalEntryView extends React.Component {
 
       return (
 
-        <div>
-              <h2 key={item.id}>{(new Date(item.entry_date).toDateString().slice(4))} | {item.title} </h2>
-          <div key={item.challenge}><h3>Challenge:</h3>
-            <div className="insideViewtext">{item.challenge}</div>
+        <div className="journalContainer">
+          <div className="journal">
+            <div className="journalTitle"key={item.id}>
+              {(new Date(item.entry_date).toDateString().slice(4))} | {item.title}
+            </div>
+          <div key={item.challenge} className="journalSubTitle">Challenge:
+            <div className="journalText">{item.challenge}</div>
           </div>
-            <div key={item.action_taken}><h3>Actions Taken:</h3>
-            <div className="insideViewtext">{item.action_taken}</div>
+            <div key={item.action_taken} className="journalSubTitle">Actions Taken:
+            <div className="journalText">{item.action_taken}</div>
             </div>
-            <div key={item.lesson_learned}><h3>Lessons Learned:</h3>
-            <div className="insideViewtext">{item.lesson_learned}</div>
+            <div key={item.lesson_learned} className="journalSubTitle">Lessons Learned:
+            <div className="journalText">{item.lesson_learned}</div>
             </div>
-            <div><h3>Links:</h3>
-            <div className="insideViewtext">
-            <ul className="no-bullets">
+            <div className="journalSubTitle links">Links:
+              <div>
+                <ul className="no-bullets">
               {this.state.linked.map(link => (
                 <li key={link.id}><a href={link.url_link} target="_blank">{link.url_short}</a></li>
               ))}</ul>
@@ -70,7 +73,7 @@ class JournalEntryView extends React.Component {
             <br></br>
             <button style={{ display: "inline" }} onClick={this.onAddLinksClicked}>ADD LINKS</button>
         </div>
-
+        </div>
       );
     }
   }

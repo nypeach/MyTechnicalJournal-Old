@@ -15,6 +15,16 @@ CREATE TABLE links (
   linked_ref_id INT;
 );
 
+CREATE TABLE videos (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  video_short VARCHAR(60),
+  video_link VARCHAR(256),
+  keywords TEXT
+);
+
+INSERT INTO videos (video_short, video_link, keywords)
+VALUES ('ReactJS Higher Order Components (Part 1)', 'https://www.youtube.com/watch?v=B6aNv8nkUSw', 'React');
+
 CREATE TABLE source (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   source VARCHAR(60)
