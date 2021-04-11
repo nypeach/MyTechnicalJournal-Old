@@ -60,7 +60,7 @@ class Keywords extends React.Component {
   }
 
   getKeywords() {
-    axios.get('/keywords')
+    axios.get('/api/keywords')
       .then(res => {
        // console.log(res.data)
         const options = res.data.map(d => ({

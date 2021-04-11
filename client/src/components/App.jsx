@@ -26,15 +26,10 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      listItems: [],
-      currentItem: {},
-      isOpen: false,
-      noteOpen: false,
+      entries: [],
       projects: [],
-      currentProject: {},
-      projectOpen: false,
+
       videos: [],
-      currentVideo: {},
       isVideoOpen: false,
       currentOpen: 'journal',
       addKeywordOpen: false
@@ -42,33 +37,33 @@ class App extends React.Component {
     };
 
     this.getVideos = this.getVideos.bind(this);
-    this.getJournals = this.getJournals.bind(this);
+    this.getEntries = this.getEntries.bind(this);
     this.getProjects = this.getProjects.bind(this);
 
     this.onClickVideo = this.onClickVideo.bind(this);
-    this.onClickJournal = this.onClickJournal.bind(this);
+    this.onClickEntry = this.onClickEntry.bind(this);
     this.onClickProject = this.onClickProject.bind(this);
     this.onClickAddKeyword = this.onClickAddKeyword.bind(this);
 
   }
   componentDidMount() {
     this.getVideos();
-    this.getJournals();
+    this.getEntries();
     this.getProjects();
 
   }
 
   // GET DATA ======================================================================== //
   getVideos() {
-    axios.get('/videos')
+    axios.get('/api/videos')
       .then(res => {
         this.setState({ videos: res.data, currentVideo: res.data[0] });
       })
       .catch(err => console.log('ERROR GETTING VIDEOS ENTRIES: ', err));
   }
 
-  getJournals() {
-    axios.get('/journals')
+  getEntries() {
+    axios.get('/api/entries')
       .then(res => {
         this.setState({ listItems: res.data, currentItem: res.data[0] });
       })
@@ -76,7 +71,7 @@ class App extends React.Component {
   }
 
   getProjects() {
-    axios.get('/projects')
+    axios.get('/api/projects')
       .then(res => {
         this.setState({ projects: res.data, currentProject: res.data[0] });
       })
@@ -92,12 +87,12 @@ class App extends React.Component {
       currentOpen: 'video'
     })
   }
-  onClickJournal(item) {
+  onClickEntry(item) {
     // console.log('CLICKED');
     this.setState({
       currentItem: item,
       isOpen: !this.state.isOpen,
-      currentOpen: 'journal'
+      currentOpen: 'entry'
     });
   }
   onClickProject(project) {
@@ -121,7 +116,7 @@ class App extends React.Component {
 
 
   render() {
-    console.log('STATE', this.state)
+   console.log('STATE', this.state)
     return (
 
       <div id="app"> {/* APP START ========================================== */}
@@ -156,6 +151,34 @@ class App extends React.Component {
 
         <div className="listContainer"> {/* LIST CONTAINER START ======================================== */}
           <div style={{ marginTop: "-5px" }}></div>
+
+
+          <div>
+            {toRender === 'videos'
+              ? (
+              <div className="mytextdiv">
+                <div className="mytexttitle">Videos</div>
+                <div className="divider"></div>
+              </div>
+              <VideosList
+                key={this.state.videos}
+                getVideos={this.getVideos}
+                onClickVideo={this.onClickVideo}
+                videos={this.state.videos}
+                currentVideo={this.state.currentVideo}
+              />
+              ) : null}
+          </div>
+
+
+
+
+
+
+
+
+
+
           <div className="mytextdiv">
             <div className="mytexttitle">
               StackTypes (Will Delete)
@@ -169,19 +192,7 @@ class App extends React.Component {
             </div>
             <div className="divider"></div>
           </div>
-          <div className="mytextdiv">
-            <div className="mytexttitle">
-              Videos
-            </div>
-            <div className="divider"></div>
-          </div>
-          <VideosList
-            key={this.state.videos}
-            getVideos={this.getVideos}
-            onClickVideo={this.onClickVideo}
-            videos={this.state.videos}
-            currentVideo={this.state.currentVideo}
-          />
+
 
           <div className="mytextdiv">
             <div className="mytexttitle">

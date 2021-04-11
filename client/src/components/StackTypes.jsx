@@ -79,14 +79,14 @@ class StackTypes extends React.Component {
   }
 
   getStackType() {
-    axios.get('/stacktype')
+    axios.get('api/stacktypes')
       .then(res => {
         const options = res.data.map(d => ({
           "value": d.id,
           "label": d.type
         }))
-        this.setState({ selectOptions: options});
-        console.log(this.state)
+        this.setState({ selectOptions: options });
+        // console.log(this.state)
       })
       .catch(err => console.log('ERROR GETTING KEYWORDS ENTRIES', err));
   }
@@ -96,7 +96,7 @@ class StackTypes extends React.Component {
   }
 
   render() {
-    console.log(this.state.selectOptions)
+    // console.log(this.state.selectOptions)
     return (
 
      <Select

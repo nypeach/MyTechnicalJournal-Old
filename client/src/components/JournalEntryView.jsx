@@ -28,16 +28,18 @@ class JournalEntryView extends React.Component {
 
   getJournalEntryLinks() {
 
-    axios.get('/links', {params: {linked_ref: 'Journal Entry',linked_ref_id: this.props.currentItem.id}})
-      .then(res => {
-      //  console.log('RES DATA', res.data);
-        this.setState({ linked: res.data });
+    axios.get(`api/entries/${this.props.currentItem.id}/links`, { params: { answer_id: this.props.currentItem.id }})
+      .then((res) => {
+        this.setState({
+          linked: res.data
+        });
       })
       .catch(err => console.log('ERROR GETTING JOURNAL ENTRIES: ', err));
   }
 
   render() {
-    if (this.props.currentItem === undefined) {
+    console.log('CURRENT ITEM ID', this.state.linked)
+    if (this.state.linked.length === 0) {
       return '';
 
     } else {
@@ -64,10 +66,10 @@ class JournalEntryView extends React.Component {
             </div>
             <div className="journalSubTitle links">Links:
               <div>
-                <ul className="no-bullets">
+                {/* <ul className="no-bullets">
               {this.state.linked.map(link => (
                 <li key={link.id}><a href={link.url_link} target="_blank">{link.url_short}</a></li>
-              ))}</ul>
+              ))}</ul> */}
             </div>
             </div>
             <br></br>

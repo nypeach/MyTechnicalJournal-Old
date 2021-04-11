@@ -23,27 +23,27 @@ class KeywordsForm extends React.Component {
   }
 
 
-  // handleSubmitLinks(event) {
+  handleSubmitKeyword(event) {
 
-  //   event.preventDefault();
-  //     var body = {
-  //       "keyword": this.state.keyword,
-  //       "stackTypeId": this.state.stackTypeId
-  //     };
-  //     return axios.post('/keywords', body)
-  //       .then(() => {
-  //         alert('Link has been Added!');
-  //       })
-  //       .then(() => {
-  //         this.setState({
-  //           keyword: '',
-  //           stackTypeId: ''
-  //         })
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       })
-  // }
+    event.preventDefault();
+      var body = {
+        "keyword": this.state.keyword,
+        "stacktype_id": this.state.stackTypeId
+      };
+      return axios.post('/api/keywords', body)
+        .then(() => {
+          alert('Link has been Added!');
+        })
+        .then(() => {
+          this.setState({
+            keyword: '',
+            stackTypeId: ''
+          })
+        })
+        .catch(err => {
+          console.log(err);
+        })
+  }
 
   render() {
     return (
