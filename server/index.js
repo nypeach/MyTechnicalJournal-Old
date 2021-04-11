@@ -69,6 +69,17 @@ app.get('/keywords', (req, res) => {
   });
 });
 
+app.get('/stacktype', (req, res) => {
+  console.log(req.body);
+  db.selectQuery('stackType', (error, result) => {
+    if (error) {
+      res.status(400).json('Query Failed ' + error);
+      return;
+    }
+    res.status(200).json(result);
+  });
+});
+
 app.get('/links', (req, res) => {
   let table = 'links';
   let linked_ref = req.query.linked_ref;

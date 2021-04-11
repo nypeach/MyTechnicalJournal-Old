@@ -67,7 +67,7 @@ header {
   margin-left: 190px;
   height: 70px;
   min-width: calc(100% - 220px);
-  z-index: 100;
+  z-index: 1000;
 }
 .top-searchLeft {
   flex: .30;
@@ -75,10 +75,16 @@ header {
   margin-top: 12px;
   color: #D8315B;
 }
+.top-button {
+  margin-top: 10px;
+}
+.Select-menu-outer {
+  z-index: 999 !important;
+}
 
 /* LIST ITEMS ================================================================================== */
 .listContainer {
-  position: fixed;
+  position:fixed;
   width: 480px;
   top: 135px;
   margin-left: 190px;
@@ -126,7 +132,13 @@ button {
   border: 2px solid #f7f7f7;
   background-color: #D8315B;
   padding:  7px 10px;
+  min-height: 40px;
 }
+button:focus {
+  outline: none;
+ }
+
+
 a {
   font-size: 1.05rem;
   font-weight: 400;
@@ -208,4 +220,112 @@ font-weight: 500;
   font-size: 1.05rem;
   font-weight: 400;
   margin-bottom: 12px;
+}
+/* CHECKBOXES USING FONT AWESOME================================================================ */
+input[type=checkbox] { display:none; } /* to hide the checkbox itself */
+input[type=checkbox] + label:before {
+  font-family: FontAwesome;
+  display: inline-block;
+}
+
+input[type=checkbox] + label:before { content: "\f096"; } /* unchecked icon */
+input[type=checkbox] + label:before { letter-spacing: 10px; } /* space between checkbox and label */
+
+input[type=checkbox]:checked + label:before { content: "\f046"; } /* checked icon */
+input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow space for check mark */
+
+/* MODAL FORMATTING ============================================================================ */
+.fa-times-circle {
+  cursor: pointer;
+  color: #D8315B;
+  text-align: right;
+  float:right
+}
+.form-modal-wrapper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.form-modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.form-modal-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: #D8315B solid 2px;
+  border-radius: 5px;
+  box-shadow: 0 8px 6px -6px  #D8315B;
+  z-index: 101;
+  padding: 10px;
+  max-height: 100%;
+  max-width: 100%;
+  min-height: 35%;
+  min-width: 35%;
+}
+/* CREATE NEW CLASS FOR EACH SPECIFIC SIZE */
+.newClass {
+  height: 500px;
+  width: 900px;
+}
+.form-modal-title {
+ font-size: 1.3rem;
+ color: #D8315B;
+ margin-bottom: 12px;
+ margin-top: -25px;
+}
+
+.form-modal-button {
+    position:absolute;
+    bottom:10px;
+   left: 10px;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  background-color: white;
+}
+.form-modal-label-input {
+  flex-basis: content;
+  font-size: 1.3rem;
+ color: #D8315B;
+ margin-right: 1rem;
+}
+.form-modal-label-select {
+  flex-basis: content;
+  font-size: 1.3rem;
+ color: #D8315B;
+ margin-right: 1rem;
+ margin-top: .85rem;
+}
+.form-modal-input {
+  flex-grow: 1;
+  min-height: 36px;
+  max-height: 36px;
+  border-color: #D8315B;
+  border-width: 2px;
+  border-radius: 5px;
+   background-color: #f7f7f7;
+  /* margin-top: 12px;  */
+  vertical-align: middle;
+  box-shadow: #D8315B;
+  border-width: "2px";
+  border-style:solid;
+  color:#051538;
+  font-size: 1.05rem;
+}
+.form-modal-input:focus {
+  outline: none;
 }

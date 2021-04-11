@@ -1,13 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import CreatableSelect from 'react-select/creatable';
+import Select from 'react-select';
 
 const customStyles = {
-  menuPortal: base => ({ ...base, zIndex: 9999 }),
   control: (provided, state) => ({
     ...provided,
     marginTop: '12px',
     backgroundColor:  "#f6f6f6",
+    minWidth: '300px',
     minHeight: '36px',
     maxHeight: '36px',
     paddingTop: '0px',
@@ -16,10 +16,24 @@ const customStyles = {
     borderColor: "#D8315B",
     boxShadow: "#D8315B",
     borderWidth: "2px",
+    color: '#051538',
+    fontSize: '1.05rem',
     "&:hover": {
       borderColor: "#D8315B",
       borderWidth: "2px"
     }
+  }),
+  valueContainer: (provided, state) => ({
+    ...provided,
+    marginBottom: '12px',
+  }),
+  indicatorContainer: (provided, state) => ({
+    ...provided,
+    marginBottom: '18px',
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    marginBottom: '18px',
   }),
   multiValue: (provided, state) => ({
     ...provided,
@@ -29,11 +43,13 @@ const customStyles = {
     ...provided,
     minHeight: '24px',
     maxHeight: '24px',
-     backgroundColor: "#f6f6f6"
+    minWidth: '300px',
   }),
   container: base => ({
     ...base,
-    flex: 4
+    flexGrow: 1,
+    minWidth: '300px',
+
   }),
   option: (provided, state) => ({
     ...provided,
@@ -41,56 +57,56 @@ const customStyles = {
     backgroundColor: state.isSelected ? '#D8315B' : "#f6f6f6",
     backgroundColor: state.isFocused ? "#D8315B" : "#f6f6f6",
     color: state.isFocused ? "#f6f6f6" : '#D8315B',
-    fontSize: "16px"
+    fontSize: "16px",
+    minWidth: '300px',
   }),
 }
 
-class Keywords extends React.Component {
+class StackTypes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selectOptions: [],
-      keywords: []
+      id: "",
+      name: ''
     };
-    this.getKeywords=this.getKeywords.bind(this);
+    this.getStackType=this.getStackType.bind(this);
+    this.handleChange=this.handleChange.bind(this);
 
   }
   componentDidMount() {
-    this.getKeywords();
+    this.getStackType();
   }
 
-  getKeywords() {
-    axios.get('/keywords')
+  getStackType() {
+    axios.get('/stacktype')
       .then(res => {
-       // console.log(res.data)
         const options = res.data.map(d => ({
           "value": d.id,
-          "label": d.keyword
+          "label": d.type
         }))
         this.setState({ selectOptions: options});
+        console.log(this.state)
       })
       .catch(err => console.log('ERROR GETTING KEYWORDS ENTRIES', err));
   }
 
-  handleChange (newValue, actionMeta) {
-    console.group('Value Changed');
-    console.log('NEWVALUE', newValue);
-    console.log(`action: ${actionMeta.action}`);
-    console.groupEnd();
-  };
+  handleChange(e) {
+    this.setState({ id: e.value, name: e.label })
+  }
 
   render() {
+    console.log(this.state.selectOptions)
     return (
 
-        <CreatableSelect
-          isMulti
-          onChange={this.props.handleKeywordChange}
-          options={this.state.selectOptions}
-          styles={customStyles}
-          />
+     <Select
+        options={this.state.selectOptions}
+        styles={customStyles}
+        handleChange={this.handleChange}
+      />
 
     );
   }
 }
 
-export default Keywords;
+export default StackTypes;

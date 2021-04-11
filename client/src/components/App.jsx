@@ -16,6 +16,8 @@ import NotesView from './NotesView.jsx';
 import AddJournalEntry from './AddJournalEntry.jsx';
 import AddNotes from './AddNotes.jsx';
 import Keywords from './Keywords.jsx';
+import KeywordsForm from './KeywordsForm.jsx';
+import StackTypes from './StackTypes.jsx';
 
 
 
@@ -34,7 +36,8 @@ class App extends React.Component {
       videos: [],
       currentVideo: {},
       isVideoOpen: false,
-      currentOpen: 'journal'
+      currentOpen: 'journal',
+      addKeywordOpen: false
 
     };
 
@@ -43,9 +46,9 @@ class App extends React.Component {
     this.getProjects = this.getProjects.bind(this);
 
     this.onClickVideo = this.onClickVideo.bind(this);
-    this.onClickJournal= this.onClickJournal.bind(this);
+    this.onClickJournal = this.onClickJournal.bind(this);
     this.onClickProject = this.onClickProject.bind(this);
-
+    this.onClickAddKeyword = this.onClickAddKeyword.bind(this);
 
   }
   componentDidMount() {
@@ -81,7 +84,7 @@ class App extends React.Component {
   }
 
 
-// CLICK HANDLERS ==================================================================== //
+  // CLICK HANDLERS ==================================================================== //
   onClickVideo(video) {
     this.setState({
       currentVideo: video,
@@ -102,10 +105,12 @@ class App extends React.Component {
     this.setState({
       currentProject: project,
       projectOpen: !this.state.projectOpen,
-      currentOpen: 'project'
+      currentOpen: 'project',
     });
   }
-
+  onClickAddKeyword() {
+    this.setState({ addKeywordOpen: !this.state.addKeywordOpen });
+  }
 
   onAddNoteClicked() {
     this.setState({ noteOpen: !this.state.noteOpen });
@@ -116,7 +121,7 @@ class App extends React.Component {
 
 
   render() {
-console.log('STATE', this.state)
+    console.log('STATE', this.state)
     return (
 
       <div id="app"> {/* APP START ========================================== */}
@@ -127,29 +132,44 @@ console.log('STATE', this.state)
         </header>
 
 
-          <div className="sidebar-nav"> {/* SIDEBAR START======================================== */}
-            <div className="sidebarText"></div>
-            <i className="fas fa-book-open fa-3x"></i>
-            <div className="sidebarText">Journal Entries</div>
-            <i className="fas fa-exclamation-triangle fa-3x"></i>
-            <div className="sidebarText">Errors Messages</div>
-            <i className="fab fa-youtube fa-3x"></i>
-            <div className="sidebarText">Videos</div>
-            <i className="fas fa-tasks fa-3x"></i>
-            <div className="sidebarText">Projects</div>
-            <i className="fas fa-file-contract fa-3x"></i>
-            <div className="sidebarText">Notes</div>
-            <i className="fas fa-file-code fa-3x"></i>
-            <div className="sidebarText">Tutorials</div>
-          </div> {/* SIDEBAR END START ========================================== */}
+        <div className="sidebar-nav"> {/* SIDEBAR START======================================== */}
+          <div className="sidebarText"></div>
+          <i className="fas fa-book-open fa-3x"></i>
+          <div className="sidebarText">Journal Entries</div>
+          <i className="fas fa-exclamation-triangle fa-3x"></i>
+          <div className="sidebarText">Errors Messages</div>
+          <i className="fab fa-youtube fa-3x"></i>
+          <div className="sidebarText">Videos</div>
+          <i className="fas fa-tasks fa-3x"></i>
+          <div className="sidebarText">Projects</div>
+          <i className="fas fa-file-contract fa-3x"></i>
+          <div className="sidebarText">Notes</div>
+          <i className="fas fa-file-code fa-3x"></i>
+          <div className="sidebarText">Tutorials</div>
+        </div> {/* SIDEBAR END START ========================================== */}
 
         <div className="top-search">
-          <div className="top-searchLeft">Search:</div> <Keywords handleKeywordChange={this.handleKeywordChange}/>
+          <div className="top-searchLeft">Search:</div> <Keywords />&nbsp;&nbsp;<button className="top-button" style={{ display: "block" }} onClick={this.onClickAddKeyword}>ADD KEYWORD</button>
+          {this.state.addKeywordOpen ? (<KeywordsForm onClickAddKeyword={this.onClickAddKeyword} />) : null}
+
         </div>
 
         <div className="listContainer"> {/* LIST CONTAINER START ======================================== */}
-
-          <div className="mytextdiv" style={{marginTop: "-5px"}}>
+          <div style={{ marginTop: "-5px" }}></div>
+          <div className="mytextdiv">
+            <div className="mytexttitle">
+              StackTypes (Will Delete)
+            </div>
+            <div className="divider"></div>
+          </div>
+          <StackTypes />
+          <div className="mytextdiv">
+            <div className="mytexttitle">
+              Add New Keywords (Will Delete)
+            </div>
+            <div className="divider"></div>
+          </div>
+          <div className="mytextdiv">
             <div className="mytexttitle">
               Videos
             </div>
@@ -169,13 +189,13 @@ console.log('STATE', this.state)
             </div>
             <div className="divider"></div>
           </div>
-            <JournalEntryList
-              // key={this.state.listItems}
-              listItems={this.state.listItems}
-              currentItem={this.state.currentItem}
-              isOpen={this.state.isOpen}
-              onClickJournal={this.onClickJournal}
-            />
+          <JournalEntryList
+            // key={this.state.listItems}
+            listItems={this.state.listItems}
+            currentItem={this.state.currentItem}
+            isOpen={this.state.isOpen}
+            onClickJournal={this.onClickJournal}
+          />
 
           <div className="mytextdiv">
             <div className="mytexttitle">
@@ -192,12 +212,7 @@ console.log('STATE', this.state)
           />
 
 
-          <div className="mytextdiv">
-            <div className="mytexttitle">
-              Journal Entries
-            </div>
-            <div className="divider"></div>
-          </div>
+
           <div className="mytextdiv">
             <div className="mytexttitle">
               Journal Entries
@@ -317,24 +332,24 @@ console.log('STATE', this.state)
 
         {/* DISPLAY CONTAINER START ======================================== */}
         <div>
-            {this.state.currentOpen === 'video' ?
-          <VideoView
+          {this.state.currentOpen === 'video' ?
+            <VideoView
               getVideos={this.getVideos}
               onClickVideo={this.onClickVideo}
               videos={this.state.videos}
               currentVideo={this.state.currentVideo}
-              />
-              : null}
-          </div>
-          <div>
-            {this.state.currentOpen === 'journal' ?
-              <JournalEntryView
-                key={this.state.currentItem.id}
-                onClickJournalEntry={this.onClickJournalEntry}
-                currentItem={this.state.currentItem}
-                isOpen={this.state.isOpen} />
-              : null}
-          </div>
+            />
+            : null}
+        </div>
+        <div>
+          {this.state.currentOpen === 'journal' ?
+            <JournalEntryView
+              key={this.state.currentItem.id}
+              onClickJournalEntry={this.onClickJournalEntry}
+              currentItem={this.state.currentItem}
+              isOpen={this.state.isOpen} />
+            : null}
+        </div>
         <div>
           {this.state.currentOpen === 'project' ?
             <ProjectView
@@ -344,7 +359,7 @@ console.log('STATE', this.state)
               projectOpen={this.state.projectOpen} />
             : null}
         </div>
-     {/* DISPLAY CONTAINER START ======================================== */}
+        {/* DISPLAY CONTAINER START ======================================== */}
 
       </div>
 
