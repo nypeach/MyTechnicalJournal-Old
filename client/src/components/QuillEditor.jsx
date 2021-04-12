@@ -36,6 +36,9 @@ const modules = {
   clipboard: {
     matchVisual: false,
   },
+  // handlers: {
+  //   image: this.imageHandler
+  // }
 };
 
 const formats = [
@@ -67,14 +70,32 @@ class QuillEditor extends React.Component {
   constructor(props) {
     super(props)
     this.state = { text: '' } // You can also pass a Quill Delta here
-    this.handleChange = this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    // this.imageHandler = this.imageHandler.bind(this);
   }
 
   handleChange(value) {
     this.setState({ text: value })
   }
 
+  // imageHandler() {
+  //   const input = document.createElement('input');
+  //   input.setAttribute('type', 'file');
+  //   input.setAttribute('accept', 'image/*');
+  //   input.click();
+  //   input.onchange = async function () {
+  //     const file = input.files[0];
+  //     console.log('User trying to uplaod this:', file);
 
+  //     const id = await uploadFile(file); // I'm using react, so whatever upload function
+  //     const range = this.quill.getSelection();
+  //     const link = `${ROOT_URL}/file/${id}`;
+
+  //     // this part the image is inserted
+  //     // by 'image' option below, you just have to put src(link) of img here.
+  //     this.quill.insertEmbed(range.index, 'image', link);
+  //   }.bind(this); // react thing
+  // }
 
   render() {
     return (

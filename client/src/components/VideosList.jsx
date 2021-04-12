@@ -26,8 +26,6 @@ class Videos extends React.Component {
             </li>
           ))}</ul>
         </div>
-        {/* {this.props.isOpen ? (<JournalEntryView key={this.props.currentItem.id} onClickJournalEntry={this.props.onClickJournalEntry} onJournalEntryClicked={this.props.onJournalEntryClicked} currentItem={this.props.currentItem} isOpen={this.props.isOpen} />) : null} */}
-
         </div>
 
 

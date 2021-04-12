@@ -15,9 +15,9 @@ class JournalEntryList extends React.Component {
     return (
       <div>
         <div><ul className="no-bullets">
-          {this.props.listItems.map(item => (
-            <li className="listItems" key={item.id} onClick={() => { this.props.onClickJournal(item)}}>
-              {item.title}
+          {this.props.entries.map(entry => (
+            <li className="listItems" key={entry.id} onClick={() => { this.props.onClickEntry(entry)}}>
+              {entry.title}
             </li>
           ))}</ul>
         </div>

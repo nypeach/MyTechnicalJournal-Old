@@ -21,7 +21,7 @@ router.get('/projects', projects.getAllProjects);
 // router.post('/projects', projects.addProject)
 
 router.get('/keywords', keywords.getAllKeywords);
-// router.post('/keywords', keywords.addKeyword)
+router.post('/keywords', keywords.addKeyword);
 
 
 router.post('/keywords', keywords.addKeyword);

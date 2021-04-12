@@ -13,6 +13,35 @@ class ManageEvents extends React.Component {
 
   }
 
+# How to render something AFTER state updates
+Pass an arrow function as a second argument and that function runs after state is upated
+
+  BEFORE: DOESN'T WORK
+  onClickEntry(entry) {
+    // console.log('CLICKED');
+    this.setState({
+      currentItem: entry,
+      toRender: 'entry',
+      module: 'entries',
+      currentId: entry.id
+    })
+  };
+
+  AFTER: THIS WORKS
+  onClickEntry(entry) {
+    // console.log('CLICKED');
+    this.setState({
+      currentItem: entry,
+      toRender: 'entry',
+      module: 'entries',
+      currentId: entry.id
+    },() => {
+      this.getLinks()
+    });
+
+# React-Select Tutorial Really Good
+https://medium.com/how-to-react/react-select-dropdown-tutorial-using-react-select-51664ab8b6f3
+
 # Don't remove the wheelchair ramp
 https://medium.com/hackernoon/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2#:~:text=You%20click%20a%20button%20and,clear%3A%20the%20outline%20must%20go.
 

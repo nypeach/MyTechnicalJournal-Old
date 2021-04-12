@@ -103,6 +103,7 @@ class StackTypes extends React.Component {
         options={this.state.selectOptions}
         styles={customStyles}
         handleChange={this.handleChange}
+        stacktype_id={this.state.id}
       />
 
     );
