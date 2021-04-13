@@ -11,7 +11,7 @@ const links = require('./links.js');
 router.get('/entries', entries.getAllEntries);
 router.get('/entries/:linked_ref_id/links', links.getEntryLinks);
 // router.post('/entries', entries.addEntry);
-// router.post('/entries/:linked_ref_id/links', links.postEntryLinks);
+router.post('/entries/:linked_ref_id/links', links.addLinks);
 
 
 router.get('/videos', videos.getAllVideos);

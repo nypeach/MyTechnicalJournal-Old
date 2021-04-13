@@ -21,6 +21,25 @@ CREATE TABLE keywords(
   FOREIGN KEY (stacktype_id) REFERENCES stacktypes(id)
 )
 
+CREATE TABLE links (
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  url_short varchar(60) DEFAULT NULL,
+  url_link varchar(256) DEFAULT NULL,
+  linked_ref varchar(20) DEFAULT NULL,
+  linked_ref_id int DEFAULT NULL,
+  KEY `link_from` (`linked_ref`,`linked_ref_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE notes (
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  note TEXT NOT NULL,
+  note_ref varchar(20) DEFAULT NULL,
+  note_ref_id int DEFAULT NULL,
+  KEY `note_from` (`note_ref`,`note_ref_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
 
 
 -------------------------------------------------------------------------------------------------------------------------------

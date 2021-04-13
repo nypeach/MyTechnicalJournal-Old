@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import JournalEntryView from './JournalEntryView';
+import EntryView from './EntryView';
 import ProjectList from './ProjectList';
 
-class Videos extends React.Component {
+class VideosList extends React.Component {
   constructor(props) {
     super(props);
 
@@ -34,4 +34,4 @@ class Videos extends React.Component {
 
 
 };
-export default Videos;
+export default VideosList;

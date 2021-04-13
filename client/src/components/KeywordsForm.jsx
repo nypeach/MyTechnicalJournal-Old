@@ -90,7 +90,7 @@ class KeywordsForm extends React.Component {
         }))
         this.setState({ selectOptions: options });
       })
-      .catch(err => console.log('ERROR GETTING KEYWORDS ENTRIES', err));
+      .catch(err => console.log('ERROR GETTING STACK TYPES', err));
   }
 
   handleInputChange(event) {
@@ -116,7 +116,7 @@ class KeywordsForm extends React.Component {
       console.log(body);
       return axios.post('/api/keywords', body)
         .then(() => {
-          alert('Link has been Added!');
+          alert('Keyword has been Added!');
         },
           () => {
             this.props.onClickAddKeyword()
@@ -144,15 +144,6 @@ class KeywordsForm extends React.Component {
             <br></br>
             <div className="form-modal-title">ADD NEW KEYWORD</div>
             <form>
-            {/* <label className="form-modal-label">Keyword:&nbsp;&nbsp;
-                <input className="form-modal-input" name="keyword" type="text" value={this.state.keyword} onChange={this.handleInputChange} />
-              </label>
-              <br />
-
-            <label className="form-modal-label">StackType:&nbsp;&nbsp;
-                <StackTypes name="stackType" type="text" value={this.state.stackTypeId} onChange={this.handleInputChange} />
-              </label> */}
-
               <div className="wrapper">
               <div className="form-modal-label-input">Keyword </div>
               <input className="form-modal-input" name="keyword" type="text" value={this.state.keyword} onChange={this.handleInputChange}></input>

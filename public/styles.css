@@ -67,7 +67,7 @@ header {
   margin-left: 190px;
   height: 70px;
   min-width: calc(100% - 220px);
-  z-index: 1000;
+  z-index: 102;
 }
 .top-searchLeft {
   flex: .30;
@@ -198,6 +198,7 @@ a:active {
   color: #051538;
   align-items: center;
   overflow-y: scroll;
+  z-index: 99;
 }
 .journal {
   align-items: center;
@@ -254,7 +255,7 @@ input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow sp
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 1000;
   background-color: rgba(0, 0, 0, 0.4);
 }
 .form-modal-box {
@@ -267,7 +268,7 @@ input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow sp
   border: #D8315B solid 2px;
   border-radius: 5px;
   box-shadow: 0 8px 6px -6px  #D8315B;
-  z-index: 101;
+  z-index: 1001;
   padding: 10px;
   max-height: 100%;
   max-width: 100%;
@@ -356,4 +357,43 @@ input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow sp
 }
 .scale-down {
   object-fit: scale-down;
+}
+
+/* MARKDOWN PREVIEWER ========================================================================== */
+#outputText{
+  all: initial;
+    * {
+        all: unset;
+    }
+}
+/* #toolbar {
+  font-size: 6px;
+} */
+/* DRAFT JS ========================================================================== */
+/* #toolbar {
+  background: #eaecec;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+  border: 1px solid #ccc;
+  padding: 0.75em;
+} */
+.ql-toolbar {
+  background:  lightgray;
+
+}
+/* .ql-picker-label {
+  color: white;
+ outline: none;
+}
+.ql-picker-options {
+  color: black;
+} */
+
+  svg {
+
+    width: 100%; height: auto;
+  }
+  .quillModal {
+  height: 400px;
+  width: 900px;
 }

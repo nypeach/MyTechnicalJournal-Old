@@ -6,18 +6,20 @@ import linkedin from '../../assets/linkedin.svg';
 import slack from '../../assets/slack.svg';
 
 import VideosList from './VideosList.jsx';
-import JournalEntryList from './JournalEntryList.jsx';
+import EntryList from './EntryList.jsx';
 import ProjectList from './ProjectList.jsx';
+
 import VideoView from './VideoView.jsx';
-import JournalEntryView from './JournalEntryView.jsx';
+import EntryView from './EntryView.jsx';
 import ProjectView from './ProjectView.jsx';
 import NotesView from './NotesView.jsx';
 
-import AddJournalEntry from './AddJournalEntry.jsx';
+import EntryForm from './EntryForm.jsx';
 import AddNotes from './AddNotes.jsx';
+import AddLink from './AddLink.jsx';
 import Keywords from './Keywords.jsx';
 import KeywordsForm from './KeywordsForm.jsx';
-import StackTypes from './StackTypes.jsx';
+import QuillEditor from './QuillEditor';
 
 
 
@@ -30,7 +32,10 @@ class App extends React.Component {
       projects: [],
       videos: [],
       links: [],
-      addKeywordOpen: false,
+      keywordOpen: false,
+      noteOpen: false,
+      linkOpen: false,
+      entryOpen: false,
       toRender: 'entry',
       module: 'entries',
       currentItem:{},
@@ -46,23 +51,26 @@ class App extends React.Component {
     this.onClickVideo = this.onClickVideo.bind(this);
     this.onClickEntry = this.onClickEntry.bind(this);
     this.onClickProject = this.onClickProject.bind(this);
-    this.onClickAddKeyword = this.onClickAddKeyword.bind(this);
 
+    this.onClickAddKeyword = this.onClickAddKeyword.bind(this);
+    this.onClickAddNote = this.onClickAddNote.bind(this);
+    this.onClickAddLink = this.onClickAddLink.bind(this);
+    this.onClickAddEntry = this.onClickAddEntry.bind(this);
   }
   componentDidMount() {
     let requests = [];
     requests.push(this.getVideos());
     requests.push(this.getEntries());
     requests.push(this.getProjects());
-    requests.push(this.getLinks());
     Promise.all(requests)
       .then(results => {
         this.setState({
           videos: results[0].data,
           entries: results[1].data,
           projects: results[2].data,
-          links: results[3].data,
           currentItem: results[1].data[0]
+        }, () => {
+          this.getLinks();
         })
       })
     }
@@ -85,6 +93,10 @@ class App extends React.Component {
 
   getLinks() {
     return axios.get(`/api/${this.state.module}/${this.state.currentId}/links`, { params: { linked_ref_id: this.state.currentId} })
+      .then(res => {
+        console.log('RES FOR GET LINKS', res)
+        this.setState({links: res.data});
+      })
       .catch(err => console.log('ERROR GETTING LINKS ENTRIES: ', err));
   }
 
@@ -95,8 +107,11 @@ class App extends React.Component {
       toRender: 'video',
       module: 'videos',
       currentId: video.id
-    })
+    },() => {
+      this.getLinks()
+    });
   }
+
   onClickEntry(entry) {
     // console.log('CLICKED');
     this.setState({
@@ -107,26 +122,33 @@ class App extends React.Component {
     },() => {
       this.getLinks()
     });
-
   }
+
   onClickProject(project) {
     // console.log('CLICKED');
     this.setState({
       currentItem: project,
       toRender: 'project',
       module: 'projects'
+    }, () => {
+      this.getLinks()
     });
-
   }
+
   onClickAddKeyword() {
-    this.setState({ addKeywordOpen: !this.state.addKeywordOpen });
+    this.setState({ keywordOpen: !this.state.keywordOpen });
   }
 
-  onAddNoteClicked() {
+  onClickAddNote() {
     this.setState({ noteOpen: !this.state.noteOpen });
   }
 
-
+  onClickAddLink() {
+    this.setState({ linkOpen: !this.state.linkOpen });
+  }
+  onClickAddEntry() {
+    this.setState({ entryOpen: !this.state.entryOpen });
+  }
 
 
 
@@ -174,11 +196,15 @@ class App extends React.Component {
             {/* TESTING AREA ======================================== */}
             <div className="mytextdiv">
               <div className="mytexttitle">
-                StackTypes (Will Delete)
+                ADD NOTES
             </div>
               <div className="divider"></div>
             </div>
-            <StackTypes />
+            <button className="top-button" style={{ display: "block" }} onClick={this.onClickAddNote}>ADD NOTE</button>
+            {this.state.noteOpen ? (<QuillEditor noteOpen={this.state.noteOpen} onClickAddNote={this.onClickAddNote} />) : null}
+            <button onClick={this.onClickAddLink}>ADD LINKS</button>
+            {this.state.linksOpen ? (<AddLink getLinks={this.state.getLinks} onClickAddLink={this.onClickAddLink} />) : null}
+
             <div className="mytextdiv">
               <div className="mytexttitle">
                 Add New Keywords (Will Delete)
@@ -204,12 +230,12 @@ class App extends React.Component {
               <div className="divider"></div>
             </div>
 
-            <JournalEntryList
+            <EntryList
               // key={this.state.listItems}
               entries={this.state.entries}
               onClickEntry={this.onClickEntry}
               getEntries={this.getEntries}
-              // links={this.state.links}
+              links={this.state.links}
             />
 
 
@@ -385,6 +411,7 @@ class App extends React.Component {
           </div>  {/* LIST CONTAINER END ======================================== */}
 
           {/* DISPLAY CONTAINER START ======================================== */}
+
           <div>
             {this.state.toRender === 'video' ?
               <VideoView
@@ -399,13 +426,16 @@ class App extends React.Component {
 
           <div>
             {this.state.toRender === 'entry' ?
-              <JournalEntryView
+              <EntryView
                 // key={this.state.currentItem.id}
                 currentEntry={this.state.currentItem}
                 entries={this.state.entries}
                 getEntries={this.getEntries}
                 onClickEntry={this.onClickEntry}
                 links={this.state.links}
+                linksOpen={this.state.linkOpen}
+                onClickAddLink={this.onClickAddLink}
+                getLinks={this.getLinks}
               />
               : null}
           </div>
@@ -422,6 +452,7 @@ class App extends React.Component {
               : null}
           </div>
           {/* DISPLAY CONTAINER END ======================================== */}
+
 
         </div>
 

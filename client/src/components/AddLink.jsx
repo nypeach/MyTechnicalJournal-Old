@@ -39,7 +39,7 @@ class AddLink extends React.Component {
           this.setState({
             urlShort: '',
             urlLink: ''
-          })
+          }, () => {this.props.getLinks})
         })
         .catch(err => {
           console.log(err);
@@ -49,25 +49,26 @@ class AddLink extends React.Component {
   render() {
     return (
 
-        <div className="form-modal-wrapper">
-          <div className="form-modal-backdrop" onClick={this.props.onAddLinksClicked} />
+      <div className="form-modal-wrapper">
+        <div className="form-modal-backdrop" onClick={this.props.onClickAddLink} />
           <div className="form-modal-box">
-            <i className="far fa-times-circle fa-2x" onClick={this.props.onAddLinksClicked}></i>
+          <i className="far fa-times-circle fa-2x" onClick={this.props.onClickAddLink}></i>
             <br></br>
+            <div className="form-modal-title">ADD NEW LINK</div>
             <form>
-              <label>URL Short Name:
-                <input name="urlShort" type="text" value={this.state.urlShort} onChange={this.handleInputChange} />
-              </label>
-              <br />
-              <label>
-                    URL Link:
-                <input name="urlLink" type="text" value={this.state.urlLink} onChange={this.handleInputChange} />
-              </label>
-              <button onClick={this.handleSubmitLinks}>Add URL</button>
+              <div className="wrapper">
+                <div className="form-modal-label-input">URL Short Name: </div>
+                <input className="form-modal-input" name="urlShort" type="text" value={this.state.urlShort} onChange={this.handleInputChange}></input>
+              </div>
+              <br></br>
+              <div className="wrapper">
+                <div className="form-modal-label-input">URL Link: </div>
+                <input className="form-modal-input" name="urlLink" type="text" value={this.state.urlLink} onChange={this.handleInputChange}></input>
+            </div>
+            <button onClick={this.handleSubmitLinks}>Add URL</button>
             </form>
           </div>
         </div>
-
     );
   }
 }

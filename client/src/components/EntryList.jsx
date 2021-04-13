@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import JournalEntryView from './JournalEntryView';
+import EntryView from './EntryView';
 import ProjectList from './ProjectList';
 
 class JournalEntryList extends React.Component {

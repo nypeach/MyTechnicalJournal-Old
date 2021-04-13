@@ -24,7 +24,7 @@ class NotesView extends React.Component {
       content: renderContent
     };
 
-    this.getMarkdownText=this.getMarkdownText.bind(this);
+    this.getMarkdownText = this.getMarkdownText.bind(this);
   }
   getMarkdownText() {
     var rawMarkup = marked(this.state.content, { sanitize: true })
@@ -37,10 +37,13 @@ class NotesView extends React.Component {
   render() {
 
     return (
-
-      <div id="outputText">
-        <label>Output</label>
-        <div id="outputText" dangerouslySetInnerHTML={this.getMarkdownText()}></div>
+      <div className="journalContainer">
+        <div className="journal">
+          <div id="outputText">
+            <label>Output</label>
+            <div id="outputText" dangerouslySetInnerHTML={this.getMarkdownText()}></div>
+          </div>
+        </div>
       </div>
     );
   }

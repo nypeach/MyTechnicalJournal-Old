@@ -8,6 +8,20 @@ import 'highlight.js/styles/darcula.css'
 hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'rust'],
 })
+const icons = ReactQuill.Quill.import('ui/icons');
+icons['bold'] = '<i class="fa fa-bold" aria-hidden="true"></i>';
+icons['italic'] = '<i class="fa fa-italic" aria-hidden="true"></i>';
+icons['underline'] = '<i class="fas fa-underline" aria-hidden="true"></i>';
+icons['strike'] = '<i class="fas fa-strikethrough" aria-hidden="true"></i>';
+icons['blockquote'] = '<i class="fas fa-quote-right" aria-hidden="true"></i>';
+icons['code-block'] = '<i class="fas fa-code" aria-hidden="true"></i>';
+icons['list'] = '<i class="fas fa-list-ol" aria-hidden="true"></i>';
+icons['bullet'] = '<i class="fas fa-list" aria-hidden="true"></i>';
+icons.script.sub = '<i class="fas fa-subscript" aria-hidden="true"></i>';
+icons.script.super = '<i class="fas fa-superscript" aria-hidden="true"></i>';
+icons.indent[-1] = '<i class="fas fa-outdent" aria-hidden="true"></i>';
+icons.indent['+1'] = '<i class="fas fa-indent" aria-hidden="true"></i>';
+
 
 const modules = {
   syntax: {
@@ -15,8 +29,7 @@ const modules = {
   },
   toolbar: [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['code-block'],
-
+    ['blockquote', 'code-block'],
 
     [{ 'list': 'ordered' }, { 'list': 'bullet' }],
     [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
@@ -30,6 +43,7 @@ const modules = {
     [{ 'align': [] }],
     ['link', 'image', 'video'],
 
+    ['clean']
   ],
   clipboard: {
     matchVisual: false,
@@ -46,12 +60,14 @@ const customModules = {
 
 const formats = [
   'background',
+  'header',
   'font',
   'size',
   'bold',
   'italic',
   'underline',
   'strike',
+  'blockquote',
   'list',
   'bullet',
   'indent',
@@ -60,12 +76,13 @@ const formats = [
   'video',
   'code-block',
   'color',
+  'code',
   'script',
-  'align',
+  'align'
 ];
 
 
-class QuillEditor extends React.Component {
+class RichTextEditor extends React.Component {
   constructor(props) {
     super(props)
     this.state = { text: '' } // You can also pass a Quill Delta here
@@ -81,9 +98,7 @@ class QuillEditor extends React.Component {
 
     event.preventDefault();
     var body = {
-      "note": this.state.text,
-      "note_ref": this.props.module,
-      "note_ref_id": this.props.id
+      "note": this.state.text
     };
     console.log(body);
     return axios.post('/api/notes', body)
@@ -121,27 +136,26 @@ class QuillEditor extends React.Component {
   // }
 
   render() {
-    console.log(this.state.text);
     return (
       <div className="form-modal-wrapper">
-        <div className="form-modal-backdrop" onClick={this.props.onClickAddNote} />
-        <div className="form-modal-box  quillModal">
-          <i className="far fa-times-circle fa-2x" onClick={this.props.onClickAddNote}></i>
+        <div className="form-modal-backdrop" onClick={this.props.onClickNote} />
+        <div className="form-modal-box">
+          <i className="far fa-times-circle fa-2x" onClick={this.props.onClickNote}></i>
           <br></br>
           <div className="form-modal-title">ADD NEW NOTE</div>
           <form>
 
-        <ReactQuill
-          value={this.state.text}
-          onChange={this.handleChange}
-          theme="snow"
-          modules={modules}
-          formats={formats}
-          customModules={customModules}
-        />
+            <ReactQuill
+              value={this.state.text}
+              onChange={this.handleChange}
+              theme="snow"
+              modules={modules}
+              formats={formats}
+              customModules={customModules}
+            />
             <br></br>
-              <button className="form-modal-button" onClick={this.props.handleSaveNote}>SAVE NOTE</button>
-            </form>
+            <button className="form-modal-button" onClick={this.props.handleSaveNote}>SAVE NOTE</button>
+          </form>
 
         </div>
       </div>
@@ -151,4 +165,4 @@ class QuillEditor extends React.Component {
 }
 
 
-export default QuillEditor;
+export default RichTextEditor;

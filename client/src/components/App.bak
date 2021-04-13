@@ -1,16 +1,25 @@
 import React from 'react';
 import axios from 'axios';
-import JournalEntryView from './JournalEntryView.jsx';
-import JournalEntryList from './JournalEntryList.jsx';
-import AddJournalEntry from './AddJournalEntry.jsx';
-import ProjectList from './ProjectList.jsx';
-import Keywords from './Keywords.jsx';
 import logo from '../../assets/M_Invert.svg';
 import github from '../../assets/github.svg';
 import linkedin from '../../assets/linkedin.svg';
 import slack from '../../assets/slack.svg';
-import AddNotes from './AddNotes.jsx';
+
+import VideosList from './VideosList.jsx';
+import JournalEntryList from './JournalEntryList.jsx';
+import ProjectList from './ProjectList.jsx';
+import VideoView from './VideoView.jsx';
+import JournalEntryView from './JournalEntryView.jsx';
+import ProjectView from './ProjectView.jsx';
 import NotesView from './NotesView.jsx';
+
+import AddJournalEntry from './AddJournalEntry.jsx';
+import AddNotes from './AddNotes.jsx';
+import Keywords from './Keywords.jsx';
+import KeywordsForm from './KeywordsForm.jsx';
+import RichTextEditor from './RichTextEditor.jsx';
+import PageContainer from './PageContainer';
+import QuillEditor from './QuillEditor';
 
 
 
@@ -19,131 +28,417 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      listItems: [],
-      currentItem: {},
-      isOpen: false,
+      entries: [],
+      projects: [],
+      videos: [],
+      links: [],
+      addKeywordOpen: false,
       noteOpen: false,
-      projectItems: [],
-      currentProject: {}
+      toRender: 'entry',
+      module: 'entries',
+      currentItem:{},
+      currentId: 1
+
     };
 
-    this.onClickJournalEntry = this.onClickJournalEntry.bind(this);
-    this.onJournalEntryClicked = this.onJournalEntryClicked.bind(this);
-    this.getJournalEntries = this.getJournalEntries.bind(this);
+    this.getVideos = this.getVideos.bind(this);
+    this.getEntries = this.getEntries.bind(this);
     this.getProjects = this.getProjects.bind(this);
-    this.onAddNoteClicked = this.onAddNoteClicked.bind(this);
+    this.getLinks = this.getLinks.bind(this);
+
+    this.onClickVideo = this.onClickVideo.bind(this);
+    this.onClickEntry = this.onClickEntry.bind(this);
+    this.onClickProject = this.onClickProject.bind(this);
+    this.onClickAddKeyword = this.onClickAddKeyword.bind(this);
+    this.onClickAddNote = this.onClickAddNote.bind(this);
   }
   componentDidMount() {
-    this.getJournalEntries('journal');
-    this.getProjects('project');
-  }
-  onClickJournalEntry(item) {
-    // console.log('CLICKED');
-    this.setState({
-      currentItem: item
-    });
-  }
-  onJournalEntryClicked() {
-    // console.log('CLICKED');
-    this.setState({ isOpen: !this.state.isOpen });
-  }
-  onAddNoteClicked() {
-    this.setState({ noteOpen: !this.state.noteOpen });
+    let requests = [];
+    requests.push(this.getVideos());
+    requests.push(this.getEntries());
+    requests.push(this.getProjects());
+    requests.push(this.getLinks());
+    Promise.all(requests)
+      .then(results => {
+        this.setState({
+          videos: results[0].data,
+          entries: results[1].data,
+          projects: results[2].data,
+          links: results[3].data,
+          currentItem: results[1].data[0]
+        })
+      })
+    }
+
+  // GET DATA ======================================================================== //
+  getVideos() {
+    return axios.get('/api/videos')
+      .catch(err => console.log('ERROR GETTING VIDEOS ENTRIES: ', err));
   }
 
-  getJournalEntries() {
-    axios.get('/journals')
-      .then(res => {
-        this.setState({ listItems: res.data, currentItem: res.data[0] });
-      })
+  getEntries() {
+    return axios.get('/api/entries')
       .catch(err => console.log('ERROR GETTING JOURNAL ENTRIES: ', err));
   }
 
   getProjects() {
-    axios.get('/projects')
-      .then(res => {
-        this.setState({ projectItems: res.data, currentProject: res.data[0] });
-      })
+    return axios.get('/api/projects')
       .catch(err => console.log('ERROR GETTING PROJECTS', err));
   }
 
+  getLinks() {
+    return axios.get(`/api/${this.state.module}/${this.state.currentId}/links`, { params: { linked_ref_id: this.state.currentId} })
+      .catch(err => console.log('ERROR GETTING LINKS ENTRIES: ', err));
+  }
+
+  // CLICK HANDLERS ==================================================================== //
+  onClickVideo(video) {
+    this.setState({
+      currentItem: video,
+      toRender: 'video',
+      module: 'videos',
+      currentId: video.id
+    })
+  }
+  onClickEntry(entry) {
+    // console.log('CLICKED');
+    this.setState({
+      currentItem: entry,
+      toRender: 'entry',
+      module: 'entries',
+      currentId: entry.id
+    },() => {
+      this.getLinks()
+    });
+
+  }
+  onClickProject(project) {
+    // console.log('CLICKED');
+    this.setState({
+      currentItem: project,
+      toRender: 'project',
+      module: 'projects'
+    });
+
+  }
+  onClickAddKeyword() {
+    this.setState({ addKeywordOpen: !this.state.addKeywordOpen });
+  }
+
+  onClickAddNote() {
+    this.setState({ noteOpen: !this.state.noteOpen });
+  }
+
+
+
+
+
   render() {
 
-    return (
+    if (this.state.entries.length === 0) {
+      return '';
+    } else {
+      const toRender = this.state.toRender
+      console.log('STATE', this.state)
+      return (
 
-      <div id="app">
-        <header className="header-wrapper sticky">
-          <div><img src={logo} className="logo" alt="Logo" /><span className="header-text" >MY TECHNICAL JOURNAL</span></div>
-          <div><img src={github} className="svg-Row" alt="Github" /><img src={linkedin} className="svg-Row" alt="LinkedIn" /><img src={slack} className="svg-Row" alt="Slack" /></div>
-        </header>
-        <div className="afterHeader">
-        <div className="with-sidebar">
-          <div>
-            {/* <!-- intermediary wrapper --> */}
-            <div className="sidebar stickyLeft">
+        <div id="app"> {/* APP START ========================================== */}
 
-              <div className="sidebarText"></div>
-              <i className="fas fa-book-open fa-3x"></i>
-              <div className="sidebarText">Journal Entries</div>
-              <i className="fas fa-exclamation-triangle fa-3x"></i>
-              <div className="sidebarText">Errors Messages</div>
-              <i className="fas fa-tasks fa-3x"></i>
-              <div className="sidebarText">Projects</div>
-              <i className="fas fa-file-contract fa-3x"></i>
-              <div className="sidebarText">Notes</div>
-              <i className="fas fa-file-code fa-3x"></i>
-              <div className="sidebarText">Tutorials</div>
-            </div>
-
-            <div className="not-sidebar">
-              <div className="top-search">
-                <div className="top-searchLeft">KEYWORD SEARCH</div>
-                <Keywords handleKeywordChange={this.handleKeywordChange} />
-              </div>
-
-{/* =============================================================================================================== */}
-              <div className="with-RightSidebar">
-                <div>
-                  {/* <!-- intermediary wrapper --> */}
-                  <div className="RightSidebar">
-                    <JournalEntryList
-                      key={this.state.listItems}
-                      listItems={this.state.listItems}
-                      currentItem={this.state.currentItem}
-                      isOpen={this.state.isOpen}
-                      projectItems={this.state.projectItems}
-                      currentProject={this.state.currentProject}
-                      onClickJournalEntry={this.onClickJournalEntry}
-                      onJournalEntryClicked={this.onJournalEntryClicked}
-                    />
-                    <button style={{ display: "inline" }} onClick={this.onAddNoteClicked}>ADD NOTES</button>
+          <header>
+            <div><img src={logo} className="logo" alt="Logo" /><span className="header-text" >MY TECHNICAL JOURNAL</span></div>
+            <div><img src={github} className="svg-Row" alt="Github" /><img src={linkedin} className="svg-Row" alt="LinkedIn" /><img src={slack} className="svg-Row" alt="Slack" /></div>
+          </header>
 
 
-                    {this.state.noteOpen ? (<AddNotes
-                    onAddNoteClicked={this.onAddNoteClicked}  />) : null}
+          <div className="sidebar-nav"> {/* SIDEBAR START======================================== */}
+            <div className="sidebarText"></div>
+            <i className="fas fa-book-open fa-3x"></i>
+            <div className="sidebarText">Journal Entries</div>
+            <i className="fas fa-exclamation-triangle fa-3x"></i>
+            <div className="sidebarText">Errors Messages</div>
+            <i className="fab fa-youtube fa-3x"></i>
+            <div className="sidebarText">Videos</div>
+            <i className="fas fa-tasks fa-3x"></i>
+            <div className="sidebarText">Projects</div>
+            <i className="fas fa-file-contract fa-3x"></i>
+            <div className="sidebarText">Notes</div>
+            <i className="fas fa-file-code fa-3x"></i>
+            <div className="sidebarText">Tutorials</div>
+          </div> {/* SIDEBAR END ================================================================ */}
 
-                  </div>
+          <div className="top-search">
+            <div className="top-searchLeft">Search:</div> <Keywords />&nbsp;&nbsp;<button className="top-button" style={{ display: "block" }} onClick={this.onClickAddKeyword}>ADD KEYWORD</button>
+            {this.state.addKeywordOpen ? (<KeywordsForm onClickAddKeyword={this.onClickAddKeyword} />) : null}
 
-                  <div className="not-RightSidebar">
-                    <div className="insideViewItem">
-                    {/* <JournalEntryView
-                    key={this.state.currentItem.id}
-                    onClickJournalEntry={this.onClickJournalEntry}
-                    onJournalEntryClicked={this.onJournalEntryClicked}
-                    currentItem={this.state.currentItem}
-                    isOpen={this.state.isOpen} /> */}
-                    <NotesView />
-                    </div>
-                  </div>
-                </div>
-              </div>
-{/* =============================================================================================================== */}
-            </div>
           </div>
+
+          <div className="listContainer"> {/* LIST CONTAINER START ======================================== */}
+            <div style={{ marginTop: "-5px" }}></div>
+            {/* TESTING AREA ======================================== */}
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                ADD NOTES
+            </div>
+              <div className="divider"></div>
+            </div>
+            <button className="top-button" style={{ display: "block" }} onClick={this.onClickAddNote}>ADD NOTE</button>
+            {this.state.noteOpen ? (<AddNotes noteOpen={this.state.noteOpen} onClickAddNote={this.onClickAddNote} />) : null}
+
+
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Add New Keywords (Will Delete)
+            </div>
+              <div className="divider"></div>
+            </div>
+
+            <div className="mytextdiv">
+              <div className="mytexttitle">Videos</div>
+              <div className="divider"></div>
+            </div>
+
+            <VideosList
+              // key={this.state.videos}
+              videos={this.state.videos}
+              onClickVideo={this.onClickVideo}
+              getVideos={this.getVideos}
+              // links={this.state.links}
+            />
+
+            <div className="mytextdiv">
+              <div className="mytexttitle">Journal Entries</div>
+              <div className="divider"></div>
+            </div>
+
+            <JournalEntryList
+              // key={this.state.listItems}
+              entries={this.state.entries}
+              onClickEntry={this.onClickEntry}
+              getEntries={this.getEntries}
+              // links={this.state.links}
+            />
+
+
+
+            <div className="mytextdiv">
+              <div className="mytexttitle">Projects</div>
+              <div className="divider"></div>
+            </div>
+
+            <ProjectList
+              // key={this.state.listItems}
+              projects={this.state.projects}
+              onClickProject={this.onClickProject}
+              getProjects={this.getProjects}
+              // links={this.state.links}
+            />
+
+
+
+
+
+            {/*
+
+
+
+
+
+          <div className="mytextdiv">
+            <div className="mytexttitle">
+              Journal Entries
+            </div>
+            <div className="divider"></div>
+          </div>
+          <JournalEntryList
+            // key={this.state.listItems}
+            listItems={this.state.listItems}
+            currentItem={this.state.currentItem}
+            isOpen={this.state.isOpen}
+            onClickJournal={this.onClickJournal}
+          />
+
+          <div className="mytextdiv">
+            <div className="mytexttitle">
+              Projects
+            </div>
+            <div className="divider"></div>
+          </div>
+          <ProjectList
+            // key={this.state.projects}
+            projects={this.state.projects}
+            currentProject={this.state.currentProjects}
+            projectOpen={this.state.projectOpen}
+            onClickProject={this.onClickProject}
+          />
+ */}
+
+
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Error Messages
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Notes
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Tutorials
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Links
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+            <div className="mytextdiv">
+              <div className="mytexttitle">
+                Journal Entries
+            </div>
+              <div className="divider"></div>
+            </div>
+
+          </div>  {/* LIST CONTAINER END ======================================== */}
+
+          {/* DISPLAY CONTAINER START ======================================== */}
+
+          <div>
+            {this.state.toRender === 'video' ?
+              <VideoView
+                key={this.state.currentItem.id}
+                currentVideo={this.state.currentItem}
+                videos={this.state.videos}
+                getVideos={this.getVideos}
+                onClickVideo={this.onClickVideo}
+              />
+              : null}
+          </div>
+
+          <div>
+            {this.state.toRender === 'entry' ?
+              <JournalEntryView
+                // key={this.state.currentItem.id}
+                currentEntry={this.state.currentItem}
+                entries={this.state.entries}
+                getEntries={this.getEntries}
+                onClickEntry={this.onClickEntry}
+                links={this.state.links}
+              />
+              : null}
+          </div>
+
+          <div>
+            {this.state.toRender === 'project' ?
+              <ProjectView
+                key={this.state.currentItem.id}
+                currentProject={this.state.currentItem}
+                projects={this.state.projects}
+                getProjects={this.getProjects}
+                onClickProject={this.onClickProject}
+              />
+              : null}
+          </div>
+          {/* DISPLAY CONTAINER END ======================================== */}
+
+
         </div>
-      </div>
-      </div>
-    );
+
+
+
+      );
+    }
+
+
   }
 
 }

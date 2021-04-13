@@ -2,9 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import App from './App';
 import LinksList from './LinksList';
+import AddLink from './AddLink';
 
 
-class JournalEntryView extends React.Component {
+class EntryView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -45,11 +46,8 @@ class JournalEntryView extends React.Component {
                 <LinksList
                   currentEntry={this.props.currentItem}
                   links={this.props.links}
-                  onAddLinksClicked={this.onAddLinksClicked}
                 />
               </div>
-              <br></br>
-              <button onClick={this.onAddLinksClicked}>ADD LINKS</button>
           </div>
         </div>
       );
@@ -58,4 +56,4 @@ class JournalEntryView extends React.Component {
 
 }
 
-export default JournalEntryView;
+export default EntryView;
