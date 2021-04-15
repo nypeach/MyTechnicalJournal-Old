@@ -13,6 +13,33 @@ const getAllEntries = (req, res) => {
   });
 };
 
+const getMaxEntryId = (req, res) => {
+  const sql = `SELECT max(id) AS max FROM entries`;
+
+  connection.query(sql, (err, results) => {
+    if (err) {
+      return res.json({
+        error: err
+      });
+    }
+    return res.json(results);
+  });
+};
+
+
+const updateEntryNote = (req, res) => {
+  const sql = `UPDATE entries SET notes = '${req.body.note}' WHERE id = ${req.body.id}`;
+
+  connection.query(sql, (err, results) => {
+    if (err) {
+      return res.json({
+        error: err
+      });
+    }
+    return res.json(results);
+  });
+}
+
 
 
 // app.post('/journals', (req, res) => {
@@ -31,4 +58,6 @@ const getAllEntries = (req, res) => {
 
 module.exports = {
   getAllEntries,
+  updateEntryNote,
+  getMaxEntryId
 };

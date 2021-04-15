@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import App from './App';
-import AddLink from './AddLink';
+import LinkForm from './LinkForm';
 
 
 class ProjectView extends React.Component {
@@ -48,7 +48,7 @@ class ProjectView extends React.Component {
         <div className="journalContainer">
           <div className="journal">
             <div className="journalTitle"key={project.id}>
-              {project.project_name}
+              {project.title}
             </div>
           <div key={project.project_start_date} className="journalSubTitle">Project Start Date:
             <div className="journalText">{(new Date(project.project_start_date).toDateString().slice(4))}</div>

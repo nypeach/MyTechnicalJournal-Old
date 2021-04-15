@@ -1,8 +1,8 @@
 const connection = require('../../db/index.js');
 const axios = require('axios');
 
-const getAllLinks = (req, res) => {
-  const sql = `SELECT * FROM links`;
+const getAllNotes = (req, res) => {
+  const sql = `SELECT * FROM notes`;
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -14,11 +14,11 @@ const getAllLinks = (req, res) => {
   });
 };
 
-const getEntryLinks = (req, res) => {
+const getEntryNotes = (req, res) => {
   console.log('REQ PARAMETERS', req.params)
-  const pid = req.params.linked_ref_id;
-  const sql = `SELECT * FROM links WHERE linked_ref = 'entries' AND linked_ref_id = ${pid};`
-  console.log('GET LINKS SQL', sql)
+  const pid = req.params.note_ref_id;
+  const sql = `SELECT * FROM notes WHERE note_ref = 'entries' AND note_ref_id = ${pid};`
+  console.log('GET NOTES SQL', sql)
 
   connection.query(sql, [pid], (err, results) => {
     if (err) {
@@ -31,13 +31,13 @@ const getEntryLinks = (req, res) => {
 
 };
 
-const addLinks = (req, res) => {
+const addNotes = (req, res) => {
   const data = req.body;
-  console.log('ADD LINKS DATA', data);
-  const sql = `INSERT INTO links(url_short, url_link, linked_ref, linked_ref_id) VALUES('${data.url_short}', '${data.url_link}', '${data.linked_ref}', ${data.linked_ref_id});`
+  console.log('ADD NOTES DATA', data);
+  const sql = `INSERT INTO notes(note, note_ref, note_ref_id) VALUES('${data.note}', '${data.note_ref}', ${data.note_ref_id});`
   console.log('SQL STMT', sql);
   console.log('REQ PARAMETERS', req.params)
-  const pid = req.params.linked_ref_id;
+  const pid = req.params.note_ref_id;
   connection.query(sql, [pid], (err, results) => {
     if (err) {
       return res.json({
@@ -50,7 +50,7 @@ const addLinks = (req, res) => {
 
 
 module.exports = {
-  getAllLinks,
-  getEntryLinks,
-  addLinks
+  getAllNotes,
+  getEntryNotes,
+  addNotes
 };

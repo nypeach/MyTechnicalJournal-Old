@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-class AddLink extends React.Component {
+class LinkForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,4 +73,4 @@ class AddLink extends React.Component {
   }
 }
 
-export default AddLink;
+export default LinkForm;

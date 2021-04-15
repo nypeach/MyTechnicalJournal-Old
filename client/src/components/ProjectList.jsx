@@ -15,7 +15,7 @@ class ProjectList extends React.Component {
         <div><ul className="no-bullets">
           {this.props.projects.map(project => (
             <li className="listItems" key={project.id} onClick={() => { this.props.onClickProject(project)}}>
-              {project.project_name}
+              {project.title}
             </li>
           ))}</ul>
         </div>

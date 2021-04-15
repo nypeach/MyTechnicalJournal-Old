@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import App from './App';
-import AddLink from './AddLink';
+import LinkForm from './LinkForm';
 
 
 class LinksList extends React.Component {
@@ -25,7 +25,7 @@ class LinksList extends React.Component {
 
       return (
         <div>
-            <div className="journalSubTitle links">Links:
+
               <div>
                 <ul className="no-bullets">
                   {links.map(link => (
@@ -33,7 +33,7 @@ class LinksList extends React.Component {
                   ))}
                 </ul>
               </div>
-            </div>
+
         </div>
       );
     }

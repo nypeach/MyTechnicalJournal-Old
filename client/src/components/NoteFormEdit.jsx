@@ -65,28 +65,28 @@ const formats = [
 ];
 
 
-class QuillEditor extends React.Component {
+class NoteFormEdit extends React.Component {
   constructor(props) {
     super(props)
     this.state = { text: '' } // You can also pass a Quill Delta here
     this.handleChange = this.handleChange.bind(this);
-    this.handleSaveNote = this.handleSaveNote.bind(this);
+    this.handleEditedNote = this.handleEditedNote.bind(this);
     // this.imageHandler = this.imageHandler.bind(this);
   }
 
   handleChange(value) {
     this.setState({ text: value })
   }
-  handleSaveNote(event) {
+  handleEditedNote(event) {
 
     event.preventDefault();
     var body = {
       "note": this.state.text,
       "note_ref": this.props.module,
-      "note_ref_id": this.props.id
+      "id": this.props.currentId
     };
     console.log(body);
-    return axios.post('/api/notes', body)
+    return axios.put('/api/entries/:id/notes', body)
       .then(() => {
         alert('Note has been Added!');
       },
@@ -121,12 +121,12 @@ class QuillEditor extends React.Component {
   // }
 
   render() {
-    console.log(this.state.text);
+    console.log('NOTE STATE', this.state, 'MODULE', this.props.module, 'CURRENT ID', this.props.currentId);
     return (
       <div className="form-modal-wrapper">
-        <div className="form-modal-backdrop" onClick={this.props.onClickAddNote} />
-        <div className="form-modal-box  quillModal">
-          <i className="far fa-times-circle fa-2x" onClick={this.props.onClickAddNote}></i>
+        <div className="form-modal-backdrop" onClick={this.props.onClickNoteEdit} />
+        <div className="form-modal-box quillModal">
+          <i className="far fa-times-circle fa-2x" onClick={this.props.onClickNoteEdit}></i>
           <br></br>
           <div className="form-modal-title">ADD NEW NOTE</div>
           <form>
@@ -138,9 +138,10 @@ class QuillEditor extends React.Component {
           modules={modules}
           formats={formats}
           customModules={customModules}
+          placeholder={this.props.placeholder}
         />
             <br></br>
-              <button className="form-modal-button" onClick={this.props.handleSaveNote}>SAVE NOTE</button>
+              <button className="form-modal-button" onClick={this.handleSaveNote}>SAVE NOTE</button>
             </form>
 
         </div>
@@ -151,4 +152,4 @@ class QuillEditor extends React.Component {
 }
 
 
-export default QuillEditor;
+export default NoteFormEdit;

@@ -12,14 +12,15 @@ import ProjectList from './ProjectList.jsx';
 import VideoView from './VideoView.jsx';
 import EntryView from './EntryView.jsx';
 import ProjectView from './ProjectView.jsx';
-import NotesView from './NotesView.jsx';
+import NoteView from './NoteView.jsx';
 
 import EntryForm from './EntryForm.jsx';
-import AddNotes from './AddNotes.jsx';
-import AddLink from './AddLink.jsx';
+import LinkForm from './LinkForm.jsx';
 import Keywords from './Keywords.jsx';
 import KeywordsForm from './KeywordsForm.jsx';
-import QuillEditor from './QuillEditor';
+import NoteForm from './NoteForm';
+
+import ModulesSelect from './ModulesSelect';
 
 
 
@@ -38,7 +39,7 @@ class App extends React.Component {
       entryOpen: false,
       toRender: 'entry',
       module: 'entries',
-      currentItem:{},
+      currentItem: {},
       currentId: 1
 
     };
@@ -73,7 +74,7 @@ class App extends React.Component {
           this.getLinks();
         })
       })
-    }
+  }
 
   // GET DATA ======================================================================== //
   getVideos() {
@@ -92,10 +93,10 @@ class App extends React.Component {
   }
 
   getLinks() {
-    return axios.get(`/api/${this.state.module}/${this.state.currentId}/links`, { params: { linked_ref_id: this.state.currentId} })
+    return axios.get(`/api/${this.state.module}/${this.state.currentId}/links`, { params: { linked_ref_id: this.state.currentId } })
       .then(res => {
         console.log('RES FOR GET LINKS', res)
-        this.setState({links: res.data});
+        this.setState({ links: res.data });
       })
       .catch(err => console.log('ERROR GETTING LINKS ENTRIES: ', err));
   }
@@ -107,8 +108,6 @@ class App extends React.Component {
       toRender: 'video',
       module: 'videos',
       currentId: video.id
-    },() => {
-      this.getLinks()
     });
   }
 
@@ -119,8 +118,8 @@ class App extends React.Component {
       toRender: 'entry',
       module: 'entries',
       currentId: entry.id
-    },() => {
-      this.getLinks()
+    }, () => {
+      this.getLinks();
     });
   }
 
@@ -131,7 +130,7 @@ class App extends React.Component {
       toRender: 'project',
       module: 'projects'
     }, () => {
-      this.getLinks()
+      this.getLinks();
     });
   }
 
@@ -146,6 +145,7 @@ class App extends React.Component {
   onClickAddLink() {
     this.setState({ linkOpen: !this.state.linkOpen });
   }
+
   onClickAddEntry() {
     this.setState({ entryOpen: !this.state.entryOpen });
   }
@@ -165,13 +165,13 @@ class App extends React.Component {
 
           <header>
             <div><img src={logo} className="logo" alt="Logo" /><span className="header-text" >MY TECHNICAL JOURNAL</span></div>
-            <div><img src={github} className="svg-Row" alt="Github" /><img src={linkedin} className="svg-Row" alt="LinkedIn" /><img src={slack} className="svg-Row" alt="Slack" /></div>
+            <div style={{ marginRight: "20px" }}><a href="https://github.com/nypeach/MyTechnicalJournal/" target="_blank" rel="noopener"><img src={github} className="svg-Row" alt="Github" /></a><a href="https://www.linkedin.com/in/jodimsilverman/" target="_blank" rel="noopener"><img src={linkedin} className="svg-Row" alt="LinkedIn" /></a><a href="mailto:jodimsilverman@gmail.com"><img src={slack} className="svg-Row" alt="Slack" /></a></div>
           </header>
 
 
           <div className="sidebar-nav"> {/* SIDEBAR START======================================== */}
             <div className="sidebarText"></div>
-            <i className="fas fa-book-open fa-3x"></i>
+            <i className="fas fa-book-open fa-3x" onClick={this.onClickAddEntry}></i>
             <div className="sidebarText">Journal Entries</div>
             <i className="fas fa-exclamation-triangle fa-3x"></i>
             <div className="sidebarText">Errors Messages</div>
@@ -179,31 +179,35 @@ class App extends React.Component {
             <div className="sidebarText">Videos</div>
             <i className="fas fa-tasks fa-3x"></i>
             <div className="sidebarText">Projects</div>
-            <i className="fas fa-file-contract fa-3x"></i>
-            <div className="sidebarText">Notes</div>
             <i className="fas fa-file-code fa-3x"></i>
             <div className="sidebarText">Tutorials</div>
+            <i className="fas fa-file-contract fa-3x" onClick={this.onClickAddNote}></i>
+            <div className="sidebarText">Notes</div>
+            <i className="fas fa-link fa-3x" onClick={this.onClickAddLink}></i>
+            <div className="sidebarText">Links</div>
+
           </div> {/* SIDEBAR END START ========================================== */}
 
           <div className="top-search">
             <div className="top-searchLeft">Search:</div> <Keywords />&nbsp;&nbsp;<button className="top-button" style={{ display: "block" }} onClick={this.onClickAddKeyword}>ADD KEYWORD</button>
-            {this.state.addKeywordOpen ? (<KeywordsForm onClickAddKeyword={this.onClickAddKeyword} />) : null}
+            {this.state.keywordOpen ? (<KeywordsForm onClickAddKeyword={this.onClickAddKeyword} />) : null}
 
           </div>
 
           <div className="listContainer"> {/* LIST CONTAINER START ======================================== */}
             <div style={{ marginTop: "-5px" }}></div>
+            {this.state.noteOpen ? (<NoteForm noteOpen={this.state.noteOpen} currentId={this.state.currentId} module={this.state.module} onClickAddNote={this.onClickAddNote} />) : null}
+            {this.state.linkOpen ? (<LinkForm getLinks={this.state.getLinks} onClickAddLink={this.onClickAddLink} />) : null}
+            {this.state.entryOpen ? (<EntryForm onClickAddLink={this.onClickAddLink}  onClickAddEntry={this.onClickAddEntry}/>) : null}
+
             {/* TESTING AREA ======================================== */}
             <div className="mytextdiv">
               <div className="mytexttitle">
-                ADD NOTES
-            </div>
+
+              </div>
               <div className="divider"></div>
             </div>
-            <button className="top-button" style={{ display: "block" }} onClick={this.onClickAddNote}>ADD NOTE</button>
-            {this.state.noteOpen ? (<QuillEditor noteOpen={this.state.noteOpen} onClickAddNote={this.onClickAddNote} />) : null}
-            <button onClick={this.onClickAddLink}>ADD LINKS</button>
-            {this.state.linksOpen ? (<AddLink getLinks={this.state.getLinks} onClickAddLink={this.onClickAddLink} />) : null}
+
 
             <div className="mytextdiv">
               <div className="mytexttitle">
@@ -222,7 +226,7 @@ class App extends React.Component {
               videos={this.state.videos}
               onClickVideo={this.onClickVideo}
               getVideos={this.getVideos}
-              // links={this.state.links}
+            // links={this.state.links}
             />
 
             <div className="mytextdiv">
@@ -250,7 +254,7 @@ class App extends React.Component {
               projects={this.state.projects}
               onClickProject={this.onClickProject}
               getProjects={this.getProjects}
-              // links={this.state.links}
+            // links={this.state.links}
             />
 
 
@@ -416,7 +420,7 @@ class App extends React.Component {
             {this.state.toRender === 'video' ?
               <VideoView
                 key={this.state.currentItem.id}
-                currentVideo={this.state.currentItem}
+                currentItem={this.state.currentItem}
                 videos={this.state.videos}
                 getVideos={this.getVideos}
                 onClickVideo={this.onClickVideo}
@@ -428,7 +432,7 @@ class App extends React.Component {
             {this.state.toRender === 'entry' ?
               <EntryView
                 // key={this.state.currentItem.id}
-                currentEntry={this.state.currentItem}
+                currentItem={this.state.currentItem}
                 entries={this.state.entries}
                 getEntries={this.getEntries}
                 onClickEntry={this.onClickEntry}
@@ -436,6 +440,7 @@ class App extends React.Component {
                 linksOpen={this.state.linkOpen}
                 onClickAddLink={this.onClickAddLink}
                 getLinks={this.getLinks}
+                onClickAddNote={this.onClickAddNote}
               />
               : null}
           </div>
@@ -444,7 +449,7 @@ class App extends React.Component {
             {this.state.toRender === 'project' ?
               <ProjectView
                 key={this.state.currentItem.id}
-                currentProject={this.state.currentItem}
+                currentItem={this.state.currentItem}
                 projects={this.state.projects}
                 getProjects={this.getProjects}
                 onClickProject={this.onClickProject}
