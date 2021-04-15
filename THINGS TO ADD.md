@@ -52,9 +52,12 @@ this will only work if the location of the modal
 # Really Great React-Select Tutorial
 https://medium.com/how-to-react/react-select-dropdown-tutorial-using-react-select-51664ab8b6f3
 
-# Future Enhancements
-Preformatted Text (make code inside code box)
-<pre>code goes here()</pre>
+# Modal Heaven!!!
+https://www.codeply.com/go/NiFzSCukVl/bootstrap-4-open-modal-from-another-modal
+https://mdbootstrap.com/docs/standard/components/modal/
+
+# Data Structures
+https://medium.com/@dfriedenbach/the-two-stack-queue-ae5bbdc673be
 
 # Contributors
 Stephen H. Hyde https://github.com/birdhighway
