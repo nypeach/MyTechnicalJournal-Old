@@ -31,7 +31,7 @@ class LinkForm extends React.Component {
         "linked_ref": this.props.linked_ref,
         "linked_ref_id": this.props.linked_ref_id
       };
-      return axios.post('/links', body)
+    return axios.post(`/api/${this.props.linked_ref}/${his.props.linked_ref_id}/links`, body)
         .then(() => {
           alert('Link has been Added!');
         })

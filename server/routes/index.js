@@ -22,6 +22,7 @@ router.get('/videos', videos.getAllVideos);
 // router.post('/videos', videos.addVideo)
 
 router.get('/projects', projects.getAllProjects);
+router.get('/projects/max', projects.getMaxProjectId);
 // router.post('/projects', projects.addProject)
 
 router.get('/keywords', keywords.getAllKeywords);

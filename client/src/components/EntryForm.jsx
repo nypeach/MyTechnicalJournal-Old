@@ -163,17 +163,6 @@ class EntryForm extends React.Component {
     this.handleSubmitEntry = this.handleSubmitEntry.bind(this);
 
   }
-  getLastEntry() {
-    axios.get('/api/entries/max')
-      .then(res => {
-        // console.log(res.data)
-        const data = res.data.map(d => ({
-          "id": d.max
-        }))
-        this.setState({ id: data.id });
-      })
-      .catch(err => console.log('ERROR GETTING KEYWORDS ENTRIES', err));
-  }
 
   getKeywords() {
     axios.get('/api/keywords')
@@ -202,13 +191,15 @@ class EntryForm extends React.Component {
   }
 
   getLinks() {
-    return axios.get(`/api/entries/${this.state.id}/links`, { params: { linked_ref_id: this.state.id } })
+    return axios.get(`/api/entries/${this.props.nextEntryId}/links`, { params: { linked_ref_id: this.props.nextEntryId} })
       .then(res => {
         console.log('RES FOR GET LINKS', res)
         this.setState({ links: res.data });
       })
       .catch(err => console.log('ERROR GETTING LINKS ENTRIES: ', err));
   }
+
+
 
   handleInputChange(event) {
     const target = event.target;
@@ -343,8 +334,9 @@ class EntryForm extends React.Component {
 
             <div>
               <LinksList
-                links={this.state.links}
                 onClickAddLink={this.props.onClickAddLink}
+                linked_ref='entries'
+                linked_ref_id={this.props.nextEntryId}
               />
             </div>
 

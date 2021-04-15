@@ -13,7 +13,20 @@ const getAllProjects = (req, res) => {
   });
 };
 
+const getMaxProjectId = (req, res) => {
+  const sql = `SELECT max(id) AS max FROM projects`;
+
+  connection.query(sql, (err, results) => {
+    if (err) {
+      return res.json({
+        error: err
+      });
+    }
+    return res.json(results);
+  });
+};
 
 module.exports = {
   getAllProjects,
+  getMaxProjectId
 };

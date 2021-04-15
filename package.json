@@ -29,7 +29,7 @@
     "@okta/okta-auth-js": "^4.8.0",
     "axios": "^0.21.1",
     "bluebird": "^3.7.2",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^5.0.0-beta3",
     "draft-js": "^0.11.7",
     "express": "^4.17.1",
     "file-loader": "^6.2.0",

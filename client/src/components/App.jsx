@@ -40,7 +40,9 @@ class App extends React.Component {
       toRender: 'entry',
       module: 'entries',
       currentItem: {},
-      currentId: 1
+      currentId: 1,
+      nextEntryId: null,
+      nextProjectId: null
 
     };
 
@@ -48,6 +50,8 @@ class App extends React.Component {
     this.getEntries = this.getEntries.bind(this);
     this.getProjects = this.getProjects.bind(this);
     this.getLinks = this.getLinks.bind(this);
+    this.getnextEntryId = this.getnextEntryId.bind(this);
+    this.getnextProjectId = this.getnextProjectId.bind(this);
 
     this.onClickVideo = this.onClickVideo.bind(this);
     this.onClickEntry = this.onClickEntry.bind(this);
@@ -63,12 +67,16 @@ class App extends React.Component {
     requests.push(this.getVideos());
     requests.push(this.getEntries());
     requests.push(this.getProjects());
+    requests.push(this.getnextEntryId());
+    requests.push(this.getnextProjectId());
     Promise.all(requests)
       .then(results => {
         this.setState({
           videos: results[0].data,
           entries: results[1].data,
           projects: results[2].data,
+          nextEntryId: results[3].data[0].max +1,
+          nextProjectId: results[4].data[0].max +1,
           currentItem: results[1].data[0]
         }, () => {
           this.getLinks();
@@ -87,9 +95,19 @@ class App extends React.Component {
       .catch(err => console.log('ERROR GETTING JOURNAL ENTRIES: ', err));
   }
 
+  getnextEntryId() {
+    return axios.get('/api/entries/max')
+      .catch(err => console.log('ERROR GETTING LAST ENTRY ID', err));
+  }
+
   getProjects() {
     return axios.get('/api/projects')
       .catch(err => console.log('ERROR GETTING PROJECTS', err));
+  }
+
+  getnextProjectId() {
+    return axios.get('/api/projects/max')
+      .catch(err => console.log('ERROR GETTING LAST PROJECT ID', err));
   }
 
   getLinks() {
@@ -197,8 +215,9 @@ class App extends React.Component {
           <div className="listContainer"> {/* LIST CONTAINER START ======================================== */}
             <div style={{ marginTop: "-5px" }}></div>
             {this.state.noteOpen ? (<NoteForm noteOpen={this.state.noteOpen} currentId={this.state.currentId} module={this.state.module} onClickAddNote={this.onClickAddNote} />) : null}
+
+            {this.state.entryOpen ? (<EntryForm linkOpen={this.state.linkOpen} linked_ref_id={this.state.nextEntryId} onClickAddLink={this.onClickAddLink}  onClickAddEntry={this.onClickAddEntry}/>) : null}
             {this.state.linkOpen ? (<LinkForm getLinks={this.state.getLinks} onClickAddLink={this.onClickAddLink} />) : null}
-            {this.state.entryOpen ? (<EntryForm onClickAddLink={this.onClickAddLink}  onClickAddEntry={this.onClickAddEntry}/>) : null}
 
             {/* TESTING AREA ======================================== */}
             <div className="mytextdiv">
