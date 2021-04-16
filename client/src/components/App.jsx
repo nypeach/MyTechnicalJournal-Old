@@ -217,7 +217,7 @@ class App extends React.Component {
             {this.state.noteOpen ? (<NoteForm noteOpen={this.state.noteOpen} currentId={this.state.currentId} module={this.state.module} onClickAddNote={this.onClickAddNote} />) : null}
 
             {this.state.entryOpen ? (<EntryForm linkOpen={this.state.linkOpen} linked_ref_id={this.state.nextEntryId} onClickAddLink={this.onClickAddLink}  onClickAddEntry={this.onClickAddEntry}/>) : null}
-            {this.state.linkOpen ? (<LinkForm getLinks={this.state.getLinks} onClickAddLink={this.onClickAddLink} />) : null}
+            {/* {this.state.linkOpen ? (<LinkForm getLinks={this.state.getLinks} onClickAddLink={this.onClickAddLink} />) : null} */}
 
             {/* TESTING AREA ======================================== */}
             <div className="mytextdiv">

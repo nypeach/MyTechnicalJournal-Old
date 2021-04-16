@@ -393,6 +393,9 @@ border: solid black 0.5px;
     }
 }
 
+/* #outputText body {
+  font-family: Arial, Helvetica, sans-serif;
+} */
 #outputText p {
       margin-bottom: 10px;
       font-size: 1rem;

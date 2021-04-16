@@ -1,7 +1,7 @@
 const connection = require('../../db/index.js');
 
 const getAllEntries = (req, res) => {
-  const sql = `SELECT * FROM entries`;
+  const sql = `SELECT entries.id, DATE_FORMAT(entries.entry_date, "%Y-%m-%d") AS entry_date, entries.title, entries.project_id,entries.challenge, entries.action_taken, entries.lesson_learned, entries.keywords, entries.notes FROM mtj.entries;`;
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -41,23 +41,48 @@ const updateEntryNote = (req, res) => {
 }
 
 
+const addEntry = (req, res) => {
+    console.log('ENTRIES POST REQ.BODY', req.body);
+  const sql =
+  `INSERT INTO mtj.entries
+    (entry_date,
+      title,
+      project_id,
+      challenge,
+      action_taken,
+      lesson_learned,
+      keywords,
+      notes)
+  VALUES
+    (
+      now(),
+      "${req.body.title}",
+      ${req.body.project_id},
+      "${req.body.challenge}",
+      "${req.body.action_taken}",
+      "${req.body.lesson_learned}",
+      "${req.body.keywords}",
+      ${JSON.stringify(req.body.notes)});`
 
-// app.post('/journals', (req, res) => {
-//   console.log('REQ.BODY', req.body);
-//   let values = `now(), "${req.body.title}", ${1}, "${req.body.challenge}", "${req.body.action_taken}", "${req.body.lesson_learned}"`;
-//   console.log(values);
-//   db.insertQuery('journal', 'entry_date, title, project_id,challenge, action_taken, lesson_learned', values, (error, result) => {
-//     if (error) {
-//       res.status(400).json('Query Failed ' + error);
-//       return;
-//     }
-//     res.status(200).json(result);
-//   });
-// });
 
+
+
+  // const sql = `INSERT INTO entries ('entry_date', 'title', 'project_id', 'challenge', 'action_taken', 'lesson_learned', 'keywords', 'notes') VALUES (now(), "${req.body.title}", ${req.body.project_id}, "${req.body.challenge}", "${req.body.action_taken}", "${req.body.lesson_learned}",  "${req.body.keywords}", ${JSON.stringify(req.body.notes)});`
+  console.log('SQL STMT', sql);
+
+    connection.query(sql, (err, results) => {
+      if (err) {
+        return res.json({
+          error: err
+        });
+      }
+      return res.json(results);
+    });
+}
 
 module.exports = {
   getAllEntries,
   updateEntryNote,
-  getMaxEntryId
+  getMaxEntryId,
+  addEntry
 };

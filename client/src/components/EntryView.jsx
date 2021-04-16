@@ -39,8 +39,13 @@ class EntryView extends React.Component {
           <div className="journal">
             <div className="journalDiv"><i className="fas fa-edit fa-2x"></i></div>
             <div className="journalTitle" key={entry.id}>
-              {(new Date(entry.entry_date).toDateString().slice(4))} | {entry.title}
+              {entry.entry_date} | {entry.title}
             </div>
+
+            <div key={entry.pTitle} className="journalSubTitle">Project Name:
+            <div className="journalText">{entry.pTitle}</div>
+            </div>
+
             <div key={entry.challenge} className="journalSubTitle">Challenge:
             <div className="journalText">{entry.challenge}</div>
             </div>

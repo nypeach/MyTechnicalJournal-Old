@@ -49,8 +49,23 @@ const addLinks = (req, res) => {
 };
 
 
+const addMultipleLinks = (req, res) => {
+  console.log('ADD MULTIPLE LINKS REQ.BODY', req.body)
+  const sql = `INSERT INTO links(url_short, url_link, linked_ref, linked_ref_id) VALUES${req.body};`
+  console.log('SQL STMT', sql);
+  connection.query(sql, (err, results) => {
+    if (err) {
+      return res.json({
+        error: err
+      });
+    }
+    return res.json(results);
+  });
+}
+
 module.exports = {
   getAllLinks,
   getEntryLinks,
-  addLinks
+  addLinks,
+  addMultipleLinks
 };

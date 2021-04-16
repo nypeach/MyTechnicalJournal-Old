@@ -1,6 +1,10 @@
 import React from 'react';
 import marked from 'marked';
-import NoteFormEdit from './NoteFormEdit';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import hljs from 'highlight.js'
+import 'highlight.js/styles/darcula.css'
+import Highlighter from './Highlighter'
 
 class NoteView extends React.Component {
   constructor(props) {
@@ -12,6 +16,7 @@ class NoteView extends React.Component {
   }
 
   render() {
+    console.log('this.props.currentItem.notes', this.props.currentItem.notes)
 
     return (
       <div className="journalSubTitle journalNotes">Notes:

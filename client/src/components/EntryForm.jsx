@@ -7,6 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/darcula.css';
 import LinksList from './LinksList';
+import LinkForm from './LinkForm';
 
 const customStyles = {
   control: (provided, state) => ({
@@ -149,9 +150,11 @@ class EntryForm extends React.Component {
       challenge: '',
       action: '',
       lessons: '',
-      notes: '',
+      notes: null,
       links: [],
-      id: null
+      id: null,
+      urlLink: '',
+      urlShort: ''
     };
     this.getKeywords = this.getKeywords.bind(this);
     this.getProjects = this.getProjects.bind(this);
@@ -161,6 +164,9 @@ class EntryForm extends React.Component {
     this.handleKeywordChange = this.handleKeywordChange.bind(this);
     this.handleNoteChange = this.handleNoteChange.bind(this);
     this.handleSubmitEntry = this.handleSubmitEntry.bind(this);
+    this.handleLinksChangeUrl = this.handleLinksChangeUrl.bind(this);
+    this.handleLinksChangeShort = this.handleLinksChangeShort.bind(this);
+    this.handleOnClickAddLink = this.handleOnClickAddLink.bind(this);
 
   }
 
@@ -190,16 +196,28 @@ class EntryForm extends React.Component {
       .catch(err => console.log('ERROR GETTING KEYWORDS ENTRIES', err));
   }
 
-  getLinks() {
-    return axios.get(`/api/entries/${this.props.nextEntryId}/links`, { params: { linked_ref_id: this.props.nextEntryId} })
-      .then(res => {
-        console.log('RES FOR GET LINKS', res)
-        this.setState({ links: res.data });
-      })
-      .catch(err => console.log('ERROR GETTING LINKS ENTRIES: ', err));
+  // getLinks() {
+  //   return axios.get(`/api/entries/${this.props.nextEntryId}/links`, { params: { linked_ref_id: this.props.nextEntryId} })
+  //     .then(res => {
+  //       console.log('RES FOR GET LINKS', res)
+  //       this.setState({ links: res.data });
+  //     })
+  //     .catch(err => console.log('ERROR GETTING LINKS ENTRIES: ', err));
+  // }
+
+  handleLinksChangeUrl(urlLink) {
+    this.setState({ urlLink});
   }
-
-
+  handleLinksChangeShort(urlShort) {
+    this.setState({ urlShort });
+  }
+  handleOnClickAddLink() {
+    const tempLinks = this.state.links;
+    const linksCount = this.state.links.length + 1;
+    tempLinks.push({ 'id': linksCount, 'url_short': this.state.urlShort, 'url_link': this.state.urlLink, 'linked_ref': 'entries', 'linked_ref_id': this.props.linked_ref_id})
+    this.setState({urlLink: '', urlShort: ''})
+    this.props.onClickAddLink();
+  }
 
   handleInputChange(event) {
     const target = event.target;
@@ -235,6 +253,8 @@ class EntryForm extends React.Component {
   handleSubmitEntry(event) {
 
     event.preventDefault();
+    console.log('CHECKING STATE LINKS',this.state.links)
+    const newLinks = this.state.links.map(item => `('${item.url_short}','${item.url_link}', 'entries',${item.linked_ref_id})`)
     var body = {
       "title": this.state.title,
       "project_id": this.state.pid,
@@ -244,19 +264,18 @@ class EntryForm extends React.Component {
       "keywords": this.state.keywords,
       "newKeywords": this.state.newKeywords,
       "notes": this.state.notes,
-      "links": this.state.links
+      "links": newLinks
     };
     console.log(body);
-    return axios.post('/api/keywords', body)
-      .then(() => {
-        alert('Keyword has been Added!');
-      },
-        () => {
-          this.props.onClickAddKeyword()
-        })
-      .then(() => {
-        this.setState({ keyword: '', id: '' })
+    axios.post('/api/keywords/multiple', body.newKeywords)
+      .catch(err => {
+        console.log(err);
       })
+    axios.post('/api/links/multiple', body.links)
+      .catch(err => {
+        console.log(err);
+      })
+    axios.post('/api/entries', body)
       .catch(err => {
         console.log(err);
       })
@@ -269,6 +288,8 @@ class EntryForm extends React.Component {
 
   render() {
     console.log('STATE OF THE STATE', this.state)
+    const urlLink = this.state.urlLink;
+    const links = this.state.links;
     return (
 
       <div className="form-modal-wrapper">
@@ -295,6 +316,10 @@ class EntryForm extends React.Component {
                 styles={customStyles}
                 onChange={this.handleKeywordChange}
               />
+            </div>
+            <div className="wrapper">
+              <div className="form-modal-label-input">Title </div>
+              <input className="form-modal-input" name="title" type="text" value={this.state.title} onChange={this.handleInputChange}></input>
             </div>
 
             <div className="wrapper">
@@ -333,15 +358,16 @@ class EntryForm extends React.Component {
             </div>
 
             <div>
-              <LinksList
-                onClickAddLink={this.props.onClickAddLink}
-                linked_ref='entries'
-                linked_ref_id={this.props.nextEntryId}
-              />
+              <ul className="no-bullets">
+                {links.map(link => (
+                  <li key={link.id}><a href={link.url_link} target="_blank">{link.url_short}</a></li>
+                ))}
+              </ul>
             </div>
 
           </form>
           <div>
+            {this.props.linkOpen ? (<LinkForm urlLink={this.state.urlLink} urlShort={this.state.urlShort} handleLinksChangeUrl={this.handleLinksChangeUrl} handleLinksChangeShort={this.handleLinksChangeShort} getLinks={this.state.getLinks} handleOnClickAddLink={this.handleOnClickAddLink} linkOpen={this.props.linkOpen} onClickAddLink={this.props.onClickAddLink} />) : null}
             <button onClick={this.props.onClickAddLink}>ADD LINKS</button> <button onClick={this.handleSubmitEntry}>ADD JOURNAL ENTRY</button>
           </div>
         </div>
