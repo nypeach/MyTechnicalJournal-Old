@@ -5,20 +5,27 @@ import github from '../../assets/github.svg';
 import linkedin from '../../assets/linkedin.svg';
 import slack from '../../assets/slack.svg';
 
-import VideosList from './VideosList.jsx';
 import EntryList from './EntryList.jsx';
+import ErrorList from './ErrorList.jsx';
+import VideosList from './VideosList.jsx';
 import ProjectList from './ProjectList.jsx';
+import NoteList from './NoteList.jsx';
 
-import VideoView from './VideoView.jsx';
 import EntryView from './EntryView.jsx';
+import ErrorView from './ErrorView.jsx';
+import VideoView from './VideoView.jsx';
 import ProjectView from './ProjectView.jsx';
 import NoteView from './NoteView.jsx';
 
 import EntryForm from './EntryForm.jsx';
+import ErrorForm from './ErrorForm.jsx';
+import VideoForm from './VideoForm.jsx';
+import ProjectForm from './ProjectForm.jsx';
+import NoteForm from './NoteForm';
 import LinkForm from './LinkForm.jsx';
 import Keywords from './Keywords.jsx';
 import KeywordsForm from './KeywordsForm.jsx';
-import NoteForm from './NoteForm';
+
 
 import ModulesSelect from './ModulesSelect';
 
@@ -30,54 +37,84 @@ class App extends React.Component {
 
     this.state = {
       entries: [],
-      projects: [],
+      errors: [],
       videos: [],
+      projects: [],
+      notes: [],
       links: [],
       keywordOpen: false,
-      noteOpen: false,
       linkOpen: false,
       entryOpen: false,
+      errorOpen: false,
+      videoOpen: false,
+      projectOpen: false,
+      noteOpen: false,
+      nextEntryId: null,
+      nextErrorId: null,
+      nextProjectId: null,
       toRender: 'entry',
       module: 'entries',
       currentItem: {},
       currentId: 1,
-      nextEntryId: null,
-      nextProjectId: null
 
     };
 
-    this.getVideos = this.getVideos.bind(this);
     this.getEntries = this.getEntries.bind(this);
+    this.getErrors = this.getErrors.bind(this);
+    this.getVideos = this.getVideos.bind(this);
     this.getProjects = this.getProjects.bind(this);
+    this.getNotes = this.getNotes.bind(this);
     this.getLinks = this.getLinks.bind(this);
     this.getnextEntryId = this.getnextEntryId.bind(this);
+    this.getnextErrorId = this.getnextErrorId.bind(this);
     this.getnextProjectId = this.getnextProjectId.bind(this);
 
-    this.onClickVideo = this.onClickVideo.bind(this);
     this.onClickEntry = this.onClickEntry.bind(this);
+    this.onClickError = this.onClickError.bind(this);
+    this.onClickVideo = this.onClickVideo.bind(this);
     this.onClickProject = this.onClickProject.bind(this);
+    this.onClickNote = this.onClickNote.bind(this);
 
+
+    this.onClickAddEntry = this.onClickAddEntry.bind(this);
+    this.onClickAddError = this.onClickAddError.bind(this);
+    this.onClickAddVideo = this.onClickAddVideo.bind(this);
+    this.onClickAddProject = this.onClickAddProject.bind(this);
     this.onClickAddKeyword = this.onClickAddKeyword.bind(this);
     this.onClickAddNote = this.onClickAddNote.bind(this);
     this.onClickAddLink = this.onClickAddLink.bind(this);
-    this.onClickAddEntry = this.onClickAddEntry.bind(this);
+
+    this.onUpdateEntryForm = this.onUpdateEntryForm.bind(this);
+    this.onUpdateErrorForm = this.onUpdateErrorForm.bind(this);
+    this.onUpdateVideoForm = this.onUpdateVideoForm.bind(this);
+    this.onUpdateProjectForm = this.onUpdateProjectForm.bind(this);
+    this.onUpdateNoteForm = this.onUpdateNoteForm.bind(this);
+
+
+
   }
   componentDidMount() {
     let requests = [];
-    requests.push(this.getVideos());
     requests.push(this.getEntries());
+    requests.push(this.getErrors());
+    requests.push(this.getVideos());
     requests.push(this.getProjects());
+    requests.push(this.getNotes());
     requests.push(this.getnextEntryId());
+    requests.push(this.getnextErrorId());
     requests.push(this.getnextProjectId());
     Promise.all(requests)
       .then(results => {
         this.setState({
-          videos: results[0].data,
-          entries: results[1].data,
-          projects: results[2].data,
-          nextEntryId: results[3].data[0].max +1,
-          nextProjectId: results[4].data[0].max +1,
-          currentItem: results[1].data[0]
+          entries: results[0].data,
+          errors: results[1].data,
+          videos: results[2].data,
+          projects: results[3].data,
+          notes: results[4].data,
+          nextEntryId: results[5].data[0].max + 1,
+          nextErrorId: results[6].data[0].max + 1,
+          nextProjectId: results[7].data[0].max + 1,
+          currentItem: results[0].data[0]
         }, () => {
           this.getLinks();
         })
@@ -85,26 +122,34 @@ class App extends React.Component {
   }
 
   // GET DATA ======================================================================== //
-  getVideos() {
-    return axios.get('/api/videos')
-      .catch(err => console.log('ERROR GETTING VIDEOS ENTRIES: ', err));
-  }
-
   getEntries() {
     return axios.get('/api/entries')
       .catch(err => console.log('ERROR GETTING JOURNAL ENTRIES: ', err));
   }
-
-  getnextEntryId() {
-    return axios.get('/api/entries/max')
-      .catch(err => console.log('ERROR GETTING LAST ENTRY ID', err));
+  getErrors() {
+    return axios.get('/api/errors')
+      .catch(err => console.log('ERROR GETTING ERRORS: ', err));
   }
-
+  getVideos() {
+    return axios.get('/api/videos')
+      .catch(err => console.log('ERROR GETTING VIDEOS ENTRIES: ', err));
+  }
   getProjects() {
     return axios.get('/api/projects')
       .catch(err => console.log('ERROR GETTING PROJECTS', err));
   }
-
+  getNotes() {
+    return axios.get('/api/notes')
+      .catch(err => console.log('ERROR GETTING PROJECTS', err));
+  }
+  getnextEntryId() {
+    return axios.get('/api/entries/max')
+      .catch(err => console.log('ERROR GETTING LAST ENTRY ID', err));
+  }
+  getnextErrorId() {
+    return axios.get('/api/errors/max')
+      .catch(err => console.log('ERROR GETTING LAST ENTRY ID', err));
+  }
   getnextProjectId() {
     return axios.get('/api/projects/max')
       .catch(err => console.log('ERROR GETTING LAST PROJECT ID', err));
@@ -120,17 +165,7 @@ class App extends React.Component {
   }
 
   // CLICK HANDLERS ==================================================================== //
-  onClickVideo(video) {
-    this.setState({
-      currentItem: video,
-      toRender: 'video',
-      module: 'videos',
-      currentId: video.id
-    });
-  }
-
   onClickEntry(entry) {
-    // console.log('CLICKED');
     this.setState({
       currentItem: entry,
       toRender: 'entry',
@@ -141,34 +176,150 @@ class App extends React.Component {
     });
   }
 
-  onClickProject(project) {
-    // console.log('CLICKED');
+  onClickError(error) {
     this.setState({
-      currentItem: project,
-      toRender: 'project',
-      module: 'projects'
+      currentItem: error,
+      toRender: 'error',
+      module: 'errors',
+      currentId: error.id
     }, () => {
       this.getLinks();
     });
   }
 
-  onClickAddKeyword() {
-    this.setState({ keywordOpen: !this.state.keywordOpen });
+  onClickVideo(video) {
+    this.setState({
+      currentItem: video,
+      toRender: 'video',
+      module: 'videos',
+      currentId: video.id
+    });
   }
 
-  onClickAddNote() {
-    this.setState({ noteOpen: !this.state.noteOpen });
+  onClickProject(project) {
+    this.setState({
+      currentItem: project,
+      toRender: 'project',
+      module: 'projects',
+      currentId: project.id
+    })
   }
 
-  onClickAddLink() {
-    this.setState({ linkOpen: !this.state.linkOpen });
+  onClickNote(note) {
+    this.setState({
+      currentItem: note,
+      toRender: 'note',
+      module: 'notes',
+      currentId: note.id
+    })
   }
 
   onClickAddEntry() {
     this.setState({ entryOpen: !this.state.entryOpen });
   }
+  onClickAddError() {
+    this.setState({ errorOpen: !this.state.errorOpen });
+  }
+  onClickAddVideo() {
+    this.setState({ videoOpen: !this.state.videoOpen });
+  }
+  onClickAddProject() {
+    this.setState({ projectOpen: !this.state.projectOpen });
+  }
+  onClickAddNote() {
+    this.setState({ noteOpen: !this.state.noteOpen });
+  }
+  onClickAddKeyword() {
+    this.setState({ keywordOpen: !this.state.keywordOpen });
+  }
+  onClickAddLink() {
+    this.setState({ linkOpen: !this.state.linkOpen });
+  }
 
+  onUpdateEntryForm() {
+    return axios.get('/api/entries')
+      .then(results => {
+        console.log('RESULTS', results)
+        let length = results.data.length
+        this.setState({
+          entries: results.data,
+          currentItem: results.data[length - 1],
+          toRender: 'entry',
+          module: 'entries',
+          currentId: results.data[length - 1].id
+        }, () => {
+          this.getLinks();
+        })
+      })
+  }
 
+  onUpdateErrorForm() {
+    return axios.get('/api/errors')
+      .then(results => {
+        console.log('RESULTS', results)
+        let length = results.data.length
+        this.setState({
+          errors: results.data,
+          currentItem: results.data[length - 1],
+          toRender: 'error',
+          module: 'errors',
+          currentId: results.data[length - 1].id
+        }, () => {
+          this.getLinks();
+        })
+      })
+  }
+
+  onUpdateVideoForm() {
+    return axios.get('/api/videos')
+      .then(results => {
+        console.log('RESULTS', results)
+        let length = results.data.length
+        this.setState({
+          videos: results.data,
+          currentItem: results.data[length - 1],
+          toRender: 'video',
+          module: 'videos',
+          currentId: results.data[length - 1].id
+        }, () => {
+          this.getLinks();
+        })
+      })
+  }
+
+  onUpdateProjectForm() {
+    return axios.get('/api/projects')
+      .then(results => {
+        console.log('RESULTS', results)
+        let length = results.data.length
+        this.setState({
+          projects: results.data,
+          currentItem: results.data[length - 1],
+          toRender: 'project',
+          module: 'projects',
+          currentId: results.data[length - 1].id
+        }, () => {
+          this.getLinks();
+        })
+      })
+  }
+
+  onUpdateNoteForm() {
+    return axios.get('/api/notes')
+      .then(results => {
+        console.log('RESULTS', results)
+        let length = results.data.length
+        this.setState({
+          notes: results.data,
+          currentItem: results.data[length - 1],
+          toRender: 'note',
+          module: 'notes',
+          currentId: results.data[length - 1].id
+        }, () => {
+          this.getLinks();
+        })
+      })
+  }
 
   render() {
 
@@ -189,20 +340,20 @@ class App extends React.Component {
 
           <div className="sidebar-nav"> {/* SIDEBAR START======================================== */}
             <div className="sidebarText"></div>
-            <i className="fas fa-book-open fa-3x" onClick={this.onClickAddEntry}></i>
+            <i className="fas fa-book-open fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddEntry}></i>
             <div className="sidebarText">Journal Entries</div>
-            <i className="fas fa-exclamation-triangle fa-3x"></i>
+            <i className="fas fa-exclamation-triangle fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddError} ></i>
             <div className="sidebarText">Errors Messages</div>
-            <i className="fab fa-youtube fa-3x"></i>
+            <i className="fab fa-youtube fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddVideo}></i>
             <div className="sidebarText">Videos</div>
-            <i className="fas fa-tasks fa-3x"></i>
+            <i className="fas fa-tasks fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddProject}></i>
             <div className="sidebarText">Projects</div>
-            <i className="fas fa-file-code fa-3x"></i>
-            <div className="sidebarText">Tutorials</div>
-            <i className="fas fa-file-contract fa-3x" onClick={this.onClickAddNote}></i>
+            <i className="fas fa-file-contract fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddNote}></i>
             <div className="sidebarText">Notes</div>
-            <i className="fas fa-link fa-3x" onClick={this.onClickAddLink}></i>
-            <div className="sidebarText">Links</div>
+            <i className="fas fa-file-code fa-3x future" style={{ cursor: "pointer" }} ></i>
+            <div className="sidebarText future">Tutorials</div>
+            {/* <i className="fas fa-link fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddLink}></i>
+            <div className="sidebarText">Links</div> */}
 
           </div> {/* SIDEBAR END START ========================================== */}
 
@@ -214,32 +365,43 @@ class App extends React.Component {
 
           <div className="listContainer"> {/* LIST CONTAINER START ======================================== */}
             <div style={{ marginTop: "-5px" }}></div>
-            {this.state.noteOpen ? (<NoteForm noteOpen={this.state.noteOpen} currentId={this.state.currentId} module={this.state.module} onClickAddNote={this.onClickAddNote} />) : null}
 
-            {this.state.entryOpen ? (<EntryForm linkOpen={this.state.linkOpen} linked_ref_id={this.state.nextEntryId} onClickAddLink={this.onClickAddLink}  onClickAddEntry={this.onClickAddEntry}/>) : null}
-            {/* {this.state.linkOpen ? (<LinkForm getLinks={this.state.getLinks} onClickAddLink={this.onClickAddLink} />) : null} */}
+            {this.state.entryOpen ? (<EntryForm linkOpen={this.state.linkOpen} linked_ref_id={this.state.nextEntryId} onClickAddLink={this.onClickAddLink} onUpdateEntryForm={this.onUpdateEntryForm} onClickAddEntry={this.onClickAddEntry} />) : null}
 
-            {/* TESTING AREA ======================================== */}
-            <div className="mytextdiv">
-              <div className="mytexttitle">
+            {this.state.errorOpen ? (<ErrorForm linkOpen={this.state.linkOpen} linked_ref_id={this.state.nextErrorId} onClickAddLink={this.onClickAddLink} onUpdateErrorForm={this.onUpdateErrorForm} onClickAddError={this.onClickAddError} />) : null}
 
-              </div>
-              <div className="divider"></div>
-            </div>
+            {this.state.videoOpen ? (<VideoForm onUpdateVideoForm={this.onUpdateVideoForm} onClickAddVideo={this.onClickAddVideo} />) : null}
 
+            {this.state.projectOpen ? (<ProjectForm onUpdateProjectForm={this.onUpdateProjectForm} onClickAddProject={this.onClickAddProject} />) : null}
+
+            {this.state.noteOpen ? (<NoteForm onUpdateNoteForm={this.onUpdateNoteForm} noteOpen={this.state.noteOpen} currentId={this.state.currentId} module={this.state.module} onClickAddNote={this.onClickAddNote} />) : null}
 
             <div className="mytextdiv">
-              <div className="mytexttitle">
-                Add New Keywords (Will Delete)
-            </div>
+              <div className="mytexttitle">Journal Entries</div>
               <div className="divider"></div>
             </div>
+            <EntryList
+              entries={this.state.entries}
+              onClickEntry={this.onClickEntry}
+              getEntries={this.getEntries}
+              links={this.state.links}
+            />
+
+            <div className="mytextdiv">
+              <div className="mytexttitle">Error Messages</div>
+              <div className="divider"></div>
+            </div>
+            <ErrorList
+              errors={this.state.errors}
+              onClickError={this.onClickError}
+              getErrors={this.getErrors}
+              links={this.state.links}
+            />
 
             <div className="mytextdiv">
               <div className="mytexttitle">Videos</div>
               <div className="divider"></div>
             </div>
-
             <VideosList
               // key={this.state.videos}
               videos={this.state.videos}
@@ -249,208 +411,52 @@ class App extends React.Component {
             />
 
             <div className="mytextdiv">
-              <div className="mytexttitle">Journal Entries</div>
-              <div className="divider"></div>
-            </div>
-
-            <EntryList
-              // key={this.state.listItems}
-              entries={this.state.entries}
-              onClickEntry={this.onClickEntry}
-              getEntries={this.getEntries}
-              links={this.state.links}
-            />
-
-
-
-            <div className="mytextdiv">
               <div className="mytexttitle">Projects</div>
               <div className="divider"></div>
             </div>
-
             <ProjectList
-              // key={this.state.listItems}
               projects={this.state.projects}
               onClickProject={this.onClickProject}
               getProjects={this.getProjects}
-            // links={this.state.links}
             />
 
-
-
-
-
-            {/*
-
-
-
-
-
-          <div className="mytextdiv">
-            <div className="mytexttitle">
-              Journal Entries
+            <div className="mytextdiv">
+              <div className="mytexttitle">Notes</div>
+              <div className="divider"></div>
             </div>
-            <div className="divider"></div>
-          </div>
-          <JournalEntryList
-            // key={this.state.listItems}
-            listItems={this.state.listItems}
-            currentItem={this.state.currentItem}
-            isOpen={this.state.isOpen}
-            onClickJournal={this.onClickJournal}
-          />
-
-          <div className="mytextdiv">
-            <div className="mytexttitle">
-              Projects
-            </div>
-            <div className="divider"></div>
-          </div>
-          <ProjectList
-            // key={this.state.projects}
-            projects={this.state.projects}
-            currentProject={this.state.currentProjects}
-            projectOpen={this.state.projectOpen}
-            onClickProject={this.onClickProject}
-          />
- */}
-
+            < NoteList
+              notes={this.state.notes}
+              onClickNote={this.onClickNote}
+              getNotes={this.getNotes}
+            />
 
             <div className="mytextdiv">
-              <div className="mytexttitle">
-                Error Messages
-            </div>
+              <div className="mytexttitle">Tutorials</div>
               <div className="divider"></div>
             </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Notes
+            <div>
+              Tutorials will go Here!!
+              Why are these showing
             </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Tutorials
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Links
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">
-                Journal Entries
-            </div>
-              <div className="divider"></div>
-            </div>
+            {/* <Tutorials /> */}
 
+            {/* <div className="mytextdiv">
+              <div className="mytexttitle">Links</div>
+              <div className="divider"></div>
+            </div>
+            Links will go Here!! */}
+            {/* <Links /> */}
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
           </div>  {/* LIST CONTAINER END ======================================== */}
 
           {/* DISPLAY CONTAINER START ======================================== */}
 
           <div>
-            {this.state.toRender === 'video' ?
-              <VideoView
-                key={this.state.currentItem.id}
-                currentItem={this.state.currentItem}
-                videos={this.state.videos}
-                getVideos={this.getVideos}
-                onClickVideo={this.onClickVideo}
-              />
-              : null}
-          </div>
-
-          <div>
             {this.state.toRender === 'entry' ?
               <EntryView
-                // key={this.state.currentItem.id}
                 currentItem={this.state.currentItem}
                 entries={this.state.entries}
                 getEntries={this.getEntries}
@@ -460,6 +466,34 @@ class App extends React.Component {
                 onClickAddLink={this.onClickAddLink}
                 getLinks={this.getLinks}
                 onClickAddNote={this.onClickAddNote}
+              />
+              : null}
+          </div>
+
+          <div>
+            {this.state.toRender === 'error' ?
+              <ErrorView
+                currentItem={this.state.currentItem}
+                errors={this.state.errors}
+                getErrors={this.getErrors}
+                onClickError={this.onClickError}
+                links={this.state.links}
+                linksOpen={this.state.linkOpen}
+                onClickAddLink={this.onClickAddLink}
+                getLinks={this.getLinks}
+                onClickAddNote={this.onClickAddNote}
+              />
+              : null}
+          </div>
+
+          <div>
+            {this.state.toRender === 'video' ?
+              <VideoView
+                key={this.state.currentItem.id}
+                currentItem={this.state.currentItem}
+                videos={this.state.videos}
+                getVideos={this.getVideos}
+                onClickVideo={this.onClickVideo}
               />
               : null}
           </div>
@@ -475,8 +509,19 @@ class App extends React.Component {
               />
               : null}
           </div>
-          {/* DISPLAY CONTAINER END ======================================== */}
 
+          <div>
+            {this.state.toRender === 'note' ?
+              <NoteView
+                key={this.state.currentItem.id}
+                currentItem={this.state.currentItem}
+                notes={this.state.notes}
+                getNotes={this.getNotes}
+                onClickNote={this.onClickNote}
+              />
+              : null}
+          </div>
+          {/* DISPLAY CONTAINER END ======================================== */}
 
         </div>
 

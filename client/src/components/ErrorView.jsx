@@ -15,7 +15,7 @@ hljs.configure({
 })
 
 
-class EntryView extends React.Component {
+class ErrorView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -36,11 +36,11 @@ class EntryView extends React.Component {
 
   render() {
     // console.log('CURRENT ITEM ID', this.state.linked)
-    if (this.props.entries.length === 0) {
+    if (this.props.errors.length === 0) {
       return '';
 
     } else {
-      const entry = this.props.currentItem;
+      const error = this.props.currentItem;
       return (
 
         <div className="journalContainer">
@@ -48,17 +48,15 @@ class EntryView extends React.Component {
             <div className="journalDiv"><i className="fas fa-edit fa-2x"></i></div>
 
             <div className="journalTitle">
-              {entry.entry_date}: {entry.title}
+              {error.error_source} | {error.error_code}
             </div>
 
-            <div className="journalSubTitle">PROJECT NAME:
-            <div className="journalText">{entry.project_name}</div>
+            <div className="journalSubTitle">ERROR TEXT:
+            <div className="journalText">{error.error_text}</div>
             </div>
 
-            <div className="journalSubTitle">CHALLENGE:
-            <div className="journalText">{entry.challenge}</div>
-            </div>
-            <div className="journalSubTitle">LESSONS LEARNED:
+
+            <div className="journalSubTitle">ERROR NOTES:
 
                 {/* <div className="noteDiv"><i className="fas fa-edit" onClick={this.props.onClickNoteEdit}></i></div> */}
                 <div id="outputText" dangerouslySetInnerHTML={{ __html: this.props.currentItem.notes }}>
@@ -82,4 +80,4 @@ class EntryView extends React.Component {
 
 }
 
-export default EntryView;
+export default ErrorView;

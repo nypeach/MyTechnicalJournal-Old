@@ -3,7 +3,7 @@ import axios from 'axios';
 import EntryView from './EntryView';
 import ProjectList from './ProjectList';
 
-class JournalEntryList extends React.Component {
+class EntryList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,4 +25,4 @@ class JournalEntryList extends React.Component {
     );
   }
 };
-export default JournalEntryList;
+export default EntryList;

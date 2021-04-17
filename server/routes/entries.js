@@ -1,7 +1,7 @@
 const connection = require('../../db/index.js');
 
 const getAllEntries = (req, res) => {
-  const sql = `SELECT entries.id, DATE_FORMAT(entries.entry_date, "%Y-%m-%d") AS entry_date, entries.title, entries.project_id,entries.challenge, entries.action_taken, entries.lesson_learned, entries.keywords, entries.notes FROM mtj.entries;`;
+  const sql = `SELECT entries.id, DATE_FORMAT(entries.entry_date, "%Y-%m-%d") AS entry_date, entries.title, entries.project_id,entries.challenge, entries.action_taken, entries.lesson_learned, entries.keywords, entries.notes, entries.project_name FROM mtj.entries;`;
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -52,7 +52,8 @@ const addEntry = (req, res) => {
       action_taken,
       lesson_learned,
       keywords,
-      notes)
+      notes,
+      project_name)
   VALUES
     (
       now(),
@@ -62,12 +63,10 @@ const addEntry = (req, res) => {
       "${req.body.action_taken}",
       "${req.body.lesson_learned}",
       "${req.body.keywords}",
-      ${JSON.stringify(req.body.notes)});`
+      ${JSON.stringify(req.body.notes)},
+      "${req.body.project_name}");`
 
 
-
-
-  // const sql = `INSERT INTO entries ('entry_date', 'title', 'project_id', 'challenge', 'action_taken', 'lesson_learned', 'keywords', 'notes') VALUES (now(), "${req.body.title}", ${req.body.project_id}, "${req.body.challenge}", "${req.body.action_taken}", "${req.body.lesson_learned}",  "${req.body.keywords}", ${JSON.stringify(req.body.notes)});`
   console.log('SQL STMT', sql);
 
     connection.query(sql, (err, results) => {

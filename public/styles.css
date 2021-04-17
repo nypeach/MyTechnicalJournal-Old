@@ -9,6 +9,7 @@ body {
   letter-spacing: 0.5px;
   font-size: 12px;
 }
+
 header {
   display: flex;
   justify-content: space-between;
@@ -54,6 +55,9 @@ header {
   font-size: 16px;
   margin-bottom: 20px;
   margin-top: 5px;
+}
+.future {
+  color: lightgray;
 }
 /* TOP SEARCH SECTION ========================================================================== */
 .top-search {
@@ -208,6 +212,7 @@ a:active {
  font-size: 1.3rem;
  color: #D8315B;
  margin-bottom: 12px;
+ font-weight: 500;
 }
 .journalSubTitle .journalText {
   color: #051538;
@@ -221,9 +226,12 @@ font-weight: 500;
 }
 .journalText {
   align-items: center;
-  font-size: 1.05rem;
+  font-size: 1.10rem;
   font-weight: 400;
   margin-bottom: 12px;
+}
+.stack {
+   color: #D8315B;
 }
 .journalDiv {
   cursor: pointer;
@@ -385,17 +393,15 @@ min-height: 36px;
 border: solid black 0.5px;
 }
 
-#outputText {
+/* #outputText {
 
   all: initial;
     * {
         all: unset;
     }
-}
-
-/* #outputText body {
-  font-family: Arial, Helvetica, sans-serif;
 } */
+
+
 #outputText p {
       margin-bottom: 10px;
       font-size: 1rem;

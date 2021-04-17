@@ -9,25 +9,37 @@ import Highlighter from './Highlighter'
 class NoteView extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
     }
-
   }
 
   render() {
-    console.log('this.props.currentItem.notes', this.props.currentItem.notes)
+    if (this.props.currentItem === undefined) {
+      return '';
 
-    return (
-      <div className="journalSubTitle journalNotes">Notes:
-        <div id="outputContainer">
-          <div className="noteDiv"><i className="fas fa-edit" onClick={this.props.onClickNoteEdit}></i></div>
-          <div id="outputText" dangerouslySetInnerHTML={{__html: this.props.currentItem.notes}}></div>
+    } else {
+      const note = this.props.currentItem;
+
+      return (
+
+        <div className="journalContainer">
+          <div className="journal">
+            <div className="journalDiv"><i className="fas fa-edit fa-2x"></i></div>
+
+            <div className="journalTitle">
+              {note.title}
+            </div>
+            {/* <div className="noteDiv"><i className="fas fa-edit" onClick={this.props.onClickNoteEdit}></i></div> */}
+            <div id="outputText" dangerouslySetInnerHTML={{ __html: this.props.currentItem.notes }}>
+            </div>
+
+            {this.state.noteEditOpen ? (<NoteFormEdit placeholder={this.props.currentItem.notes} onClickNoteEdit={this.onClickNoteEdit} />) : null}
+
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
-
 }
 
 export default NoteView;

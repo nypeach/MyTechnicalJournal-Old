@@ -31,6 +31,23 @@ const getEntryLinks = (req, res) => {
 
 };
 
+const getErrorLinks = (req, res) => {
+  console.log('REQ PARAMETERS', req.params)
+  const pid = req.params.linked_ref_id;
+  const sql = `SELECT * FROM links WHERE linked_ref = 'errors' AND linked_ref_id = ${pid};`
+  console.log('GET LINKS SQL', sql)
+
+  connection.query(sql, [pid], (err, results) => {
+    if (err) {
+      return res.json({
+        error: err
+      });
+    }
+    return res.json(results);
+  });
+
+};
+
 const addLinks = (req, res) => {
   const data = req.body;
   console.log('ADD LINKS DATA', data);
@@ -66,6 +83,7 @@ const addMultipleLinks = (req, res) => {
 module.exports = {
   getAllLinks,
   getEntryLinks,
+  getErrorLinks,
   addLinks,
   addMultipleLinks
 };

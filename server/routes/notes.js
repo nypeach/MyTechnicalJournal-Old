@@ -34,11 +34,11 @@ const getEntryNotes = (req, res) => {
 const addNotes = (req, res) => {
   const data = req.body;
   console.log('ADD NOTES DATA', data);
-  const sql = `INSERT INTO notes(note, note_ref, note_ref_id) VALUES('${data.note}', '${data.note_ref}', ${data.note_ref_id});`
+  const sql = `INSERT INTO notes(title, keywords, notes) VALUES("${data.title}", "${data.keywords}", ${JSON.stringify(req.body.notes)});`
+
   console.log('SQL STMT', sql);
-  console.log('REQ PARAMETERS', req.params)
-  const pid = req.params.note_ref_id;
-  connection.query(sql, [pid], (err, results) => {
+
+  connection.query(sql, (err, results) => {
     if (err) {
       return res.json({
         error: err

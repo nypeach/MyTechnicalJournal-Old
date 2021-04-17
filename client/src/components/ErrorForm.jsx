@@ -136,34 +136,26 @@ const formats = [
   'align',
 ];
 
-class EntryForm extends React.Component {
+class ErrorForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       keywordOptions: [],
-      projectOptions: [],
       keywords: [],
       newKeywords: [],
-      pid: null,
-      pname: '',
-      title: '',
-      challenge: '',
-      action: '',
-      lessons: '',
+      errorCode: '',
+      errorText: '',
+      errorSource: '',
       notes: null,
-      links: [],
-      id: null,
-      urlLink: '',
-      urlShort: ''
+      links: []
     };
     this.getKeywords = this.getKeywords.bind(this);
-    this.getProjects = this.getProjects.bind(this);
     this.handleSelectKeyword = this.handleSelectKeyword.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleProjectChange = this.handleProjectChange.bind(this);
     this.handleKeywordChange = this.handleKeywordChange.bind(this);
     this.handleNoteChange = this.handleNoteChange.bind(this);
-    this.handleSubmitEntry = this.handleSubmitEntry.bind(this);
+    this.handleErrorSourceChange = this.handleErrorSourceChange.bind(this);
+    this.handleSubmitError = this.handleSubmitError.bind(this);
     this.handleLinksChangeUrl = this.handleLinksChangeUrl.bind(this);
     this.handleLinksChangeShort = this.handleLinksChangeShort.bind(this);
     this.handleOnClickAddLink = this.handleOnClickAddLink.bind(this);
@@ -183,19 +175,6 @@ class EntryForm extends React.Component {
       .catch(err => console.log('ERROR GETTING KEYWORDS ENTRIES', err));
   }
 
-  getProjects() {
-    axios.get('/api/projects')
-      .then(res => {
-        // console.log(res.data)
-        const projectOptions = res.data.map(d => ({
-          "value": d.id,
-          "label": d.title
-        }))
-        this.setState({ projectOptions: projectOptions });
-      })
-      .catch(err => console.log('ERROR GETTING KEYWORDS ENTRIES', err));
-  }
-
 
   handleLinksChangeUrl(urlLink) {
     this.setState({ urlLink});
@@ -206,7 +185,7 @@ class EntryForm extends React.Component {
   handleOnClickAddLink() {
     const tempLinks = this.state.links;
     const linksCount = this.state.links.length + 1;
-    tempLinks.push({ 'id': linksCount, 'url_short': this.state.urlShort, 'url_link': this.state.urlLink, 'linked_ref': 'entries', 'linked_ref_id': this.props.linked_ref_id})
+    tempLinks.push({ 'id': linksCount, 'url_short': this.state.urlShort, 'url_link': this.state.urlLink, 'linked_ref': 'errors', 'linked_ref_id': this.props.linked_ref_id})
     this.setState({urlLink: '', urlShort: ''})
     this.props.onClickAddLink();
   }
@@ -226,36 +205,36 @@ class EntryForm extends React.Component {
     console.groupEnd();
   };
 
-  handleProjectChange(event) {
-    this.setState({ pid: event.value, pname: event.label })
-  }
   handleKeywordChange(event) {
     let newItems = event.filter(item => item.hasOwnProperty('__isNew__'));
     let keywords = event.map(item => item.label);
     let newKeywords = newItems.map(item => `('${item.label}')`)
     this.setState({ keywords: keywords, newKeywords: newKeywords })
-    //console.log('STATE OF THE STATES', this.state)
-    //console.log(newKeywords.toString(''))
   }
 
   handleNoteChange(value) {
     this.setState({ notes: value })
   }
 
-  handleSubmitEntry(event) {
+  handleErrorSourceChange(event) {
+    this.setState({ errorSource: event.label })
+  }
+
+  handleSubmitError(event) {
 
     event.preventDefault();
     console.log('CHECKING STATE LINKS',this.state.links)
-    const newLinks = this.state.links.map(item => `('${item.url_short}','${item.url_link}', 'entries',${item.linked_ref_id})`)
+    const newLinks = this.state.links.map(item => `('${item.url_short}','${item.url_link}', 'errors',${item.linked_ref_id})`)
     var body = {
-      "title": this.state.title,
-      "project_id": this.state.pid,
-      "challenge": this.state.challenge,
+
+
+      "error_code": this.state.errorCode,
+      "error_text": this.state.errorText,
+      "error_source": this.state.errorSource,
       "keywords": this.state.keywords,
       "newKeywords": this.state.newKeywords,
       "notes": this.state.notes,
-      "links": newLinks,
-      "project_name": this.state.pname
+      "links": newLinks
     };
     console.log(body);
     axios.post('/api/keywords/multiple', body.newKeywords)
@@ -266,12 +245,12 @@ class EntryForm extends React.Component {
       .catch(err => {
         console.log(err);
       })
-    return axios.post('/api/entries', body)
+    return axios.post('/api/errors', body)
       .then(results => {
-        this.props.onUpdateEntryForm();
+        this.props.onUpdateErrorForm();
       })
       .then(results => {
-        this.props.onClickAddEntry();
+        this.props.onClickAddError();
       })
       .catch(err => {
         console.log(err);
@@ -280,7 +259,6 @@ class EntryForm extends React.Component {
 
   componentDidMount() {
     this.getKeywords();
-    this.getProjects();
   }
 
   render() {
@@ -290,19 +268,19 @@ class EntryForm extends React.Component {
     return (
 
       <div className="form-modal-wrapper">
-        <div className="form-modal-backdrop" onClick={this.props.onClickAddEntry} />
+        <div className="form-modal-backdrop" onClick={this.props.onClickAddError} />
         <div className="form-modal-box quillModal">
-          <i className="far fa-times-circle fa-2x" onClick={this.props.onClickAddEntry}></i>
+          <i className="far fa-times-circle fa-2x" onClick={this.props.onClickAddError}></i>
           <br></br>
-          <div className="form-modal-title">ADD NEW JOURNAL ENTRY</div>
+          <div className="form-modal-title">ADD NEW ERROR MESSAGE</div>
           <form>
 
             <div className="wrapper">
-              <div className="form-modal-label-select">Project</div>
+              <div className="form-modal-label-select">Error Source</div>
               <Select
-                options={this.state.projectOptions}
+                options={this.state.keywordOptions}
                 styles={customStyles}
-                onChange={this.handleProjectChange}
+                onChange={this.handleErrorSourceChange}
               />
             </div>
 
@@ -315,17 +293,17 @@ class EntryForm extends React.Component {
               />
             </div>
             <div className="wrapper">
-              <div className="form-modal-label-input">Title </div>
-              <input className="form-modal-input" name="title" type="text" value={this.state.title} onChange={this.handleInputChange}></input>
+              <div className="form-modal-label-input">Error Code </div>
+              <input className="form-modal-input" name="errorCode" type="text" value={this.state.errorCode} onChange={this.handleInputChange}></input>
             </div>
 
             <div className="wrapper">
-              <div className="form-modal-label-input">Challenge </div>
-              <input className="form-modal-input" name="challenge" type="text" value={this.state.challenge} onChange={this.handleInputChange}></input>
+              <div className="form-modal-label-input">Error Text </div>
+              <input className="form-modal-input" name="errorText" type="text" value={this.state.errorText} onChange={this.handleInputChange}></input>
             </div>
 
             <div className="wrapper">
-              <div className="form-modal-label-input outputText">Lessons Learned
+              <div className="form-modal-label-input outputText">Notes
               <div>
               <ReactQuill
                 value={this.state.notes}
@@ -354,7 +332,7 @@ class EntryForm extends React.Component {
           </form>
           <div>
             {this.props.linkOpen ? (<LinkForm urlLink={this.state.urlLink} urlShort={this.state.urlShort} handleLinksChangeUrl={this.handleLinksChangeUrl} handleLinksChangeShort={this.handleLinksChangeShort} getLinks={this.state.getLinks} handleOnClickAddLink={this.handleOnClickAddLink} linkOpen={this.props.linkOpen} onClickAddLink={this.props.onClickAddLink} />) : null}
-            <button onClick={this.props.onClickAddLink}>ADD LINKS</button> <button onClick={this.handleSubmitEntry}>ADD JOURNAL ENTRY</button>
+            <button onClick={this.props.onClickAddLink}>ADD LINKS</button> <button onClick={this.handleSubmitError}>ADD ERROR MESSAGE</button>
           </div>
         </div>
 
@@ -364,4 +342,4 @@ class EntryForm extends React.Component {
   }
 }
 
-export default EntryForm;
+export default ErrorForm;

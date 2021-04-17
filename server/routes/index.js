@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const entries = require('./entries.js');
+const errors = require('./errors.js');
 const videos = require('./videos.js');
 const projects = require('./projects.js');
 const keywords = require('./keywords.js');
@@ -18,12 +19,19 @@ router.put('/entries/:id/notes', entries.updateEntryNote);
 router.post('/entries', entries.addEntry);
 router.post('/entries/:linked_ref_id/links', links.addLinks);
 
+router.get('/errors', errors.getAllErrors);
+router.get('/errors/max', errors.getMaxErrorId);
+router.get('/errors/:linked_ref_id/links', links.getErrorLinks);
+router.post('/errors', errors.addError);
+router.post('/errors/:linked_ref_id/links', links.addLinks);
+
+
 router.get('/videos', videos.getAllVideos);
-// router.post('/videos', videos.addVideo)
+router.post('/videos', videos.addVideo);
 
 router.get('/projects', projects.getAllProjects);
 router.get('/projects/max', projects.getMaxProjectId);
-// router.post('/projects', projects.addProject)
+router.post('/projects', projects.addProject)
 
 router.get('/keywords', keywords.getAllKeywords);
 router.post('/keywords/multiple', keywords.addMultipleKeywords);

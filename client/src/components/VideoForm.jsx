@@ -6,6 +6,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/darcula.css';
+import VideosList from './VideosList';
 
 
 const customStyles = {
@@ -76,81 +77,21 @@ const customStyles = {
   }),
 }
 
-hljs.configure({
-  languages: ['javascript', 'ruby', 'python', 'rust'],
-})
-
-const modules = {
-  syntax: {
-    highlight: text => hljs.highlightAuto(text).value,
-  },
-  toolbar: [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['code-block'],
-
-
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-
-    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-
-
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    [{ 'font': [] }],
-    [{ 'align': [] }],
-    ['link', 'image', 'video'],
-
-  ],
-  clipboard: {
-    matchVisual: false,
-  },
-  // handlers: {
-  //   image: this.imageHandler
-  // }
-};
-const customModules = {
-  toolbar: {
-    container: '#toolbar'
-  }
-}
-
-const formats = [
-  'background',
-  'font',
-  'size',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image',
-  'video',
-  'code-block',
-  'color',
-  'script',
-  'align',
-];
-
-class NoteForm extends React.Component {
+class VideoForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       keywordOptions: [],
       keywords: [],
       newKeywords: [],
-      title: '',
-      notes: null
+      videoShort: '',
+      videoLink: ''
     };
     this.getKeywords = this.getKeywords.bind(this);
     this.handleSelectKeyword = this.handleSelectKeyword.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleKeywordChange = this.handleKeywordChange.bind(this);
-    this.handleNoteChange = this.handleNoteChange.bind(this);
-    this.handleSubmitNote = this.handleSubmitNote.bind(this);
+    this.handleSubmitVideo = this.handleSubmitVideo.bind(this);
   }
 
   getKeywords() {
@@ -164,6 +105,14 @@ class NoteForm extends React.Component {
         this.setState({ keywordOptions: keywordOptions });
       })
       .catch(err => console.log('ERROR GETTING KEYWORDS ENTRIES', err));
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({ [name]: value });
   }
 
   handleSelectKeyword(newValue, actionMeta) {
@@ -180,37 +129,29 @@ class NoteForm extends React.Component {
     this.setState({ keywords: keywords, newKeywords: newKeywords })
   }
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({ [name]: value });
-  }
-
-  handleNoteChange(value) {
-    this.setState({ notes: value })
-  }
-
-  handleSubmitNote(event) {
+  handleSubmitVideo(event) {
 
     event.preventDefault();
+
     var body = {
-      "title": this.state.title,
+
+
+      "video_short": this.state.videoShort,
+      "video_link": this.state.videoLink,
       "keywords": this.state.keywords,
-      "newKeywords": this.state.newKeywords,
-      "notes": this.state.notes,
+      "newKeywords": this.state.newKeywords
     };
     console.log(body);
     axios.post('/api/keywords/multiple', body.newKeywords)
       .catch(err => {
         console.log(err);
       })
-    return axios.post('/api/notes', body)
+    return axios.post('/api/videos', body)
       .then(results => {
-        this.props.onUpdateNoteForm();
+        this.props.onUpdateVideoForm();
       })
       .then(results => {
-        this.props.onClickAddNote();
+        this.props.onClickAddVideo();
       })
       .catch(err => {
         console.log(err);
@@ -223,15 +164,17 @@ class NoteForm extends React.Component {
 
   render() {
     console.log('STATE OF THE STATE', this.state)
+
     return (
 
       <div className="form-modal-wrapper">
-        <div className="form-modal-backdrop" onClick={this.props.onClickAddNote} />
+        <div className="form-modal-backdrop" onClick={this.props.onClickAddVideo} />
         <div className="form-modal-box quillModal">
-          <i className="far fa-times-circle fa-2x" onClick={this.props.onClickAddNote}></i>
+          <i className="far fa-times-circle fa-2x" onClick={this.props.onClickAddVideo}></i>
           <br></br>
-          <div className="form-modal-title">ADD NEW NOTE</div>
+          <div className="form-modal-title">ADD NEW VIDEO LINKS</div>
           <form>
+
 
             <div className="wrapper">
               <div className="form-modal-label-select">Keywords</div>
@@ -241,31 +184,26 @@ class NoteForm extends React.Component {
                 onChange={this.handleKeywordChange}
               />
             </div>
-
             <div className="wrapper">
-              <div className="form-modal-label-input">Title </div>
-              <input className="form-modal-input" name="title" type="text" value={this.state.title} onChange={this.handleInputChange}></input>
+              <div className="form-modal-label-input">Video Short Name</div>
+              <input className="form-modal-input" name="videoShort" type="text" value={this.state.videoShort} onChange={this.handleInputChange}></input>
             </div>
 
-            <div>
-              <ReactQuill
-                value={this.state.notes}
-                onChange={this.handleNoteChange}
-                theme="snow"
-                modules={modules}
-                formats={formats}
-                customModules={customModules}
-              />
+            <div className="wrapper">
+              <div className="form-modal-label-input">Video Link</div>
+              <input className="form-modal-input" name="videoLink" type="text" placeholder="YouTube >> Share >> Embed >> Only Copy URL >> ex: https://www.youtube.com/embed/AgreDlNaUn4" value={this.state.videoLink} onChange={this.handleInputChange}></input>
             </div>
 
           </form>
           <div>
-            <button onClick={this.handleSubmitNote}>ADD NOTE</button>
+            <button onClick={this.handleSubmitVideo}>ADD VIDEOS</button>
           </div>
-        </div>
-      </div>
+        </div >
+
+      </div >
+
     );
   }
 }
 
-export default NoteForm;
+export default VideoForm;
