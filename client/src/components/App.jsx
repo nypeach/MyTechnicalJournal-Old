@@ -4,6 +4,7 @@ import logo from '../../assets/M_Invert.svg';
 import github from '../../assets/github.svg';
 import linkedin from '../../assets/linkedin.svg';
 import slack from '../../assets/slack.svg';
+import CreatableSelect from 'react-select/creatable';
 
 import EntryList from './EntryList.jsx';
 import ErrorList from './ErrorList.jsx';
@@ -23,19 +24,87 @@ import VideoForm from './VideoForm.jsx';
 import ProjectForm from './ProjectForm.jsx';
 import NoteForm from './NoteForm';
 import LinkForm from './LinkForm.jsx';
-import Keywords from './Keywords.jsx';
 import KeywordsForm from './KeywordsForm.jsx';
 
 
 import ModulesSelect from './ModulesSelect';
 
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    marginTop: '12px',
+    backgroundColor: "#f6f6f6",
+    minWidth: '300px',
+    minHeight: '36px',
+    maxHeight: '36px',
+    paddingTop: '0px',
+    paddingBottom: '0px',
+    verticalAlign: 'middle',
+    borderColor: "#D8315B",
+    boxShadow: "#D8315B",
+    borderWidth: "2px",
+    color: '#051538',
+    fontSize: '1.05rem',
+    "&:hover": {
+      borderColor: "#D8315B",
+      borderWidth: "2px"
+    }
+  }),
+  valueContainer: (provided, state) => ({
+    ...provided,
+    marginBottom: '32px',
+  }),
+  indicatorContainer: (provided, state) => ({
+    ...provided,
+    marginBottom: '32px',
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    marginBottom: '32px',
+  }),
+  clearIndicator: (provided, state) => ({
+    ...provided,
+    marginBottom: '32px',
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    marginBottom: '42px',
+  }),
+  multiValue: (provided, state) => ({
+    ...provided,
+    backgroundColor: "#f6f6f6"
+  }),
+  input: (provided, state) => ({
+    ...provided,
+    minHeight: '24px',
+    maxHeight: '24px',
+    minWidth: '300px',
+  }),
+  container: base => ({
+    ...base,
+    flexGrow: 1,
+    minWidth: '300px',
 
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: state.isSelected ? "#f6f6f6" : '#D8315B',
+    backgroundColor: state.isSelected ? '#D8315B' : "#f6f6f6",
+    backgroundColor: state.isFocused ? "#D8315B" : "#f6f6f6",
+    color: state.isFocused ? "#f6f6f6" : '#D8315B',
+    fontSize: "16px",
+    minWidth: '300px',
+  }),
+}
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      keywordOptions: [],
+      keywords: [],
+      newKeywords: [],
       entries: [],
       errors: [],
       videos: [],
@@ -55,10 +124,10 @@ class App extends React.Component {
       toRender: 'entry',
       module: 'entries',
       currentItem: {},
-      currentId: 1,
-
+      currentId: 1
     };
 
+    this.getKeywords = this.getKeywords.bind(this);
     this.getEntries = this.getEntries.bind(this);
     this.getErrors = this.getErrors.bind(this);
     this.getVideos = this.getVideos.bind(this);
@@ -68,6 +137,9 @@ class App extends React.Component {
     this.getnextEntryId = this.getnextEntryId.bind(this);
     this.getnextErrorId = this.getnextErrorId.bind(this);
     this.getnextProjectId = this.getnextProjectId.bind(this);
+
+    this.handleSelectKeyword = this.handleSelectKeyword.bind(this);
+    this.handleKeywordChange = this.handleKeywordChange.bind(this);
 
     this.onClickEntry = this.onClickEntry.bind(this);
     this.onClickError = this.onClickError.bind(this);
@@ -90,11 +162,13 @@ class App extends React.Component {
     this.onUpdateProjectForm = this.onUpdateProjectForm.bind(this);
     this.onUpdateNoteForm = this.onUpdateNoteForm.bind(this);
 
+    this.handleKeywordChange = this.handleKeywordChange.bind(this);
 
 
   }
   componentDidMount() {
     let requests = [];
+    requests.push(this.getKeywords());
     requests.push(this.getEntries());
     requests.push(this.getErrors());
     requests.push(this.getVideos());
@@ -105,16 +179,21 @@ class App extends React.Component {
     requests.push(this.getnextProjectId());
     Promise.all(requests)
       .then(results => {
+        const keywordOptions = results[0].data.map(d => ({
+          "value": d.id,
+          "label": d.keyword
+        }))
         this.setState({
-          entries: results[0].data,
-          errors: results[1].data,
-          videos: results[2].data,
-          projects: results[3].data,
-          notes: results[4].data,
-          nextEntryId: results[5].data[0].max + 1,
-          nextErrorId: results[6].data[0].max + 1,
-          nextProjectId: results[7].data[0].max + 1,
-          currentItem: results[0].data[0]
+          keywordOptions: keywordOptions,
+          entries: results[1].data,
+          errors: results[2].data,
+          videos: results[3].data,
+          projects: results[4].data,
+          notes: results[5].data,
+          nextEntryId: results[6].data[0].max + 1,
+          nextErrorId: results[7].data[0].max + 1,
+          nextProjectId: results[8].data[0].max + 1,
+          currentItem: results[1].data[0]
         }, () => {
           this.getLinks();
         })
@@ -122,6 +201,10 @@ class App extends React.Component {
   }
 
   // GET DATA ======================================================================== //
+  getKeywords() {
+    return axios.get('/api/keywords')
+      .catch(err => console.log('ERROR GETTING KEYWORDS ENTRIES', err));
+  }
   getEntries() {
     return axios.get('/api/entries')
       .catch(err => console.log('ERROR GETTING JOURNAL ENTRIES: ', err));
@@ -165,6 +248,20 @@ class App extends React.Component {
   }
 
   // CLICK HANDLERS ==================================================================== //
+  handleSelectKeyword(newValue, actionMeta) {
+    console.group('Value Changed');
+    console.log('NEWVALUE', newValue);
+    console.log(`action: ${actionMeta.action}`);
+    console.groupEnd();
+  };
+
+  handleKeywordChange(event) {
+    let newItems = event.filter(item => item.hasOwnProperty('__isNew__'));
+    let keywords = event.map(item => item.label);
+    let newKeywords = newItems.map(item => `('${item.label}')`)
+    this.setState({ keywords: keywords, newKeywords: newKeywords })
+  };
+
   onClickEntry(entry) {
     this.setState({
       currentItem: entry,
@@ -269,6 +366,12 @@ class App extends React.Component {
         })
       })
   }
+  handleKeywordChange(event) {
+    let newItems = event.filter(item => item.hasOwnProperty('__isNew__'));
+    let keywords = event.map(item => item.label);
+    let newKeywords = newItems.map(item => `('${item.label}')`)
+    this.setState({ keywords: keywords, newKeywords: newKeywords })
+  }
 
   onUpdateVideoForm() {
     return axios.get('/api/videos')
@@ -358,9 +461,16 @@ class App extends React.Component {
           </div> {/* SIDEBAR END START ========================================== */}
 
           <div className="top-search">
-            <div className="top-searchLeft">Search:</div> <Keywords />&nbsp;&nbsp;<button className="top-button" style={{ display: "block" }} onClick={this.onClickAddKeyword}>ADD KEYWORD</button>
-            {this.state.keywordOpen ? (<KeywordsForm onClickAddKeyword={this.onClickAddKeyword} />) : null}
-
+            <div className="wrapper top-searchLeft">
+              <div className="form-modal-label-select">Search:</div>
+              <CreatableSelect
+                isMulti options={this.state.keywordOptions}
+                styles={customStyles}
+                onChange={this.handleKeywordChange}
+              />&nbsp;&nbsp;&nbsp;&nbsp;
+              <button className="top-button" onClick={this.onClickAddKeyword}>ADD KEYWORD</button>
+              {this.state.keywordOpen ? (<KeywordsForm onClickAddKeyword={this.onClickAddKeyword} />) : null}
+            </div>
           </div>
 
           <div className="listContainer"> {/* LIST CONTAINER START ======================================== */}

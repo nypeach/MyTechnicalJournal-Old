@@ -74,10 +74,10 @@ header {
   z-index: 1000;
 }
 .top-searchLeft {
-  flex: .30;
-  font-size: 20px;
+  /* flex: .30;
+  font-size: 20px; */
   margin-top: 12px;
-  color: #D8315B;
+  /* color: #D8315B; */
 }
 .top-button {
   margin-top: 10px;

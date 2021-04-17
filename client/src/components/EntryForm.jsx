@@ -234,8 +234,6 @@ class EntryForm extends React.Component {
     let keywords = event.map(item => item.label);
     let newKeywords = newItems.map(item => `('${item.label}')`)
     this.setState({ keywords: keywords, newKeywords: newKeywords })
-    //console.log('STATE OF THE STATES', this.state)
-    //console.log(newKeywords.toString(''))
   }
 
   handleNoteChange(value) {
