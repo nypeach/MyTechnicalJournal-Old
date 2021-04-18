@@ -7,7 +7,7 @@ We often encounter challenges while working on a project that we've encountered 
 ![image](https://user-images.githubusercontent.com/72178817/115159936-b4c5cb00-a063-11eb-8e8e-dd33fafc28c3.png)
 
 ### Use the Dynamic Search Bar to Filter By Multiple Keyword
-![image](https://user-images.githubusercontent.com/72178817/115160027-0f5f2700-a064-11eb-94b0-6ef97b5f5170.png)
+![image](https://user-images.githubusercontent.com/72178817/115160212-0884e400-a065-11eb-896d-d8a2316ea09f.png)
 
 ### Full Text Editor
 ![image](https://user-images.githubusercontent.com/72178817/115159763-ab882e80-a062-11eb-9b81-8e38169211b3.png)
