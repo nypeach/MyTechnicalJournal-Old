@@ -32,7 +32,7 @@ import ModulesSelect from './ModulesSelect';
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
-    marginTop: '12px',
+    marginBottom: '12px',
     backgroundColor: "#f6f6f6",
     minWidth: '300px',
     minHeight: '36px',
@@ -52,27 +52,32 @@ const customStyles = {
   }),
   valueContainer: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
+    overflow: 'scroll',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    maxWidth: '95%',
+    maxHeight: '36px',
   }),
   indicatorContainer: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   dropdownIndicator: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   clearIndicator: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   indicatorSeparator: (provided, state) => ({
     ...provided,
-    marginBottom: '42px',
+    marginBottom: '30px',
   }),
   multiValue: (provided, state) => ({
     ...provided,
-    backgroundColor: "#f6f6f6"
+    backgroundColor: "#f6f6f6",
   }),
   input: (provided, state) => ({
     ...provided,
@@ -80,11 +85,15 @@ const customStyles = {
     maxHeight: '24px',
     minWidth: '300px',
   }),
+  menu: (provided, state) => ({
+    ...provided,
+    marginTop: '-10px',
+  }),
   container: base => ({
     ...base,
     flexGrow: 1,
     minWidth: '300px',
-
+    zIndex: 1000
   }),
   option: (provided, state) => ({
     ...provided,
@@ -157,6 +166,7 @@ class App extends React.Component {
     this.onClickAddNote = this.onClickAddNote.bind(this);
     this.onClickAddLink = this.onClickAddLink.bind(this);
 
+    this.onModalFocus = this.onModalFocus.bind(this);
     this.onUpdateEntryForm = this.onUpdateEntryForm.bind(this);
     this.onUpdateErrorForm = this.onUpdateErrorForm.bind(this);
     this.onUpdateVideoForm = this.onUpdateVideoForm.bind(this);
@@ -331,25 +341,33 @@ class App extends React.Component {
   }
 
   onClickAddEntry() {
-    this.setState({ entryOpen: !this.state.entryOpen });
+    this.setState({ entryOpen: !this.state.entryOpen }, () => { this.onModalFocus();});
   }
   onClickAddError() {
-    this.setState({ errorOpen: !this.state.errorOpen });
+    this.setState({ errorOpen: !this.state.errorOpen }, () => { this.onModalFocus(); });
   }
   onClickAddVideo() {
-    this.setState({ videoOpen: !this.state.videoOpen });
+    this.setState({ videoOpen: !this.state.videoOpen }, () => { this.onModalFocus(); });
   }
   onClickAddProject() {
-    this.setState({ projectOpen: !this.state.projectOpen });
+    this.setState({ projectOpen: !this.state.projectOpen }, () => { this.onModalFocus(); });
   }
   onClickAddNote() {
-    this.setState({ noteOpen: !this.state.noteOpen });
+    this.setState({ noteOpen: !this.state.noteOpen }, () => { this.onModalFocus(); });
   }
   onClickAddKeyword() {
-    this.setState({ keywordOpen: !this.state.keywordOpen });
+    this.setState({ keywordOpen: !this.state.keywordOpen }, () => { this.onModalFocus(); });
   }
   onClickAddLink() {
-    this.setState({ linkOpen: !this.state.linkOpen });
+    this.setState({ linkOpen: !this.state.linkOpen }, () => { this.onModalFocus(); });
+  }
+
+  onModalFocus() {
+    if (this.state.entryOpen || this.state.errorOpen || this.state.videoOpen || this.state.projectOpen || this.state.noteOpen || this.state.keywordOpen || this.state.linkOpen) {
+      document.getElementById("top-search").style.zIndex = "-1";
+    } else {
+      document.getElementById("top-search").style.zIndex = "1000";
+    }
   }
 
   onUpdateEntryForm() {
@@ -357,12 +375,15 @@ class App extends React.Component {
       .then(results => {
         console.log('RESULTS', results)
         let length = results.data.length
+        let currentItem = results.data[length - 1]
+        let allData = this.state.allData.concat({ ...currentItem, module: "entries" })
         this.setState({
           entries: results.data,
           currentItem: results.data[length - 1],
           toRender: 'entry',
           module: 'entries',
-          currentId: results.data[length - 1].id
+          currentId: results.data[length - 1].id,
+          allData: allData
         }, () => {
           this.getLinks();
         })
@@ -373,13 +394,16 @@ class App extends React.Component {
     return axios.get('/api/errors')
       .then(results => {
         console.log('RESULTS', results)
-        let length = results.data.length
+        let length = results.data.length;
+        let currentItem = results.data[length - 1];
+        let allData = this.state.allData.concat({ ...currentItem, module: "errors" });
         this.setState({
           errors: results.data,
           currentItem: results.data[length - 1],
           toRender: 'error',
           module: 'errors',
-          currentId: results.data[length - 1].id
+          currentId: results.data[length - 1].id,
+          allData: allData
         }, () => {
           this.getLinks();
         })
@@ -390,13 +414,16 @@ class App extends React.Component {
     return axios.get('/api/videos')
       .then(results => {
         console.log('RESULTS', results)
-        let length = results.data.length
+        let length = results.data.length;
+        let currentItem = results.data[length - 1]
+        let allData = this.state.allData.concat({ ...currentItem, module: "videos" })
         this.setState({
           videos: results.data,
           currentItem: results.data[length - 1],
           toRender: 'video',
           module: 'videos',
-          currentId: results.data[length - 1].id
+          currentId: results.data[length - 1].id,
+          allData: allData
         }, () => {
           this.getLinks();
         })
@@ -407,13 +434,16 @@ class App extends React.Component {
     return axios.get('/api/projects')
       .then(results => {
         console.log('RESULTS', results)
-        let length = results.data.length
+        let length = results.data.length;
+        let currentItem = results.data[length - 1]
+        let allData = this.state.allData.concat({ ...currentItem, module: "projects" })
         this.setState({
           projects: results.data,
           currentItem: results.data[length - 1],
           toRender: 'project',
           module: 'projects',
-          currentId: results.data[length - 1].id
+          currentId: results.data[length - 1].id,
+          allData: allData
         }, () => {
           this.getLinks();
         })
@@ -424,13 +454,16 @@ class App extends React.Component {
     return axios.get('/api/notes')
       .then(results => {
         console.log('RESULTS', results)
-        let length = results.data.length
+        let length = results.data.length;
+        let currentItem = results.data[length - 1]
+        let allData = this.state.allData.concat({ ...currentItem, module: "notes" })
         this.setState({
           notes: results.data,
           currentItem: results.data[length - 1],
           toRender: 'note',
           module: 'notes',
-          currentId: results.data[length - 1].id
+          currentId: results.data[length - 1].id,
+          allData: allData
         }, () => {
           this.getLinks();
         })
@@ -473,11 +506,12 @@ class App extends React.Component {
 
           </div> {/* SIDEBAR END START ========================================== */}
 
-          <div className="top-search">
+          <div id="top-search" className="top-search">
             <div className="wrapper top-searchLeft">
               <div className="form-modal-label-select">Search:</div>
               <CreatableSelect
-                isMulti options={this.state.keywordOptions}
+                isMulti
+                options={this.state.keywordOptions}
                 styles={customStyles}
                 onChange={this.handleKeywordChange}
               />&nbsp;&nbsp;&nbsp;&nbsp;

@@ -13,6 +13,22 @@ class ManageEvents extends React.Component {
 
   }
 
+
+# Multi-Value Select Container No Wrap
+customStyles = {
+    valueContainer: (provided, state) => ({
+      ...provided,
+      textOverflow: "ellipsis",
+      maxWidth: "90%",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      display: "initial"
+    })
+  };
+
+  # Great Regex Editor
+  https://rubular.com/r/iglM0YiFSE
+
 # How to render something AFTER state updates
 Pass an arrow function as a second argument and that function runs after state is upated
 

@@ -12,7 +12,7 @@ import LinkForm from './LinkForm';
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
-    marginTop: '12px',
+    marginBottom: '12px',
     backgroundColor: "#f6f6f6",
     minWidth: '300px',
     minHeight: '36px',
@@ -32,27 +32,32 @@ const customStyles = {
   }),
   valueContainer: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
+    overflow: 'scroll',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    maxWidth: '95%',
+    maxHeight: '36px',
   }),
   indicatorContainer: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   dropdownIndicator: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '15px',
   }),
   clearIndicator: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   indicatorSeparator: (provided, state) => ({
     ...provided,
-    marginBottom: '42px',
+    marginBottom: '30px',
   }),
   multiValue: (provided, state) => ({
     ...provided,
-    backgroundColor: "#f6f6f6"
+    backgroundColor: "#f6f6f6",
   }),
   input: (provided, state) => ({
     ...provided,
@@ -64,7 +69,10 @@ const customStyles = {
     ...base,
     flexGrow: 1,
     minWidth: '300px',
-
+  }),
+  menu: (provided, state) => ({
+    ...provided,
+    marginTop: '-10px',
   }),
   option: (provided, state) => ({
     ...provided,
@@ -269,13 +277,13 @@ class ErrorForm extends React.Component {
 
       <div className="form-modal-wrapper">
         <div className="form-modal-backdrop" onClick={this.props.onClickAddError} />
-        <div className="form-modal-box quillModal">
+        <div className="form-modal-box errorModal">
           <i className="far fa-times-circle fa-2x" onClick={this.props.onClickAddError}></i>
           <br></br>
           <div className="form-modal-title">ADD NEW ERROR MESSAGE</div>
           <form>
 
-            <div className="wrapper">
+            <div className="wrapperSelect">
               <div className="form-modal-label-select">Error Source</div>
               <Select
                 options={this.state.keywordOptions}
@@ -284,7 +292,7 @@ class ErrorForm extends React.Component {
               />
             </div>
 
-            <div className="wrapper">
+            <div className="wrapperSelect">
               <div className="form-modal-label-select">Keywords</div>
               <CreatableSelect
                 isMulti options={this.state.keywordOptions}
@@ -306,6 +314,7 @@ class ErrorForm extends React.Component {
               <div className="form-modal-label-input outputText">Notes
               <div>
               <ReactQuill
+              className="quillModal"
                 value={this.state.notes}
                 onChange={this.handleNoteChange}
                 theme="snow"

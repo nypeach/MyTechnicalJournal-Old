@@ -11,7 +11,7 @@ import 'highlight.js/styles/darcula.css';
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
-    marginTop: '12px',
+    marginBottom: '12px',
     backgroundColor: "#f6f6f6",
     minWidth: '300px',
     minHeight: '36px',
@@ -31,27 +31,32 @@ const customStyles = {
   }),
   valueContainer: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
+    overflow: 'scroll',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    maxWidth: '95%',
+    maxHeight: '36px',
   }),
   indicatorContainer: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   dropdownIndicator: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '15px',
   }),
   clearIndicator: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   indicatorSeparator: (provided, state) => ({
     ...provided,
-    marginBottom: '42px',
+    marginBottom: '30px',
   }),
   multiValue: (provided, state) => ({
     ...provided,
-    backgroundColor: "#f6f6f6"
+    backgroundColor: "#f6f6f6",
   }),
   input: (provided, state) => ({
     ...provided,
@@ -63,7 +68,10 @@ const customStyles = {
     ...base,
     flexGrow: 1,
     minWidth: '300px',
-
+  }),
+  menu: (provided, state) => ({
+    ...provided,
+    marginTop: '-10px',
   }),
   option: (provided, state) => ({
     ...provided,
@@ -227,13 +235,13 @@ class NoteForm extends React.Component {
 
       <div className="form-modal-wrapper">
         <div className="form-modal-backdrop" onClick={this.props.onClickAddNote} />
-        <div className="form-modal-box quillModal">
+        <div className="form-modal-box journalModal">
           <i className="far fa-times-circle fa-2x" onClick={this.props.onClickAddNote}></i>
           <br></br>
           <div className="form-modal-title">ADD NEW NOTE</div>
           <form>
 
-            <div className="wrapper">
+            <div className="wrapperSelect">
               <div className="form-modal-label-select">Keywords</div>
               <CreatableSelect
                 isMulti options={this.state.keywordOptions}
@@ -249,6 +257,7 @@ class NoteForm extends React.Component {
 
             <div>
               <ReactQuill
+                className="noteModal"
                 value={this.state.notes}
                 onChange={this.handleNoteChange}
                 theme="snow"
@@ -256,10 +265,12 @@ class NoteForm extends React.Component {
                 formats={formats}
                 customModules={customModules}
               />
+              <br></br>
             </div>
 
           </form>
           <div>
+            <br></br>
             <button onClick={this.handleSubmitNote}>ADD NOTE</button>
           </div>
         </div>

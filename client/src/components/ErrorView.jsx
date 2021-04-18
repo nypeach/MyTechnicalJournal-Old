@@ -8,7 +8,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import hljs from 'highlight.js'
 import 'highlight.js/styles/darcula.css'
-import Highlighter from './Highlighter'
+// import Highlighter from './Highlighter'
 
 hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'rust'],
@@ -45,7 +45,7 @@ class ErrorView extends React.Component {
 
         <div className="journalContainer">
           <div className="journal">
-            <div className="journalDiv"><i className="fas fa-edit fa-2x"></i></div>
+            {/* <div className="journalDiv"><i className="fas fa-edit fa-2x"></i></div> */}
 
             <div className="journalTitle">
               {error.error_source} | {error.error_code}

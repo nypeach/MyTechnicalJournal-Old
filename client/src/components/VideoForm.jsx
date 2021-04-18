@@ -12,7 +12,7 @@ import VideosList from './VideosList';
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
-    marginTop: '12px',
+    marginBottom: '12px',
     backgroundColor: "#f6f6f6",
     minWidth: '300px',
     minHeight: '36px',
@@ -32,27 +32,32 @@ const customStyles = {
   }),
   valueContainer: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
+    overflow: 'scroll',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    maxWidth: '95%',
+    maxHeight: '36px',
   }),
   indicatorContainer: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   dropdownIndicator: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '15px',
   }),
   clearIndicator: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   indicatorSeparator: (provided, state) => ({
     ...provided,
-    marginBottom: '42px',
+    marginBottom: '30px',
   }),
   multiValue: (provided, state) => ({
     ...provided,
-    backgroundColor: "#f6f6f6"
+    backgroundColor: "#f6f6f6",
   }),
   input: (provided, state) => ({
     ...provided,
@@ -64,7 +69,10 @@ const customStyles = {
     ...base,
     flexGrow: 1,
     minWidth: '300px',
-
+  }),
+  menu: (provided, state) => ({
+    ...provided,
+    marginTop: '-10px',
   }),
   option: (provided, state) => ({
     ...provided,
@@ -76,6 +84,7 @@ const customStyles = {
     minWidth: '300px',
   }),
 }
+
 
 class VideoForm extends React.Component {
   constructor(props) {
@@ -176,7 +185,7 @@ class VideoForm extends React.Component {
           <form>
 
 
-            <div className="wrapper">
+            <div className="wrapperSelect">
               <div className="form-modal-label-select">Keywords</div>
               <CreatableSelect
                 isMulti options={this.state.keywordOptions}
@@ -196,6 +205,7 @@ class VideoForm extends React.Component {
 
           </form>
           <div>
+            <br></br>
             <button onClick={this.handleSubmitVideo}>ADD VIDEOS</button>
           </div>
         </div >

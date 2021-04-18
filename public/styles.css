@@ -62,7 +62,7 @@ header {
 /* TOP SEARCH SECTION ========================================================================== */
 .top-search {
   position: fixed;
-  top: 50px;
+  top: 60px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -71,7 +71,7 @@ header {
   margin-left: 190px;
   height: 70px;
   min-width: calc(100% - 220px);
-  z-index: 1000;
+  z-index: 103;
 }
 .top-searchLeft {
   /* flex: .30;
@@ -79,11 +79,18 @@ header {
   margin-top: 12px;
   /* color: #D8315B; */
 }
+
 .top-button {
-  margin-top: 10px;
+  margin-top: -3px;
+  max-height: 36px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
-.Select-menu-outer {
-  z-index: 1001 !important;
+
+.Select-multi-value-wrapper {
+  white-space: nowrap;
+  overflow-x: scroll;
+  width: 250px;
 }
 
 /* LIST ITEMS ================================================================================== */
@@ -277,7 +284,7 @@ input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow sp
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1100;
+  z-index: 1000;
   background-color: rgba(0, 0, 0, 0.4);
 }
 .form-modal-box {
@@ -290,7 +297,7 @@ input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow sp
   border: #D8315B solid 2px;
   border-radius: 5px;
   box-shadow: 0 8px 6px -6px  #D8315B;
-  z-index: 1101;
+  z-index: 1001;
   padding: 10px;
   max-height: 100%;
   max-width: 100%;
@@ -306,7 +313,7 @@ input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow sp
 .form-modal-title {
  font-size: 1.3rem;
  color: #D8315B;
- margin-bottom: 12px;
+ margin-bottom: 22px;
  margin-top: -25px;
 }
 
@@ -322,6 +329,11 @@ input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow sp
   background-color: white;
   margin-bottom: 12px;
 }
+.wrapperSelect {
+  display: flex;
+  width: 100%;
+  background-color: white;
+}
 .form-modal-label-input {
   flex-basis: content;
   font-size: 1.3rem;
@@ -333,8 +345,20 @@ input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow sp
   font-size: 1.3rem;
  color: #D8315B;
  margin-right: 1rem;
- margin-top: .85rem;
+ /* margin-top: .85rem; */
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
+.form-modal-label-seaarch {
+  flex-basis: content;
+  font-size: 1.3rem;
+ color: #D8315B;
+ margin-right: 1rem;
+ margin-top: .85rem;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
 .form-modal-input {
   flex-grow: 1;
   min-height: 36px;
@@ -441,9 +465,23 @@ border: solid black 0.5px;
     height: auto;
   }
 
-  .quillModal {
+  .journalModal {
+  height: 600px;
+  width: 1000px;
+}
+ .errorModal {
   height: 500px;
   width: 1000px;
+}
+  .quillModal {
+  width: 975px;
+  min-height: auto;
+  margin-bottom: 5px;
+}
+  .noteModal {
+  width: 975px;
+  height: 300px;
+  margin-bottom: 30px;
 }
 
 .ql-editor {

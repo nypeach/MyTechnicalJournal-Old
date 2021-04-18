@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
-    marginTop: '12px',
+    marginBottom: '12px',
     backgroundColor: "#f6f6f6",
     minWidth: '300px',
     minHeight: '36px',
@@ -25,27 +26,32 @@ const customStyles = {
   }),
   valueContainer: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
+    overflow: 'scroll',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    maxWidth: '95%',
+    maxHeight: '36px',
   }),
   indicatorContainer: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   dropdownIndicator: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '15px',
   }),
   clearIndicator: (provided, state) => ({
     ...provided,
-    marginBottom: '32px',
+    marginBottom: '20px',
   }),
   indicatorSeparator: (provided, state) => ({
     ...provided,
-    marginBottom: '42px',
+    marginBottom: '30px',
   }),
   multiValue: (provided, state) => ({
     ...provided,
-    backgroundColor: "#f6f6f6"
+    backgroundColor: "#f6f6f6",
   }),
   input: (provided, state) => ({
     ...provided,
@@ -57,7 +63,10 @@ const customStyles = {
     ...base,
     flexGrow: 1,
     minWidth: '300px',
-
+  }),
+  menu: (provided, state) => ({
+    ...provided,
+    marginTop: '-10px',
   }),
   option: (provided, state) => ({
     ...provided,
@@ -179,9 +188,9 @@ class ProjectForm extends React.Component {
           <div className="form-modal-title">ADD NEW PROJECT</div>
           <form>
 
-            <div className="wrapper">
+            <div className="wrapperSelect">
               <div className="form-modal-label-select">Tech Stack Front End</div>
-              <Select
+              <CreatableSelect
                 isMulti
                 options={this.state.keywordOptions}
                 styles={customStyles}
@@ -190,9 +199,10 @@ class ProjectForm extends React.Component {
             </div>
 
 
-            <div className="wrapper">
+
+            <div className="wrapperSelect">
               <div className="form-modal-label-select">Tech Stack Back End</div>
-              <Select
+              <CreatableSelect
                 isMulti
                 options={this.state.keywordOptions}
                 styles={customStyles}
@@ -201,9 +211,9 @@ class ProjectForm extends React.Component {
             </div>
 
 
-            <div className="wrapper">
+            <div className="wrapperSelect">
               <div className="form-modal-label-select">Tech Stack Related</div>
-              <Select
+              <CreatableSelect
                 isMulti
                 options={this.state.keywordOptions}
                 styles={customStyles}
@@ -238,6 +248,7 @@ class ProjectForm extends React.Component {
             </div>
           </form>
           <div>
+            <br></br>
             <button onClick={this.handleSubmitProject}>ADD PROJECT</button>
           </div>
         </div>
