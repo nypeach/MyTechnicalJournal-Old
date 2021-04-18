@@ -6,7 +6,7 @@ We often encounter challenges while working on a project that we've encountered 
 ### Organize and Keep All of Your Projects, Notes, Lessons Learned, Videos and Links.
 ![image](https://user-images.githubusercontent.com/72178817/115159936-b4c5cb00-a063-11eb-8e8e-dd33fafc28c3.png)
 
-### Use the Dynamic Search Bar to Filter By Keyword
+### Use the Dynamic Search Bar to Filter By Multiple Keyword
 ![image](https://user-images.githubusercontent.com/72178817/115160027-0f5f2700-a064-11eb-94b0-6ef97b5f5170.png)
 
 ### Full Text Editor
