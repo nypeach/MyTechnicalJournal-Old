@@ -4,9 +4,20 @@
   > A journal can help you keep track of your goals and be intentional in your work and study of new concepts.
   > 
 
+
+### Keep Track of Your Projects
+![image](https://user-images.githubusercontent.com/72178817/115159716-8abfd900-a062-11eb-9f73-0881df9f7bbd.png)
+
+### Full Text Editor
+![image](https://user-images.githubusercontent.com/72178817/115159763-ab882e80-a062-11eb-9b81-8e38169211b3.png)
+
 ###
 You can even insert images in the Rich Text Editor
 ![image](https://user-images.githubusercontent.com/72178817/115159626-171dcc00-a062-11eb-8ccb-2707783995a3.png)
+
+### Keep Track of Your Favorite Videos and Watch Them Right in the App
+![image](https://user-images.githubusercontent.com/72178817/115159787-da060980-a062-11eb-8a4e-8d66ebe8ad6c.png)
+
 
 
 # Execute this file by ...
