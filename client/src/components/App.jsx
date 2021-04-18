@@ -276,7 +276,7 @@ class App extends React.Component {
     var filtered = this.state.allData.filter(item => kwdRegEx.test(JSON.stringify(item).toLowerCase()))
     console.log('FILTERED', filtered)
 
-    this.setState({keywords: keywords, filtered: filtered, eventLength: event.length});
+    this.setState({ keywords: keywords, filtered: filtered, eventLength: event.length });
 
   }
 
@@ -501,83 +501,84 @@ class App extends React.Component {
 
             {this.state.eventLength !== 0 && this.state.filtered.length === 0 ?
 
-            <div className="mytextdiv">
-              <div className="mytexttitle">NO RESULTS FOUND</div>
+              <div className="mytextdiv">
+                <div className="mytexttitle">NO RESULTS FOUND</div>
 
-            </div> :
-            <div>
-            <div className="mytextdiv">
-              <div className="mytexttitle">Journal Entries</div>
-              <div className="divider"></div>
-            </div>
-            <EntryList
-              entries={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'entries') : this.state.entries}
-              onClickEntry={this.onClickEntry}
-              getEntries={this.getEntries}
-              links={this.state.links}
-            />
+              </div> :
+              <div>
+                {this.state.eventLength !== 0 && this.state.filtered.filter(item => item.module === 'entries').length === 0 ?
+                  null :
+                  <div className="mytextdiv">
+                    <div className="mytexttitle">Journal Entries</div>
+                    <div className="divider"></div>
+                  </div>
+                }
+                <EntryList
+                  entries={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'entries') : this.state.entries}
+                  onClickEntry={this.onClickEntry}
+                  getEntries={this.getEntries}
+                  links={this.state.links}
+                />
+                {this.state.eventLength !== 0 && this.state.filtered.filter(item => item.module === 'errors').length === 0 ?
+                  null :
+                  <div className="mytextdiv">
+                    <div className="mytexttitle">Error Messages</div>
+                    <div className="divider"></div>
+                  </div>
+                }
+                <ErrorList
+                  errors={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'errors') : this.state.errors}
+                  onClickError={this.onClickError}
+                  getErrors={this.getErrors}
+                  links={this.state.links}
+                />
+                {this.state.eventLength !== 0 && this.state.filtered.filter(item => item.module === 'videos').length === 0 ?
+                  null :
+                  <div className="mytextdiv">
+                    <div className="mytexttitle">Videos</div>
+                    <div className="divider"></div>
+                  </div>
+                }
+                <VideosList
+                  // key={this.state.videos}
+                  videos={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'videos') : this.state.videos}
+                  onClickVideo={this.onClickVideo}
+                  getVideos={this.getVideos}
+                // links={this.state.links}
+                />
+                {this.state.eventLength !== 0 && this.state.filtered.filter(item => item.module === 'projects').length === 0 ?
+                  null :
+                  <div className="mytextdiv">
+                    <div className="mytexttitle">Projects</div>
+                    <div className="divider"></div>
+                  </div>
+                }
+                <ProjectList
+                  projects={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'projects') : this.state.projects}
+                  onClickProject={this.onClickProject}
+                  getProjects={this.getProjects}
+                />
+                {this.state.eventLength !== 0 && this.state.filtered.filter(item => item.module === 'notes').length === 0 ?
+                  null :
+                  <div className="mytextdiv">
+                    <div className="mytexttitle">Notes</div>
+                    <div className="divider"></div>
+                  </div>
+                }
+                < NoteList
+                  notes={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'notes') : this.state.notes}
+                  onClickNote={this.onClickNote}
+                  getNotes={this.getNotes}
+                />
+                <div className="endOfList"></div>
+                <br></br>
+                <br></br>
+                <br></br>
+                <div className="endOfList"></div>
 
-            <div className="mytextdiv">
-              <div className="mytexttitle">Error Messages</div>
-              <div className="divider"></div>
-            </div>
-            <ErrorList
-              errors={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'errors') : this.state.errors}
-              onClickError={this.onClickError}
-              getErrors={this.getErrors}
-              links={this.state.links}
-            />
-
-            <div className="mytextdiv">
-              <div className="mytexttitle">Videos</div>
-              <div className="divider"></div>
-            </div>
-            <VideosList
-              // key={this.state.videos}
-              videos={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'videos') : this.state.videos}
-              onClickVideo={this.onClickVideo}
-              getVideos={this.getVideos}
-            // links={this.state.links}
-            />
-
-            <div className="mytextdiv">
-              <div className="mytexttitle">Projects</div>
-              <div className="divider"></div>
-            </div>
-            <ProjectList
-              projects={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'projects') : this.state.projects}
-              onClickProject={this.onClickProject}
-              getProjects={this.getProjects}
-            />
-
-            <div className="mytextdiv">
-              <div className="mytexttitle">Notes</div>
-              <div className="divider"></div>
-            </div>
-            < NoteList
-              notes={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'notes') : this.state.notes}
-              onClickNote={this.onClickNote}
-              getNotes={this.getNotes}
-            />
-
-            <div className="mytextdiv">
-              <div className="mytexttitle">Tutorials</div>
-              <div className="divider"></div>
-            </div>
-            <div>
-              Tutorials will go Here!!
-              Why are these showing
-            </div>
               </div>
             }
-            {/* <Tutorials /> */}
 
-            {/* <div className="mytextdiv">
-              <div className="mytexttitle">Links</div>
-              <div className="divider"></div>
-            </div>
-            Links will go Here!! */}
-            {/* <Links /> */}
             <br></br>
             <br></br>
             <br></br>

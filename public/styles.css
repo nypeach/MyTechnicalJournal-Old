@@ -96,6 +96,9 @@ header {
   z-index: 100;
   height: 100vh;
 }
+.endOfList{
+  margin-bottom: 18px;
+}
 .listItems {
   color: #051538;
   font-size: 1.10rem;
@@ -393,18 +396,18 @@ min-height: 36px;
 border: solid black 0.5px;
 }
 
-/* #outputText {
+#outputText {
 
-  all: initial;
+  /* all: initial;
     * {
         all: unset;
-    }
-} */
+    } */
+}
 
 
 #outputText p {
       margin-bottom: 10px;
-      font-size: 1rem;
+      font-size: 1.10rem;
     }
 
 #outputText pre {
@@ -417,6 +420,7 @@ border: solid black 0.5px;
       color: white;
       margin: 10px 0px;
       border-radius: 5px;
+      font-size: 0.85rem;
     }
 
 .noteDiv {
