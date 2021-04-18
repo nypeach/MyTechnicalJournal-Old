@@ -27,15 +27,16 @@ class ProjectView extends React.Component {
         <div className="journalContainer">
           <div className="journal">
             <div className="journalTitle">Project: {project.title}</div>
-            <div className="journalSubTitle">START DATE:
-            <div className="journalText">{project.project_start_date}</div>
+            <div className="journalSubTitle">START DATE:&nbsp;
+            <span className="journalText">{project.project_start_date}</span>
             </div>
-            <div className="journalSubTitle">END DATE:
-            <div className="journalText">{project.project_end_date}</div>
+            <div className="journalSubTitle">END DATE:&nbsp;
+            <span className="journalText">{project.project_end_date}</span>
             </div>
-            <div className="journalSubTitle">BUDGET:
-            <div className="journalText">{project.project_budget}</div>
+            <div className="journalSubTitle">BUDGET:&nbsp;
+            <span className="journalText">{project.project_budget}</span>
             </div>
+            <br></br>
             <div className="journalSubTitle">DESCRIPTION:
             <div className="journalText">{project.project_description}</div>
             </div>

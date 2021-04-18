@@ -1,6 +1,6 @@
 # MyTechnicalJournal
-
-
+# Execute this file by ...
+mysql -u root < mySQLSchema.sql
 
 # Future Enhancements
 Preformatted Text (make code inside code box)

@@ -11,7 +11,8 @@ import 'highlight.js/styles/darcula.css'
 // import Highlighter from './Highlighter'
 
 hljs.configure({
-  languages: ['javascript', 'ruby', 'python', 'rust'],
+  // languages: ['javascript', 'ruby', 'python', 'rust'],
+  languages: ['javascript'],
 })
 
 

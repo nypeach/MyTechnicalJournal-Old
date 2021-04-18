@@ -177,6 +177,7 @@ class App extends React.Component {
 
 
   }
+
   componentDidMount() {
     let requests = [];
     requests.push(this.getKeywords());
@@ -280,9 +281,6 @@ class App extends React.Component {
     let keywords = event.map(i => i.label.toLowerCase());
     let newKeywords = newItems.map(item => `('${item.label}')`)
     var kwdRegEx = new RegExp('^' + keywords.map(word => '(?=.*\\b' + word + '\\b)').join('') + '.*$')
-    // console.log('REGEX', kwdRegEx)
-    // OLD ONE >>>   var kwdRegEx = new RegExp(keywords.join('|'))
-    // var filtered = this.state.allData.map(obj => (JSON.stringify(obj).toLowerCase())).filter(item => kwdRegEx.test(item))
     var filtered = this.state.allData.filter(item => kwdRegEx.test(JSON.stringify(item).toLowerCase()))
     console.log('FILTERED', filtered)
 

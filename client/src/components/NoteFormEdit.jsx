@@ -6,7 +6,8 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/darcula.css'
 
 hljs.configure({
-  languages: ['javascript', 'ruby', 'python', 'rust'],
+  // languages: ['javascript', 'ruby', 'python', 'rust'],
+  languages: ['javascript'],
 })
 
 const modules = {

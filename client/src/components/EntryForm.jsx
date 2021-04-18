@@ -86,7 +86,8 @@ const customStyles = {
 }
 
 hljs.configure({
-  languages: ['javascript', 'ruby', 'python', 'rust'],
+  // languages: ['javascript', 'ruby', 'python', 'rust'],
+  languages: ['javascript'],
 })
 
 const modules = {

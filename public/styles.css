@@ -202,7 +202,7 @@ a:active {
 }
 .journalContainer {
   position: fixed;
-  top: 145px;
+  top: 138px;
   height: calc(100% - 175px);
   width: calc(100% - 725px);
   background-color: #f7f7f7;
@@ -421,14 +421,13 @@ border: solid black 0.5px;
 }
 
 #outputText {
-
+ text-justify: initial;
+  font-weight: 400;
   /* all: initial;
     * {
         all: unset;
     } */
 }
-
-
 #outputText p {
       margin-bottom: 10px;
       font-size: 1.10rem;
@@ -458,6 +457,33 @@ border: solid black 0.5px;
 
 .ql-toolbar {
   background:  lightgray;
+}
+.ql-align-center {
+  text-align: center;
+}
+.ql-align-right {
+  text-align: right;
+}
+.ql-font-serif {
+  font-family: serif;
+}
+.ql-font-monospace {
+  font-family: monospace;
+}
+.ql-size-small {
+  font-size: small;
+}
+.ql-size-medium {
+  font-size: medium;
+}
+.ql-size-large {
+  font-size: x-large;
+}
+.ql-size-huge {
+  font-size: xx-large;
+}
+.ql-indent-1 {
+  margin-left: 40px;
 }
 
  svg {
