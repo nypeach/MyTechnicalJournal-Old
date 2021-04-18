@@ -1,8 +1,14 @@
 # MyTechnicalJournal
 
 ## Why a Technical Journal? ##
-  > A journal can help you keep track of your goals and be intentional in your work and study of new concepts.
- 
+Have you ever encountered a challenge while working on a project that you know you've dealt with before?  Do you wish you had a record of what you did to solve the problem?  Have you ever been asked about your development projects only to come up blank?  Have you ever seen an error code that you are certain you have seen before, but forgot what it meant?  My Technical Journal gives you a single place to record everything and with our dynamic keyword searches and links you can easily retrieve what you need.
+
+We often encounter challenges while working on a project that we've encountered before.  When you finally find a solution, you move on. You might write down some notes here or there, or bookmark a link to something you think you will need later. A lot of time gets wasted trying to find these things again or lookup something you know you already have in the past.
+
+### Organize and Keep All of Your Projects, Notes, Lessons Learned, Videos and Links.
+![image](https://user-images.githubusercontent.com/72178817/115159936-b4c5cb00-a063-11eb-8e8e-dd33fafc28c3.png)
+
+### Use the Dynamic Search Bar to Filter By Keyword
 
 ### Full Text Editor
 ![image](https://user-images.githubusercontent.com/72178817/115159763-ab882e80-a062-11eb-9b81-8e38169211b3.png)
