@@ -49,15 +49,15 @@ class ProjectView extends React.Component {
                     <tbody>
                     <tr>
                       <td className="stack">Front End:&nbsp;</td>
-                      <td>{project.tech_front_end.replace(/,/g, ', ')}</td>
+                        <td>{project.tech_front_end !== null ? project.tech_front_end.replace(/,/g, ', ') : null}</td>
                     </tr>
                     <tr>
                       <td className="stack">Back End:&nbsp;</td>
-                      <td>{project.tech_back_end.replace(/,/g, ', ')}</td>
+                        <td>{project.tech_back_end !== null ? project.tech_back_end.replace(/,/g, ', ') : null}</td>
                       </tr>
                       <tr>
                       <td className="stack">Related:&nbsp;</td>
-                      <td>{project.tech_related.replace(/,/g, ', ')}</td>
+                        <td>{project.tech_related !== null ? project.tech_related.replace(/,/g, ', ') : null}</td>
                       </tr>
                     </tbody>
                   </table>

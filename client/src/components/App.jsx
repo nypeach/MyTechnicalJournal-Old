@@ -103,8 +103,6 @@ class App extends React.Component {
 
     this.state = {
       keywordOptions: [],
-      keywords: [],
-      newKeywords: [],
       entries: [],
       errors: [],
       videos: [],
@@ -124,7 +122,10 @@ class App extends React.Component {
       toRender: 'entry',
       module: 'entries',
       currentItem: {},
-      currentId: 1
+      currentId: 1,
+      allData: [],
+      filtered: [],
+      eventLength: 0
     };
 
     this.getKeywords = this.getKeywords.bind(this);
@@ -183,8 +184,15 @@ class App extends React.Component {
           "value": d.id,
           "label": d.keyword
         }))
+        let allData = []
+        allData = allData.concat(results[1].data.map(obj => ({ ...obj, module: 'entries' })))
+        allData = allData.concat(results[2].data.map(obj => ({ ...obj, module: 'errors' })))
+        allData = allData.concat(results[3].data.map(obj => ({ ...obj, module: 'videos' })))
+        allData = allData.concat(results[4].data.map(obj => ({ ...obj, module: 'projects' })))
+        allData = allData.concat(results[5].data.map(obj => ({ ...obj, module: 'notes' })))
         this.setState({
           keywordOptions: keywordOptions,
+          allData: allData,
           entries: results[1].data,
           errors: results[2].data,
           videos: results[3].data,
@@ -247,7 +255,9 @@ class App extends React.Component {
       .catch(err => console.log('ERROR GETTING LINKS ENTRIES: ', err));
   }
 
-  // CLICK HANDLERS ==================================================================== //
+
+
+  // EVENT ==================================================================== //
   handleSelectKeyword(newValue, actionMeta) {
     console.group('Value Changed');
     console.log('NEWVALUE', newValue);
@@ -257,11 +267,20 @@ class App extends React.Component {
 
   handleKeywordChange(event) {
     let newItems = event.filter(item => item.hasOwnProperty('__isNew__'));
-    let keywords = event.map(item => item.label);
+    let keywords = event.map(i => i.label.toLowerCase());
     let newKeywords = newItems.map(item => `('${item.label}')`)
-    this.setState({ keywords: keywords, newKeywords: newKeywords })
-  };
+    var kwdRegEx = new RegExp('^' + keywords.map(word => '(?=.*\\b' + word + '\\b)').join('') + '.*$')
+    // console.log('REGEX', kwdRegEx)
+    // OLD ONE >>>   var kwdRegEx = new RegExp(keywords.join('|'))
+    // var filtered = this.state.allData.map(obj => (JSON.stringify(obj).toLowerCase())).filter(item => kwdRegEx.test(item))
+    var filtered = this.state.allData.filter(item => kwdRegEx.test(JSON.stringify(item).toLowerCase()))
+    console.log('FILTERED', filtered)
 
+    this.setState({keywords: keywords, filtered: filtered, eventLength: event.length});
+
+  }
+
+  // CLICK HANDLERS ==================================================================== //
   onClickEntry(entry) {
     this.setState({
       currentItem: entry,
@@ -366,12 +385,6 @@ class App extends React.Component {
         })
       })
   }
-  handleKeywordChange(event) {
-    let newItems = event.filter(item => item.hasOwnProperty('__isNew__'));
-    let keywords = event.map(item => item.label);
-    let newKeywords = newItems.map(item => `('${item.label}')`)
-    this.setState({ keywords: keywords, newKeywords: newKeywords })
-  }
 
   onUpdateVideoForm() {
     return axios.get('/api/videos')
@@ -430,7 +443,7 @@ class App extends React.Component {
       return '';
     } else {
       const toRender = this.state.toRender
-      console.log('STATE', this.state)
+      console.log('APP STATE', this.state)
       return (
 
         <div id="app"> {/* APP START ========================================== */}
@@ -486,12 +499,19 @@ class App extends React.Component {
 
             {this.state.noteOpen ? (<NoteForm onUpdateNoteForm={this.onUpdateNoteForm} noteOpen={this.state.noteOpen} currentId={this.state.currentId} module={this.state.module} onClickAddNote={this.onClickAddNote} />) : null}
 
+            {this.state.eventLength !== 0 && this.state.filtered.length === 0 ?
+
+            <div className="mytextdiv">
+              <div className="mytexttitle">NO RESULTS FOUND</div>
+
+            </div> :
+            <div>
             <div className="mytextdiv">
               <div className="mytexttitle">Journal Entries</div>
               <div className="divider"></div>
             </div>
             <EntryList
-              entries={this.state.entries}
+              entries={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'entries') : this.state.entries}
               onClickEntry={this.onClickEntry}
               getEntries={this.getEntries}
               links={this.state.links}
@@ -502,7 +522,7 @@ class App extends React.Component {
               <div className="divider"></div>
             </div>
             <ErrorList
-              errors={this.state.errors}
+              errors={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'errors') : this.state.errors}
               onClickError={this.onClickError}
               getErrors={this.getErrors}
               links={this.state.links}
@@ -514,7 +534,7 @@ class App extends React.Component {
             </div>
             <VideosList
               // key={this.state.videos}
-              videos={this.state.videos}
+              videos={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'videos') : this.state.videos}
               onClickVideo={this.onClickVideo}
               getVideos={this.getVideos}
             // links={this.state.links}
@@ -525,7 +545,7 @@ class App extends React.Component {
               <div className="divider"></div>
             </div>
             <ProjectList
-              projects={this.state.projects}
+              projects={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'projects') : this.state.projects}
               onClickProject={this.onClickProject}
               getProjects={this.getProjects}
             />
@@ -535,7 +555,7 @@ class App extends React.Component {
               <div className="divider"></div>
             </div>
             < NoteList
-              notes={this.state.notes}
+              notes={this.state.eventLength > 0 ? this.state.filtered.filter(item => item.module === 'notes') : this.state.notes}
               onClickNote={this.onClickNote}
               getNotes={this.getNotes}
             />
@@ -548,6 +568,8 @@ class App extends React.Component {
               Tutorials will go Here!!
               Why are these showing
             </div>
+              </div>
+            }
             {/* <Tutorials /> */}
 
             {/* <div className="mytextdiv">
