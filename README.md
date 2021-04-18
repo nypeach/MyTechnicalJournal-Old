@@ -37,6 +37,7 @@ const connection = mysql.createConnection({
 });
 </pre>
 
+#### IF YOU DON'T DO THIS YOU WON'T SEE ANYTHING WHEN YOU RUN THE PROGRAM ###
 Then run the following command (use whichever is applicable to your MySQL instance:  
 _NO PASSWORD_
 <pre>mysql -u root < mySQLSchema.sql</pre>
@@ -54,8 +55,9 @@ Delete Previous Entries
 Tutorial Module
 
 # Contributors
+Micah Silverman https://github.com/afitnerd  
 Stephen H. Hyde https://github.com/birdhighway  
 Jihang Li https://github.com/jihangli10  
 Phil Teves https://github.com/philteves  
 Joseph Haller https://github.com/joehaller  
-Micah Silverman https://github.com/afitnerd  
+
