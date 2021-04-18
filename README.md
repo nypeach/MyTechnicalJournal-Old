@@ -54,8 +54,8 @@ Delete Previous Entries
 Tutorial Module
 
 # Contributors
-Stephen H. Hyde https://github.com/birdhighway 
-Jihang Li https://github.com/jihangli10 
-Phil Teves https://github.com/philteves 
-Joseph Haller https://github.com/joehaller 
-Micah Silverman https://github.com/afitnerd 
+Stephen H. Hyde https://github.com/birdhighway  
+Jihang Li https://github.com/jihangli10  
+Phil Teves https://github.com/philteves  
+Joseph Haller https://github.com/joehaller  
+Micah Silverman https://github.com/afitnerd  
