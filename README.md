@@ -37,8 +37,8 @@ const connection = mysql.createConnection({
 });
 </pre>
 
-#### IF YOU DON'T DO THIS YOU WON'T SEE ANYTHING WHEN YOU RUN THE PROGRAM ###
-Then run the following command (use whichever is applicable to your MySQL instance:  
+### IF YOU DON'T RUN THIS FILE YOU WON'T SEE ANYTHING WHEN YOU RUN THE PROGRAM ###
+Run the following command (use whichever is applicable to your MySQL instance:  
 _NO PASSWORD_
 <pre>mysql -u root < mySQLSchema.sql</pre>
 _WITH PASSWORD_
