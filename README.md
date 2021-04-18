@@ -21,7 +21,11 @@ We often encounter challenges while working on a project that we've encountered 
 ### Keep Track of Important Project Information
 ![image](https://user-images.githubusercontent.com/72178817/115160106-711f9100-a064-11eb-879e-2ece095902d6.png)
 
-# To Execute this Application
+# To Use this Application
+Fork the repository on GitHub and clone your newly created repo down to your computer.
+Change to the repo directory and run the following commands:
+<pre>npm install</pre>
+
 // Execute the mySQLSchema.sql file from the command line by typing:
       // mysql -u root < mySQLSchema.sql
   // to create the database and the tables.
