@@ -50,12 +50,12 @@ Then from a new terminal window navigate to the repo directory and run the final
 <pre>npm start</pre>
 
 # Future Enhancements
-Edit Previous Entries
-Delete Previous Entries
-Tutorial Module
+* Edit Previous Entries
+* Delete Previous Entries
+* Tutorial Module
 
 # Contributors
-Micah Silverman https://github.com/afitnerd  
+Micah Silverman https://github.com/dogeared  
 Stephen H. Hyde https://github.com/birdhighway  
 Jihang Li https://github.com/jihangli10  
 Phil Teves https://github.com/philteves  
