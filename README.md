@@ -18,9 +18,8 @@ We often encounter challenges while working on a project that we've encountered 
 ### Keep Track of Your Favorite Videos and Watch Them Right in the App
 ![image](https://user-images.githubusercontent.com/72178817/115159787-da060980-a062-11eb-8a4e-8d66ebe8ad6c.png)
 
-### Keep Track of Your Projects
-![image](https://user-images.githubusercontent.com/72178817/115159850-31a47500-a063-11eb-9d0c-4594b6a96199.png)
-
+### Keep Track of Important Project Information
+![image](https://user-images.githubusercontent.com/72178817/115160106-711f9100-a064-11eb-879e-2ece095902d6.png)
 
 # To Execute this Application
 // Execute the mySQLSchema.sql file from the command line by typing:
@@ -39,3 +38,5 @@ Jihang Li https://github.com/jihangli10
 Phil Teves https://github.com/philteves
 
 Joseph Haller https://github.com/joehaller
+
+Micah Silverman https://github.com/afitnerd
