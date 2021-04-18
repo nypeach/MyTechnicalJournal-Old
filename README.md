@@ -9,10 +9,10 @@ We often encounter challenges while working on a project that we've encountered 
 ### Use the Dynamic Search Bar to Filter By Multiple Keyword
 ![image](https://user-images.githubusercontent.com/72178817/115160212-0884e400-a065-11eb-896d-d8a2316ea09f.png)
 
-### Full Text Editor
+### Full Rich Text Editor
 ![image](https://user-images.githubusercontent.com/72178817/115159763-ab882e80-a062-11eb-9b81-8e38169211b3.png)
 
-### You can even insert images in the Rich Text Editor
+### You Can Even Copy and Paste Images Right Into The Editor
 ![image](https://user-images.githubusercontent.com/72178817/115159626-171dcc00-a062-11eb-8ccb-2707783995a3.png)
 
 ### Keep Track of Your Favorite Videos and Watch Them Right in the App
