@@ -167,6 +167,7 @@ class App extends React.Component {
     this.onClickAddLink = this.onClickAddLink.bind(this);
 
     this.onModalFocus = this.onModalFocus.bind(this);
+    this.onKeywordFocus = this.onKeywordFocus.bind(this);
     this.onUpdateEntryForm = this.onUpdateEntryForm.bind(this);
     this.onUpdateErrorForm = this.onUpdateErrorForm.bind(this);
     this.onUpdateVideoForm = this.onUpdateVideoForm.bind(this);
@@ -354,15 +355,27 @@ class App extends React.Component {
     this.setState({ noteOpen: !this.state.noteOpen }, () => { this.onModalFocus(); });
   }
   onClickAddKeyword() {
-    this.setState({ keywordOpen: !this.state.keywordOpen }, () => { this.onModalFocus(); });
+    this.setState({ keywordOpen: !this.state.keywordOpen }, () => { this.onKeywordFocus(); });
   }
   onClickAddLink() {
     this.setState({ linkOpen: !this.state.linkOpen }, () => { this.onModalFocus(); });
   }
 
   onModalFocus() {
-    if (this.state.entryOpen || this.state.errorOpen || this.state.videoOpen || this.state.projectOpen || this.state.noteOpen || this.state.keywordOpen || this.state.linkOpen) {
+    if (this.state.entryOpen || this.state.errorOpen || this.state.videoOpen || this.state.projectOpen || this.state.noteOpen || this.state.linkOpen) {
       document.getElementById("top-search").style.zIndex = "-1";
+      document.getElementById("listContainer").style.zIndex = "-1";
+      document.getElementById("journalContainer").style.zIndex = "-1";
+    } else {
+      document.getElementById("top-search").style.zIndex = "1000";
+    }
+  }
+  onKeywordFocus() {
+    if (this.state.keywordOpen) {
+      document.getElementById("top-search").style.zIndex = "-1";
+      document.getElementById("listContainer").style.zIndex = "-1";
+      document.getElementById("journalContainer").style.zIndex = "-1";
+      document.getElementById("keyword").style.zIndex = "10000";
     } else {
       document.getElementById("top-search").style.zIndex = "1000";
     }
@@ -501,7 +514,7 @@ class App extends React.Component {
             <div className="sidebarText future">Tutorials</div>
             {/* <i className="fas fa-link fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddLink}></i>
             <div className="sidebarText">Links</div> */}
-
+            {this.state.keywordOpen ? (<KeywordsForm onClickAddKeyword={this.onClickAddKeyword} />) : null}
           </div> {/* SIDEBAR END START ========================================== */}
 
           <div id="top-search" className="top-search">
@@ -514,22 +527,23 @@ class App extends React.Component {
                 onChange={this.handleKeywordChange}
               />&nbsp;&nbsp;&nbsp;&nbsp;
               <button className="top-button" onClick={this.onClickAddKeyword}>ADD KEYWORD</button>
-              {this.state.keywordOpen ? (<KeywordsForm onClickAddKeyword={this.onClickAddKeyword} />) : null}
+
             </div>
           </div>
+          {this.state.entryOpen ? (<EntryForm linkOpen={this.state.linkOpen} linked_ref_id={this.state.nextEntryId} onClickAddLink={this.onClickAddLink} onUpdateEntryForm={this.onUpdateEntryForm} onClickAddEntry={this.onClickAddEntry} />) : null}
 
-          <div className="listContainer"> {/* LIST CONTAINER START ======================================== */}
+          {this.state.errorOpen ? (<ErrorForm linkOpen={this.state.linkOpen} linked_ref_id={this.state.nextErrorId} onClickAddLink={this.onClickAddLink} onUpdateErrorForm={this.onUpdateErrorForm} onClickAddError={this.onClickAddError} />) : null}
+
+          {this.state.videoOpen ? (<VideoForm onUpdateVideoForm={this.onUpdateVideoForm} onClickAddVideo={this.onClickAddVideo} />) : null}
+
+          {this.state.projectOpen ? (<ProjectForm onUpdateProjectForm={this.onUpdateProjectForm} onClickAddProject={this.onClickAddProject} />) : null}
+
+          {this.state.noteOpen ? (<NoteForm onUpdateNoteForm={this.onUpdateNoteForm} noteOpen={this.state.noteOpen} currentId={this.state.currentId} module={this.state.module} onClickAddNote={this.onClickAddNote} />) : null}
+
+          <div id="listContainer" className="listContainer"> {/* LIST CONTAINER START ======================================== */}
             <div style={{ marginTop: "-5px" }}></div>
 
-            {this.state.entryOpen ? (<EntryForm linkOpen={this.state.linkOpen} linked_ref_id={this.state.nextEntryId} onClickAddLink={this.onClickAddLink} onUpdateEntryForm={this.onUpdateEntryForm} onClickAddEntry={this.onClickAddEntry} />) : null}
 
-            {this.state.errorOpen ? (<ErrorForm linkOpen={this.state.linkOpen} linked_ref_id={this.state.nextErrorId} onClickAddLink={this.onClickAddLink} onUpdateErrorForm={this.onUpdateErrorForm} onClickAddError={this.onClickAddError} />) : null}
-
-            {this.state.videoOpen ? (<VideoForm onUpdateVideoForm={this.onUpdateVideoForm} onClickAddVideo={this.onClickAddVideo} />) : null}
-
-            {this.state.projectOpen ? (<ProjectForm onUpdateProjectForm={this.onUpdateProjectForm} onClickAddProject={this.onClickAddProject} />) : null}
-
-            {this.state.noteOpen ? (<NoteForm onUpdateNoteForm={this.onUpdateNoteForm} noteOpen={this.state.noteOpen} currentId={this.state.currentId} module={this.state.module} onClickAddNote={this.onClickAddNote} />) : null}
 
             {this.state.eventLength !== 0 && this.state.filtered.length === 0 ?
 
@@ -619,7 +633,7 @@ class App extends React.Component {
 
           {/* DISPLAY CONTAINER START ======================================== */}
 
-          <div>
+          <div id="displayContainer">
             {this.state.toRender === 'entry' ?
               <EntryView
                 currentItem={this.state.currentItem}

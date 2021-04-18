@@ -44,7 +44,7 @@ class EntryView extends React.Component {
       const entry = this.props.currentItem;
       return (
 
-        <div className="journalContainer">
+        <div id="journalContainer" className="journalContainer">
           <div className="journal">
             {/* <div className="journalDiv"><i className="fas fa-edit fa-2x"></i></div> */}
 

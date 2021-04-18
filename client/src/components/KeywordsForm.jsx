@@ -137,9 +137,9 @@ class KeywordsForm extends React.Component {
     console.log('KEYWORD STATE', this.state)
     return (
 
-        <div className="form-modal-wrapper">
+      <div className="form-modal-wrapper">
         <div className="form-modal-backdrop" onClick={this.props.onClickAddKeyword} />
-          <div className="form-modal-box">
+        <div id="keyword" className="form-modal-box">
           <i className="far fa-times-circle fa-2x" onClick={this.props.onClickAddKeyword}></i>
             <br></br>
             <div className="form-modal-title">ADD NEW KEYWORD</div>

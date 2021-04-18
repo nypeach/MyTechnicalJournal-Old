@@ -85,6 +85,7 @@ header {
   max-height: 36px;
   flex-wrap: nowrap;
   white-space: nowrap;
+  z-index: 104;
 }
 
 .Select-multi-value-wrapper {
@@ -270,6 +271,10 @@ input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow sp
   color: #D8315B;
   text-align: right;
   float:right
+}
+#keyword {
+  z-index: 1200;
+  position: fixed;
 }
 .form-modal-wrapper {
   position: fixed;
@@ -492,7 +497,7 @@ border: solid black 0.5px;
   }
 
   .journalModal {
-  height: 600px;
+  height: 500px;
   width: 1000px;
 }
  .errorModal {
@@ -506,7 +511,7 @@ border: solid black 0.5px;
 }
   .noteModal {
   width: 975px;
-  height: 300px;
+  height: 200px;
   margin-bottom: 30px;
 }
 
