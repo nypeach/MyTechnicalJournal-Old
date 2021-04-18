@@ -23,16 +23,35 @@ We often encounter challenges while working on a project that we've encountered 
 
 # To Use this Application
 Fork the repository on GitHub and clone your newly created repo down to your computer.
+
 Change to the repo directory and run the following commands:
 <pre>npm install</pre>
 
-// Execute the mySQLSchema.sql file from the command line by typing:
-      // mysql -u root < mySQLSchema.sql
-  // to create the database and the tables.
-// Make sure you are in the db folder directory
-mysql -u root < mySQLSchema.sql
+Navigate to the db directory and change the following where necessary:
+<pre>
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'mtj'
+});
+</pre>
+
+Then run the following command (use whichever is applicable to your MySQL instance:
+_NO PASSWORD_
+<pre>mysql -u root < mySQLSchema.sql</pre>
+_WITH PASSWORD_
+<pre>mysql -u root -p < mySQLSchema.sql</pre>
+
+Navigate back to the root directory and run the following command:
+<pre>npm run build</pre>
+Then from a new terminal window navigate to the repo directory and run the final command:
+<pre>npm start</pre>
 
 # Future Enhancements
+Edit Previous Entries
+Delete Previous Entries
+Tutorial Module
 
 # Contributors
 Stephen H. Hyde https://github.com/birdhighway
