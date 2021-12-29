@@ -368,6 +368,8 @@ class App extends React.Component {
       document.getElementById("journalContainer").style.zIndex = "-1";
     } else {
       document.getElementById("top-search").style.zIndex = "1000";
+      document.getElementById("listContainer").style.zIndex = "100";
+      document.getElementById("journalContainer").style.zIndex = "100";
     }
   }
   onKeywordFocus() {
@@ -493,22 +495,22 @@ class App extends React.Component {
         <div id="app"> {/* APP START ========================================== */}
 
           <header>
-            <div><img src={logo} className="logo" alt="Logo" /><span className="header-text" >MY TECHNICAL JOURNAL</span></div>
+            <div><img src={logo} className="logo" alt="Logo" /><span className="header-text" >MY TECHNICAL JOURNAL - OLD</span></div>
             <div style={{ marginRight: "20px" }}><a href="https://github.com/nypeach/MyTechnicalJournal/" target="_blank" rel="noopener"><img src={github} className="svg-Row" alt="Github" /></a><a href="https://www.linkedin.com/in/jodimsilverman/" target="_blank" rel="noopener"><img src={linkedin} className="svg-Row" alt="LinkedIn" /></a><a href="mailto:jodimsilverman@gmail.com"><img src={slack} className="svg-Row" alt="Slack" /></a></div>
           </header>
 
 
           <div className="sidebar-nav"> {/* SIDEBAR START======================================== */}
             <div className="sidebarText"></div>
-            <i className="fas fa-book-open fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddEntry}></i>
+            <i className="fas fa-book-open fa-3x btn" style={{ cursor: "pointer" }} onClick={this.onClickAddEntry}></i>
             <div className="sidebarText">Journal Entries</div>
-            <i className="fas fa-exclamation-triangle fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddError} ></i>
+            <i className="fas fa-exclamation-triangle fa-3x btn" style={{ cursor: "pointer" }} onClick={this.onClickAddError} ></i>
             <div className="sidebarText">Errors Messages</div>
-            <i className="fab fa-youtube fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddVideo}></i>
+            <i className="fab fa-youtube fa-3x btn" style={{ cursor: "pointer" }} onClick={this.onClickAddVideo}></i>
             <div className="sidebarText">Videos</div>
-            <i className="fas fa-tasks fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddProject}></i>
+            <i className="fas fa-tasks fa-3x btn" style={{ cursor: "pointer" }} onClick={this.onClickAddProject}></i>
             <div className="sidebarText">Projects</div>
-            <i className="fas fa-file-contract fa-3x" style={{ cursor: "pointer" }} onClick={this.onClickAddNote}></i>
+            <i className="fas fa-file-contract fa-3x btn" style={{ cursor: "pointer" }} onClick={this.onClickAddNote}></i>
             <div className="sidebarText">Notes</div>
             <i className="fas fa-file-code fa-3x future" style={{ cursor: "pointer" }} ></i>
             <div className="sidebarText future">Tutorials</div>

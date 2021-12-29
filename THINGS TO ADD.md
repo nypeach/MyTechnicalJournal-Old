@@ -1,59 +1,71 @@
-# Things to Add to My Technical Journal once working
-Uncaught TypeError: Cannot read property 'state' of undefined
--If on click event make sure that the on click event is bound in the constructor
-
-class ManageEvents extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      reportedEvents: [],
-    };
-    this.handleChange=this.handleChange.bind(this);
-
-  }
+# Make sure to have
+Header
+Main
+footer
+body
+an use h1 tag but refactor what it looks like so screen readers can see it via seo properties
 
 
-# Multi-Value Select Container No Wrap
-customStyles = {
-    valueContainer: (provided, state) => ({
-      ...provided,
-      textOverflow: "ellipsis",
-      maxWidth: "90%",
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      display: "initial"
-    })
-  };
 
-  # Great Regex Editor
-  https://rubular.com/r/iglM0YiFSE
 
-# How to render something AFTER state updates
-Pass an arrow function as a second argument and that function runs after state is upated
+# Fixing when an element is taller than the element containing it, and it is floated, it will "overflow" outside of its container:
+https://www.w3schools.com/css/css_float_clear.asp
 
-  BEFORE: DOESN'T WORK
-  onClickEntry(entry) {
-    // console.log('CLICKED');
-    this.setState({
-      currentItem: entry,
-      toRender: 'entry',
-      module: 'entries',
-      currentId: entry.id
-    })
-  };
 
-  AFTER: THIS WORKS
-  onClickEntry(entry) {
-    // console.log('CLICKED');
-    this.setState({
-      currentItem: entry,
-      toRender: 'entry',
-      module: 'entries',
-      currentId: entry.id
-    },() => {
-      this.getLinks()
-    });
+
+# Left Center Right using only CSS, Float and Div
+
+// CSS
+.div1 {
+  background: red;
+  float:left;
+    text-align: left;
+}
+.div2 {
+  background: yellow;
+  margin: 0 auto;
+  text-align: center;
+}
+.div3 {
+  background: green;
+  float: right;
+    text-align: right;
+}
+
+// HTML
+<div class="div1">Div 1</div>
+<div class="div3">Div 3</div>
+<div class="div2">Div 2</div>
+
+// NOTICE NON FLOAT DIV IS LAST EVEN THOUGH IN RENDERING IT APPEARS IN THE MIDDLE
+
+# Great webiste for free background images
+unsplash.com
+
+# To Center block elements inside another block element
+.someRow {
+  margin: 0 auto;
+}
+
+# To use attribute
+
+// Applies to all classes that START with "col-"
+[class^="col-"] {
+  color: someColor;
+}
+// Applies to all classes that contain "col-" anywhere in the class name
+[class*="col-"] {
+  color: someColor;
+}
+// Applies to all classes that END with "col-"
+[class$="col-"] {
+  color: someColor;
+}
+
+// Applies to all src elements on the page
+[src] {
+  color: someColor;
+}
 
 # React-Select Tutorial Really Good
 https://medium.com/how-to-react/react-select-dropdown-tutorial-using-react-select-51664ab8b6f3

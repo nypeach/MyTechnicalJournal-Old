@@ -4,7 +4,8 @@
   "description": "Node.js REST API with Express, MySQL, Bluebird",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server",
+    "start": "nodemon server && live-server",
+    // "client": "cd client && npm start",
     "build": "webpack --w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
